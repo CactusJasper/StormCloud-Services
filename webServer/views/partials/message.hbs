@@ -1,0 +1,28 @@
+{{#if sessionFlash.message}}
+    <div id="flash-messages" class="justify-content-center mt-2">
+        {{#contains sessionFlash.type "info"}}
+            <div class="alert alert-info">
+                <ion-icon name="information-circle" style="float: left;" class="mr-2"></ion-icon>
+                {{{sessionFlash.message}}}
+            </div>
+        {{/contains}}
+        {{#contains sessionFlash.type "success"}}
+            <div class="alert alert-success">
+                <ion-icon name="checkmark" style="float: left;" class="mr-2"></ion-icon>
+                {{{sessionFlash.message}}}
+            </div>
+        {{/contains}}
+        {{#contains sessionFlash.type "warning"}}
+            <div class="alert alert-warning">
+                <ion-icon name="warning" style="float: left;" class="mr-2"></ion-icon>
+                {{{sessionFlash.message}}}
+            </div>
+        {{/contains}}
+        {{#contains sessionFlash.type "error"}}
+            <div class="alert alert-danger">
+                <ion-icon name="bug-outline" style="float: left;" class="mr-2"></ion-icon>
+                {{{sessionFlash.message}}}
+            </div>
+        {{/contains}}
+    </div>
+{{/if}}

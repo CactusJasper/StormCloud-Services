@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="Description" content="StormCloud is a website designed for moderation oversights of the StormCloud discord server.">
+        <title>StormCloud</title>
+        <!-- CSS -->
+        <link rel="stylesheet" href="/css/main.css"/>
+        <link rel="stylesheet" href="/css/grid.css"/>
+        <link rel="stylesheet" href="/css/utils.css"/>
+        <link rel="stylesheet" href="/css/navbar.css"/>
+        {{> theme}}
+        <!-- JavaScript -->
+        <script src="/js/libs/socket.io.min.js"></script>
+        <script type="module" src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule="" src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.js"></script>
+        <script src="https://kit.fontawesome.com/642d052965.js" crossorigin="anonymous"></script>
+        <script src="/js/libs/jquery-3.5.1.min.js"></script>
+        <script src="/js/navbar.js"></script>
+        <script src="/js/utils.js"></script>
+    </head>
+    <body class="bg">
+        <div class="navbar bg-main">
+            <h3 class="logo">StormCloud</h3>
+            <input type="checkbox" id="chk" name="js-check"/>
+            <label for="chk" class="show-menu-btn">
+                <img src="{{getPfpIco user.discordId user.discord.avatar}}" width="32" height="32" class="nav-pfp">
+                <!--<i class="fas fa-ellipsis-h"></i>-->
+            </label>
+            <ul class="menu">
+                {{#if user}}
+                    <div class="pfp">
+                        <button onclick="toggleDropdown()" class="pfp-nav-btn">
+                            <img src="{{getPfpIco user.discordId user.discord.avatar}}" width="32" height="32" class="nav-pfp">
+                        </button>
+                        <div id="pfp-dropdown" class="dropdown-content bg-dropdown">
+                            <p class="">Logged in as {{user.username}}</p>
+                            <div class="seperator my-2"></div>
+                            <a href="/">Home</a>
+                            <a href="/polls">Polls</a>
+                            <a href="/settings">Settings</a>
+                            <div class="seperator my-2"></div>
+                            {{#if admin}}
+                            <a href="/admin">Admin</a>
+                            <div class="seperator my-2"></div>
+                            {{/if}}
+                            <a href="/auth/logout">Logout</a>
+                        </div>
+                    </div>
+                    <div class="mobile-nav p-2">
+                        <img src="{{getPfpIco user.discordId user.discord.avatar}}" width="128" height="128" class="mobile-nav-pfp">
+                        <p class="mt-2">Logged in as {{user.username}}</p>
+                        <a href="/">Home</a>
+                        <a href="/polls">Polls</a>
+                        <a href="/settings">Settings</a>
+                        <a href="/auth/logout">Logout</a>
+                    </div>
+                {{else}}
+                    <a href="/auth">Login / Register</a>
+                {{/if}}
+                <label for="chk" class="hide-menu-btn">
+                    <i class="fas fa-times"></i>
+                </label>
+            </ul>
+        </div>
+        <div class="container">
+            {{{body}}}
+        </div>
+    </body>
+</html>

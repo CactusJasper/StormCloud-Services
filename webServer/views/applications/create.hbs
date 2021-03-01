@@ -1,0 +1,136 @@
+<div class="row justify-content-center">
+    <div class="col-8 mr-5 my-5 bg-core t-10">
+        <h2 class="center mt-4">Create Application</h2>
+        <form id="create-application" name="create-application" class="form-style" method="POST" action="/applications/create">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            {{#if sessionFlash.message}}
+                {{#contains sessionFlash.type 'error'}}
+                    <div id="errors" class="alert alert-danger mx-5 my-4">
+                        {{{sessionFlash.message}}}
+                    </div>
+                {{/contains}}
+            {{/if}}
+            <div class="seperator my-4"></div>
+            <div class="px-4" id="q1-container">
+                <p>Q1. Have you been with the server for longer than a month? (We can check the old server) (Required)</p>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q1" id="q1_yes" value="yes">
+                    <label for="q1_yes">Yes</label>
+                </div>
+                <div class="p-0 mb-1">
+                    <input type="radio" name="q1" id="q1_no" value="no">
+                    <label for="q1_no">No</label>
+                </div>
+            </div>
+
+            <div class="seperator my-4"></div>
+
+            <div class="px-4">
+                <p>Q2. Why do you want trial mod? (Required)</p>
+                <textarea class="mt-2 rounded text-colour" style="width: 98%;" maxlength="250" id="q2" name="q2" rows="4" placeholder="" form="create-application">{{#if sessionFlash.q2}} {{sessionFlash.q2}} {{/if}}</textarea>
+                <p class="right mt-2" id="q2-char-count">You have 250 characters left.</p>
+            </div>
+
+            <div class="seperator my-4"></div>
+
+            <div class="px-4">
+                <p>Q3. How much are you active on discord? (Required)</p>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q3" id="q3_0" value="0">
+                    <label for="q3_0">Barely</label>
+                </div>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q3" id="q3_1" value="1">
+                    <label for="q3_1">Once every 2 or more weeks</label>
+                </div>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q3" id="q3_2" value="2">
+                    <label for="q3_2">Once a week, or a few times</label>
+                </div>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q3" id="q3_3" value="3">
+                    <label for="q3_3">Everyday</label>
+                </div>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q3" id="q3_4" value="4">
+                    <label for="q3_4">A lot, every hour or two</label>
+                </div>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q3" id="q3_5" value="5">
+                    <label for="q3_5">Every minute except when I need to use my essentials</label>
+                </div>
+            </div>
+
+            <div class="seperator my-4"></div>
+
+            <div class="px-4">
+                <p>Q4. How about activity on the server? (Required)</p>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q4" id="q4_0" value="0">
+                    <label for="q4_0">Barely</label>
+                </div>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q4" id="q4_1" value="1">
+                    <label for="q4_1">Once every 2 or more weeks</label>
+                </div>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q4" id="q4_2" value="2">
+                    <label for="q4_2">Once a week, or a few times</label>
+                </div>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q4" id="q4_3" value="3">
+                    <label for="q4_3">Everyday</label>
+                </div>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q4" id="q4_4" value="4">
+                    <label for="q4_4">A lot, every hour or two</label>
+                </div>
+                <div class="p-0 my-1">
+                    <input type="radio" name="q4" id="q4_5" value="5">
+                    <label for="q4_5">Every minute except when I need to use my essentials</label>
+                </div>
+            </div>
+
+            <div class="seperator my-4"></div>
+
+            <div class="px-4">
+                <p>Q5. Do you agree to be a moderator by all of these terms and agree to server rules? (Required)</p>
+                <div class="form-check p-0 my-1">
+                    <input type="radio" name="q5" id="q5_yes" value="yes">
+                    <label for="q5_yes">Yes</label>
+                </div>
+                <div class="form-check p-0 mb-1">
+                    <input type="radio" name="q5" id="q5_no" value="no">
+                    <label for="q5_no">No/I'm unsure</label>
+                </div>
+            </div>
+
+            <div class="seperator my-4"></div>
+
+            <div class="px-4">
+                <p>Q6. What is one goal you would have as a moderator? (Recommended but not Required)</p>
+                <textarea class="mt-2 rounded text-colour" style="width: 98%;" maxlength="250" id="q6" name="q6" rows="4" form="create-application">{{#if sessionFlash.q6}} {{sessionFlash.q6}} {{/if}}</textarea>
+                <p class="right mt-2" id="q6-char-count">You have 250 characters left.</p>
+            </div>
+
+            <div class="seperator my-4"></div>
+
+            <div class="px-4">
+                <p>Q7. How do you plan to achieve this goal? (Linked to Q6)</p>
+                <textarea class="mt-2 rounded text-colour" style="width: 98%;" maxlength="500" id="q7" name="q7" rows="4" form="create-application">{{#if sessionFlash.q7}} {{sessionFlash.q7}} {{/if}}</textarea>
+                <p class="right mt-2" id="q7-char-count">You have 500 characters left.</p>
+            </div>
+
+            <div class="seperator mt-4"></div>
+
+            <div class="mt-2">
+                <input type="submit" class="text-colour" vlaue="Create Application"/>
+                <p class="center mt-2" id="btn-reasons"></p>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    let userId = '{{user.discordId}}';
+</script>
+<script src="/js/application_create.js"></script>
