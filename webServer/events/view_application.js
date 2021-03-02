@@ -138,11 +138,11 @@ module.exports = (socket, io) => {
     socket.on('approveVote', (data) => {
         if(data.applicationId !== undefined)
         {
-            User.findOne({ discordId: data.user_id }, (err, usr) => {
+            User.findOne({ discordId: data.userId }, (err, usr) => {
                 if(err)
                 {
                     console.error(err);
-                    socket.emit(`approveVoteRes`, {
+                    socket.emit(`voteRes`, {
                         status: 500,
                         message: 'Internal Server Error'
                     });
@@ -156,7 +156,7 @@ module.exports = (socket, io) => {
                             if(err)
                             {
                                 console.error(err);
-                                socket.emit(`approveVoteRes`, {
+                                socket.emit(`voteRes`, {
                                     status: 500,
                                     message: 'Internal Server Error'
                                 });
@@ -182,7 +182,7 @@ module.exports = (socket, io) => {
 
                                                 if(hasVoted)
                                                 {
-                                                    socket.emit(`approveVoteRes`, {
+                                                    socket.emit(`voteRes`, {
                                                         status: 200,
                                                         message: 'Already Voted',
                                                         application: application
@@ -200,14 +200,14 @@ module.exports = (socket, io) => {
                                                         if(err)
                                                         {
                                                             console.error(err);
-                                                            socket.emit(`approveVoteRes`, {
+                                                            socket.emit(`voteRes`, {
                                                                 status: 500,
                                                                 message: 'Internal Server Error'
                                                             });
                                                         }
                                                         else
                                                         {
-                                                            socket.emit(`approveVoteRes`, {
+                                                            socket.emit(`voteRes`, {
                                                                 status: 200,
                                                                 message: 'Voted Registered',
                                                                 application: application
@@ -218,14 +218,14 @@ module.exports = (socket, io) => {
                                             }
                                             else
                                             {
-                                                socket.emit(`approveVoteRes`, {
+                                                socket.emit(`voteRes`, {
                                                     status: 900,
                                                     message: 'Unauthorised'
                                                 });
                                             }
                                         }).catch((err) => {
                                             console.error(err);
-                                            socket.emit(`approveVoteRes`, {
+                                            socket.emit(`voteRes`, {
                                                 status: 500,
                                                 message: 'Internal Server Error'
                                             });
@@ -233,7 +233,7 @@ module.exports = (socket, io) => {
                                     }
                                     else
                                     {
-                                        socket.emit(`approveVoteRes`, {
+                                        socket.emit(`voteRes`, {
                                             status: 900,
                                             message: 'Voting Ended'
                                         });
@@ -241,7 +241,7 @@ module.exports = (socket, io) => {
                                 }
                                 else
                                 {
-                                    socket.emit(`approveVoteRes`, {
+                                    socket.emit(`voteRes`, {
                                         status: 900,
                                         message: 'Invalid Application ID'
                                     });
@@ -251,7 +251,7 @@ module.exports = (socket, io) => {
                     }
                     else
                     {
-                        socket.emit(`approveVoteRes`, {
+                        socket.emit(`voteRes`, {
                             status: 900,
                             message: 'Unauthorised'
                         });
@@ -261,7 +261,7 @@ module.exports = (socket, io) => {
         }
         else
         {
-            socket.emit(`approveVoteRes`, {
+            socket.emit(`voteRes`, {
                 status: 900,
                 message: 'No Application ID Provided'
             });
@@ -272,11 +272,11 @@ module.exports = (socket, io) => {
     socket.on('disapproveVote', (data) => {
         if(data.applicationId !== undefined)
         {
-            User.findOne({ discordId: data.user_id }, (err, usr) => {
+            User.findOne({ discordId: data.userId }, (err, usr) => {
                 if(err)
                 {
                     console.error(err);
-                    socket.emit(`disapproveVoteRes`, {
+                    socket.emit(`voteRes`, {
                         status: 500,
                         message: 'Internal Server Error'
                     });
@@ -290,7 +290,7 @@ module.exports = (socket, io) => {
                             if(err)
                             {
                                 console.error(err);
-                                socket.emit(`disapproveVoteRes`, {
+                                socket.emit(`voteRes`, {
                                     status: 500,
                                     message: 'Internal Server Error'
                                 });
@@ -316,7 +316,7 @@ module.exports = (socket, io) => {
 
                                                 if(hasVoted)
                                                 {
-                                                    socket.emit(`disapproveVoteRes`, {
+                                                    socket.emit(`voteRes`, {
                                                         status: 200,
                                                         message: 'Already Voted',
                                                         application: application
@@ -334,14 +334,14 @@ module.exports = (socket, io) => {
                                                         if(err)
                                                         {
                                                             console.error(err);
-                                                            socket.emit(`disapproveVoteRes`, {
+                                                            socket.emit(`voteRes`, {
                                                                 status: 500,
                                                                 message: 'Internal Server Error'
                                                             });
                                                         }
                                                         else
                                                         {
-                                                            socket.emit(`disapproveVoteRes`, {
+                                                            socket.emit(`voteRes`, {
                                                                 status: 200,
                                                                 message: 'Voted Registered',
                                                                 application: application
@@ -352,14 +352,14 @@ module.exports = (socket, io) => {
                                             }
                                             else
                                             {
-                                                socket.emit(`disapproveVoteRes`, {
+                                                socket.emit(`voteRes`, {
                                                     status: 900,
                                                     message: 'Unauthorised'
                                                 });
                                             }
                                         }).catch((err) => {
                                             console.error(err);
-                                            socket.emit(`disapproveVoteRes`, {
+                                            socket.emit(`voteRes`, {
                                                 status: 500,
                                                 message: 'Internal Server Error'
                                             });
@@ -367,7 +367,7 @@ module.exports = (socket, io) => {
                                     }
                                     else
                                     {
-                                        socket.emit(`disapproveVoteRes`, {
+                                        socket.emit(`voteRes`, {
                                             status: 900,
                                             message: 'Voting Ended'
                                         });
@@ -375,7 +375,7 @@ module.exports = (socket, io) => {
                                 }
                                 else
                                 {
-                                    socket.emit(`disapproveVoteRes`, {
+                                    socket.emit(`voteRes`, {
                                         status: 900,
                                         message: 'Invalid Application ID'
                                     });
@@ -385,7 +385,7 @@ module.exports = (socket, io) => {
                     }
                     else
                     {
-                        socket.emit(`disapproveVoteRes`, {
+                        socket.emit(`voteRes`, {
                             status: 900,
                             message: 'Unauthorised'
                         });
@@ -395,7 +395,7 @@ module.exports = (socket, io) => {
         }
         else
         {
-            socket.emit(`disapproveVoteRes`, {
+            socket.emit(`voteRes`, {
                 status: 900,
                 message: 'No Application ID Provided'
             });

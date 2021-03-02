@@ -118,15 +118,46 @@ $(() => {
                     else
                     {
                         $('#application-data').append(`<p id="vote-outcomes" class="mt-4">Approves: ${approves} | Disapproves: ${disapproves}</p>`);
+
                         if(res.wolfy == false)
                         {
                             $('#application-data').append('<button class="green-btn vote-btn text-colour" style="float: left;" id="approve-vote">Approve</button>');
                             $('#application-data').append('<button class="green-btn vote-btn text-colour ml-4" style="float: left;" id="disapprove-vote">Disapprove</button>');
+
+                            $('#approve-vote').click(() => {
+                                console.log('ran')
+                                socket.emit('approveVote', {
+                                    userId: duid,
+                                    applicationId: appId
+                                });
+                            });
+                        
+                            $('#disapprove-vote').click(() => {
+                                socket.emit('disapproveVote', {
+                                    userId: duid,
+                                    applicationId: appId
+                                });
+                            });
                         }
                         else
                         {
                             $('#application-data').append('<button class="green-btn text-colour" style="float: left;" id="final-approve-vote">Final Approve</button>');
                             $('#application-data').append('<button class="green-btn text-colour ml-4" style="float: left;" id="final-disapprove-vote">Final Disapprove</button>');
+
+                            $('#final-approve-vote').click(() => {
+                                console.log('ran')
+                                socket.emit('finalApproveVote', {
+                                    userId: duid,
+                                    applicationId: appId
+                                });
+                            });
+                        
+                            $('#final-disapprove-vote').click(() => {
+                                socket.emit('finalDisapproveVote', {
+                                    userId: duid,
+                                    applicationId: appId
+                                });
+                            });
                         }
                     }
                 }
@@ -212,34 +243,80 @@ $(() => {
         }
     });
     // TODO: Write these Responses
-    socket.on('approveVoteRes', (res) => {
+    socket.on('voteRes', (res) => {
+        console.log(res);
         if(res.status == 500)
         {
-            $('#vote-outcomes').text(`Approves: ${approves} | Disapproves: ${disapproves}`);
+            
         }
         else if(res.status == 900)
         {
-            $('#vote-outcomes').text(`Approves: ${approves} | Disapproves: ${disapproves}`);
             if(res.message == 'Unauthorised')
             {
                 $('#approve-vote').remove();
                 $('#disapprove-vote').remove();
             }
-        }
-        else if(res.status == 200)
-        {
-            if(res.message == '')
+            else if(res.message == 'Voting Ended')
             {
-
+                $('#approve-vote').remove();
+                $('#disapprove-vote').remove();
             }
-            else if(res.message = '')
+            else if(res.message == 'Invalid Application ID')
             {
-                
+                window.history.back();
+            }
+            else if(res.message == 'No Application ID Provided')
+            {
+                window.history.back();
+            }
+        }
+        else if(res.status == 200)
+        {
+            let hasVoted = false;
+            let yourVote;
+            let approves = 0;
+            let disapproves = 0;
+            for(let i = 0; i < res.application.votes.length; i++)
+            {
+                if(res.application.votes[i].user_id == duid)
+                {
+                    hasVoted = true;
+                    yourVote = res.application.votes[i].vote
+                }
+
+                if(res.application.votes[i].vote)
+                {
+                    approves++;
+                }
+                else
+                {
+                    disapproves++;
+                }
+            }
+
+            $('#approve-vote').remove();
+            $('#disapprove-vote').remove();
+
+            if(hasVoted)
+            {
+                $('#vote-outcomes').text(`Approves: ${approves} | Disapproves: ${disapproves}`);
+                if(hasVoted == true)
+                {
+                    $('#application-data').append(`<p class="my-4">You voted Approve!</p>`);
+                }
+                else if(hasVoted == false)
+                {
+                    $('#application-data').append(`<p class="my-4">You voted Disapprove!</p>`);
+                }
+            }
+            else
+            {
+                $('#vote-outcomes').text(`Approves: ${approves} | Disapproves: ${disapproves}`);
             }
         }
     });
 
-    socket.on('disapproveVoteRes', (res) => {
+    socket.on('finalVoteRes', (res) => {
         if(res.status == 500)
         {
 
@@ -252,49 +329,5 @@ $(() => {
         {
             
         }
-    });
-
-    socket.on('finalApproveVoteRes', (res) => {
-        if(res.status == 500)
-        {
-
-        }
-        else if(res.status == 900)
-        {
-
-        }
-        else if(res.status == 200)
-        {
-            
-        }
-    });
-
-    socket.on('finalDisapproveVoteRes', (res) => {
-        if(res.status == 500)
-        {
-
-        }
-        else if(res.status == 900)
-        {
-
-        }
-        else if(res.status == 200)
-        {
-            
-        }
-    });
-
-    $('#aprove-vote').on('click', (event) => {
-        socket.emit('approveVote', {
-            userId: duid,
-            applicationId: appId
-        });
-    });
-
-    $('#disapprove-vote').on('click', (event) => {
-        socket.emit('disapproveVote', {
-            userId: duid,
-            applicationId: appId
-        });
     });
 });
