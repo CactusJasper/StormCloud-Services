@@ -162,6 +162,7 @@ app.get('/', (req, res) => {
 
 app.use('/auth', require('./routes/auth'));
 app.use('/applications', require('./routes/applications'));
+app.use('/admin', require('./routes/admin'));
 
 /* MUST BE LAST ROUTE FOR 404 NOT FOUND ERROR */
 app.get('*', (req, res) => {

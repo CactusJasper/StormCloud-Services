@@ -457,6 +457,7 @@ $(() => {
         {
             $('#comment-error-msg').text(``);
             $('#comment-content').val('');
+            $("#comment-char-count").text("You have 250 characters left.");
         }
     });
 
