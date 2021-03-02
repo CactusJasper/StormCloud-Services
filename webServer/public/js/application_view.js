@@ -125,17 +125,18 @@ $(() => {
                             $('#application-data').append('<button class="green-btn vote-btn text-colour ml-4" style="float: left;" id="disapprove-vote">Disapprove</button>');
 
                             $('#approve-vote').click(() => {
-                                console.log('ran')
-                                socket.emit('approveVote', {
+                                socket.emit('vote', {
                                     userId: duid,
-                                    applicationId: appId
+                                    applicationId: appId,
+                                    vote: true
                                 });
                             });
                         
                             $('#disapprove-vote').click(() => {
-                                socket.emit('disapproveVote', {
+                                socket.emit('vote', {
                                     userId: duid,
-                                    applicationId: appId
+                                    applicationId: appId,
+                                    vote: false
                                 });
                             });
                         }
@@ -145,17 +146,18 @@ $(() => {
                             $('#application-data').append('<button class="green-btn text-colour ml-4" style="float: left;" id="final-disapprove-vote">Final Disapprove</button>');
 
                             $('#final-approve-vote').click(() => {
-                                console.log('ran')
-                                socket.emit('finalApproveVote', {
+                                socket.emit('finalVote', {
                                     userId: duid,
-                                    applicationId: appId
+                                    applicationId: appId,
+                                    approve: true
                                 });
                             });
                         
                             $('#final-disapprove-vote').click(() => {
-                                socket.emit('finalDisapproveVote', {
+                                socket.emit('finalVote', {
                                     userId: duid,
-                                    applicationId: appId
+                                    applicationId: appId,
+                                    approve: false
                                 });
                             });
                         }
@@ -180,16 +182,52 @@ $(() => {
                 }
 
                 $('#comment-wrapper').html('');
-                // TODO: Add create comment to comment wrapper
+                let commentBox = `<div class="row justify-content-center">`;
+                commentBox += `<div class="col-7 p-4 mb-5 bg-core form-style">`;
+                commentBox += `<h3>Write a comment</h3>`;
+                commentBox += `<p class="error" id="comment-error-msg"></p>`
+                commentBox += `<textarea class="mt-2 rounded text-colour" style="width: 98%;" maxlength="250" id="comment-content" name="comment-content" rows="4" placeholder=""></textarea>`;
+                commentBox += `<p class="right mt-2" id="comment-char-count">You have 250 characters left.</p>`;
+                commentBox += `<button id="create-comment" class="green-btn text-colour" style="float: left; margin: 0;">Create Comment</button>`;
+                commentBox += `</div>`;
+                commentBox += `</div>`;
+                $('#comment-wrapper').append(commentBox);
+
+                $('#create-comment').click(() => {
+                    socket.emit('createComment', {
+                        userId: duid,
+                        applicationId: appId,
+                        commentContent: $('#comment-content').val()
+                    });
+                });
+
+                $('#comment-content').on('input', (event) => {
+                    let char = $('#comment-content').val().length;
+                    rem = 250 - char;
+                    if(rem <= 0)
+                    {
+                        $('#comment-content').val($("#comment-content").val().slice(0, 250));
+                        return $("#comment-char-count").text("You have 0 characters left.");
+                    }
+                    $("#comment-char-count").text("You have " + rem + " characters left.");
+                });
+
+                let html = `<div class="row justify-content-center">`;
+                let application = res.application;
+                application.comments.reverse();
 
                 for(let i = 0; i < res.application.comments.length; i++)
                 {
-                    let html =`<div class="col-7 p-4 rounded my-5 bg-core">`;
-                    // TODO: Add the comment content
-                    html += `<h1>Comment</h1>`;
+                    html +=`<div class="col-7 p-4 mb-5 bg-core">`;
+                    html += `<p>Comment by ${res.application.comments[i].username}</p>`;
+                    html += `<p>${timeToDate(res.application.comments[i].timestamp)}</p>`;
+                    html += `<p class="mt-4">${res.application.comments[i].content}</p>`;
                     html += `</div>`;
-                    $('#comment-wrapper').append(html);
                 }
+                html += `</div>`;
+
+                $('#comments-wrapper').html('');
+                $('#comments-wrapper').append(html);
             }
             else
             {
@@ -242,9 +280,8 @@ $(() => {
             
         }
     });
-    // TODO: Write these Responses
+    
     socket.on('voteRes', (res) => {
-        console.log(res);
         if(res.status == 500)
         {
             
@@ -323,11 +360,121 @@ $(() => {
         }
         else if(res.status == 900)
         {
-
+            if(res.message == 'Unauthorised')
+            {
+                $('#approve-vote').remove();
+                $('#disapprove-vote').remove();
+            }
+            else if(res.message == 'Voting Ended')
+            {
+                $('#approve-vote').remove();
+                $('#disapprove-vote').remove();
+            }
+            else if(res.message == 'Invalid Application ID')
+            {
+                window.history.back();
+            }
+            else if(res.message == 'No Application ID Provided')
+            {
+                window.history.back();
+            }
         }
         else if(res.status == 200)
         {
-            
+            let hasVoted = false;
+            let yourVote;
+            let approves = 0;
+            let disapproves = 0;
+            for(let i = 0; i < res.application.votes.length; i++)
+            {
+                if(res.application.votes[i].user_id == duid)
+                {
+                    hasVoted = true;
+                    yourVote = res.application.votes[i].vote
+                }
+
+                if(res.application.votes[i].vote)
+                {
+                    approves++;
+                }
+                else
+                {
+                    disapproves++;
+                }
+            }
+
+            $('#final-approve-vote').remove();
+            $('#final-disapprove-vote').remove();
+
+            if(hasVoted)
+            {
+                $('#vote-outcomes').text(`Approves: ${approves} | Disapproves: ${disapproves}`);
+                if(hasVoted == true)
+                {
+                    $('#application-data').append(`<p class="my-4">You voted Approve!</p>`);
+                }
+                else if(hasVoted == false)
+                {
+                    $('#application-data').append(`<p class="my-4">You voted Disapprove!</p>`);
+                }
+            }
+            else
+            {
+                $('#vote-outcomes').text(`Approves: ${approves} | Disapproves: ${disapproves}`);
+            }
         }
+    });
+
+    socket.on(`commentRes`, (res) => {
+        if(res.status == 500)
+        {
+
+        }
+        else if(res.status == 900)
+        {
+            if(res.message == `No Application ID Provided`)
+            {
+                window.history.back();
+            }
+            else if(res.message == 'Unauthorised')
+            {
+                window.history.back();
+            }
+            else if(res.message == 'No Application Found')
+            {
+                window.history.back();
+            }
+            else if(res.message == 'Please provide text to submit as the comment')
+            {
+                $('#comment-error-msg').text('Please provide a message to comment.');
+            }
+            else if(res.message == 'Comment content can be a maximum of 250 characters')
+            {
+                $('#comment-error-msg').text(`A comment's message can only be 250 characters maximum.`);
+            }
+        }
+        else if(res.status == 200)
+        {
+            $('#comment-error-msg').text(``);
+            $('#comment-content').val('');
+        }
+    });
+
+    socket.on(`commentRes:${appId}`, (res) => {
+        let html = `<div class="row justify-content-center">`;
+        let application = res.application;
+        application.comments.reverse();
+        for(let i = 0; i < application.comments.length; i++)
+        {
+            html +=`<div class="col-7 p-4 mb-5 bg-core">`;
+            html += `<p>Comment by ${application.comments[i].username}</p>`;
+            html += `<p>${timeToDate(application.comments[i].timestamp)}</p>`;
+            html += `<p class="mt-4">${application.comments[i].content}</p>`;
+            html += `</div>`;
+        }
+        html += `</div>`;
+
+        $('#comments-wrapper').html('');
+        $('#comments-wrapper').append(html);
     });
 });

@@ -53,7 +53,7 @@ module.exports = (socket, io) => {
 
     // User Applications Socket Request Handle
     socket.on('getApplications', (data) => {
-        if(data.user_id !== undefined)// Clean up and Add Admin checks
+        if(data.user_id !== undefined)
         {
             User.findOne({ discordId: data.user_id }, (err, user) => {
                 if(err)
@@ -68,7 +68,7 @@ module.exports = (socket, io) => {
                     if(user)
                     {
                         utils.isAdmin(user).then((admin) => {
-                            if(admin || utils.isWolfy(user)  /*|| utils.isJasper(user)*/)
+                            if(admin || utils.isWolfy(user)  || utils.isJasper(user))
                             {
                                 Application.find({}, (err, docs) => {
                                     if(err)
