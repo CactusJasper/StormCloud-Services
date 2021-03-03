@@ -1,21 +1,21 @@
-version: "3.8"
+version: "3.3"
 services:
     webserver:
         depends_on:
             - bot
         build:
             context: ./webServer
-            network: host
         ports:
-            - "8080:8080"
+            - "8080:8080/tcp"
+            - "8080:8080/udp"
         environment:
             - NODE_ENV=production
     bot:
         build:
             context: ./bot
-            network: host
         ports:
-            - "9000:9000"
+            - "9000:9000/tcp"
+            - "9000:9000/udp"
         environment:
             - NODE_ENV=production
     nginx:
@@ -25,7 +25,8 @@ services:
             - bot
         build:
             context: ./nginx
-            network: host
         ports:
-            - "80:80"
-            - "443:443"
+            - "80:80/tcp"
+            - "80:80/udp"
+            - "443:443/tcp"
+            - "443:443/udp"
