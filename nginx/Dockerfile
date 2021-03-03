@@ -7,6 +7,3 @@ COPY stormcloud-world.pem /etc/ssl/
 
 COPY nginx.conf /etc/nginx/
 COPY h3.nginx.conf /etc/nginx/conf.d/
-
-EXPOSE 80
-EXPOSE 443

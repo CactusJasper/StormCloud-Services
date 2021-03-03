@@ -21,7 +21,7 @@ services:
         environment:
             - NODE_ENV=production
     nginx:
-        restart: always
+        restart: unless-stopped
         depends_on: 
             - webserver
             - bot
