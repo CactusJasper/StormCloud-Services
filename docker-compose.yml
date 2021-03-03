@@ -1,6 +1,7 @@
 version: "3.3"
 services:
     webserver:
+        restart: always
         depends_on:
             - bot
         build:
@@ -11,6 +12,7 @@ services:
         environment:
             - NODE_ENV=production
     bot:
+        restart: always
         build:
             context: ./bot
         ports:
