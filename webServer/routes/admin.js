@@ -5,7 +5,7 @@ const { check, validationResult, expressValidator } = require('express-validator
 let csrf = require('csurf');
 let csrfProtection = csrf({ cookie: true });
 
-router.get('/', utils.ensureAuthenticated, (res, res) => {
+router.get('/', utils.ensureAuthenticated, (req, res) => {
     utils.isAdmin(req.user).then((admin) => {
         if(utils.isWolfy(req.user) || utils.isJasper(req.user))
         {

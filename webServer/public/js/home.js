@@ -20,17 +20,7 @@ $(() => {
             });
 
             socket.volatile.emit('t10', {});
-            socket.volatile.emit('updateUserData', {
-                user_id: duid
-            });
         }, (60 * 1000) * 10);
-
-        setInterval(() => {
-            socket.volatile.emit('t10', {});
-            socket.volatile.emit('updateUserData', {
-                user_id: duid
-            });
-        }, (60 * 1000) * 5);
     });
 
     socket.on('t10', (res) => {
