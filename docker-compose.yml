@@ -2,7 +2,7 @@ version: "3.3"
 services:
     webserver:
         restart: always
-        network_mode: host
+        network_mode: bridge
         depends_on:
             - bot
         build:
@@ -18,7 +18,7 @@ services:
             - NODE_ENV=production
     bot:
         restart: always
-        network_mode: host
+        network_mode: bridge
         build:
             context: ./bot
         ports:
@@ -28,7 +28,7 @@ services:
             - NODE_ENV=production
     nginx:
         restart: unless-stopped
-        network_mode: host
+        network_mode: bridge
         depends_on: 
             - webserver
             - bot
