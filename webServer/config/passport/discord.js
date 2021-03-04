@@ -35,7 +35,7 @@ module.exports = new DiscordStrategy({
                             if(err)
                             {
                                 console.error(err);
-                                return done('Internal Server Error');
+                                return done('Internal Server Error', null);
                             }
                             else
                             {
@@ -69,16 +69,16 @@ module.exports = new DiscordStrategy({
                                         }
                                         else
                                         {
-                                            return done('Internal Server Error');
+                                            return done('Internal Server Error', null);
                                         }
                                     }).catch(err => {
                                         console.error(err);
-                                        return done('Internal Server Error');
+                                        return done('Internal Server Error', null);
                                     });
                                 }
                                 else
                                 {
-                                    return done('Internal Server Error');
+                                    return done('Internal Server Error', null);
                                 }
                             }
                         });
@@ -89,7 +89,7 @@ module.exports = new DiscordStrategy({
                             if(err)
                             {
                                 console.error(err);
-                                return done('Internal Server Error');
+                                return done('Internal Server Error', null);
                             }
                             else
                             {
@@ -126,16 +126,16 @@ module.exports = new DiscordStrategy({
                                         }
                                         else
                                         {
-                                            return done('Internal Server Error');
+                                            return done('Internal Server Error', null);
                                         }
                                     }).catch(err => {
                                         console.error(err);
-                                        return done('Internal Server Error');
+                                        return done('Internal Server Error', null);
                                     });
                                 }
                                 else
                                 {
-                                    return done('Internal Server Error');
+                                    return done('Internal Server Error', null);
                                 }
                             }
                         });
@@ -145,12 +145,12 @@ module.exports = new DiscordStrategy({
         }
         else
         {
-            return done('You are not a member of StormCloud Sorry.');
+            return done('You are not a member of StormCloud Sorry.', null);
         }
     }
     else
     {
-        return done('Somthing went Wrong Try again later!');
+        return done('Somthing went Wrong Try again later!', null);
     }
 });
 
@@ -158,7 +158,7 @@ function isMember(profile)
 {
     for(let i = 0; i < profile.guilds.length; i++)
     {
-        if(profile.guilds[i].id == '803358616470945881')
+        if(profile.guilds[i].id == config.server_id)
         {
             return true;
         }

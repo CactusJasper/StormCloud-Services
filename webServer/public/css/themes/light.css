@@ -23,6 +23,11 @@
   color: #000000 !important;
 }
 
+.form-style select:focus {
+  color: #000000 !important;
+  background-color: #999999 !important;
+}
+
 .button {
     display: inline-block;
     font-weight: 400;

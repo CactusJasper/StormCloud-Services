@@ -5,11 +5,14 @@ let utils = require('../utils');
 let axios = require('axios');
 
 module.exports = (socket, io) => {
+    // GET USER MOONGOSE DB ID
+    let userId = socket.request.session.passport;
+
     // Get the data for a Moderation Application
     socket.on('getApplication', (data) => {
         if(data.applicationId !== undefined)
         {
-            User.findOne({ discordId: data.userId }, (err, usr) => {
+            User.findOne({ _id: userId }, (err, usr) => {
                 if(err)
                 {
                     socket.emit(`applicationData`, {
@@ -140,7 +143,7 @@ module.exports = (socket, io) => {
     socket.on('vote', (data) => {
         if(data.applicationId !== undefined)
         {
-            User.findOne({ discordId: data.userId }, (err, usr) => {
+            User.findOne({ _id: userId }, (err, usr) => {
                 if(err)
                 {
                     console.error(err);
@@ -284,7 +287,7 @@ module.exports = (socket, io) => {
     socket.on('finalVote', (data) => {
         if(data.applicationId !== undefined)
         {
-            User.findOne({ discordId: data.userId }, (err, usr) => {
+            User.findOne({ _id: userId }, (err, usr) => {
                 if(err)
                 {
                     console.error(err);
@@ -457,7 +460,7 @@ module.exports = (socket, io) => {
     socket.on('createComment', (data) => {
         if(data.applicationId !== undefined)
         {
-            User.findOne({ discordId: data.userId }, (err, usr) => {
+            User.findOne({ _id: userId }, (err, usr) => {
                 if(err)
                 {
                     socket.emit(`commentRes`, {

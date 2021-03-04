@@ -3,9 +3,12 @@ let Server = require('../models/server');
 const axios = require('axios');
 
 module.exports = (socket, io) => {
+    // GET USER MOONGOSE DB ID
+    let userId = socket.request.session.passport;
+
     // Update Stored User Data Socket Request Handle
     socket.on('updateUserData', (data) => {
-        User.findOne({ discordId: data.user_id }, (err, usr) => {
+        User.findOne({ _id: userId }, (err, usr) => {
             if(err)
             {
                 console.log('=============== updateUserData DB ================');
@@ -32,7 +35,7 @@ module.exports = (socket, io) => {
 
                             if(server)
                             {
-                                axios.get(`http://localhost:9000/user/higestrole/${data.user_id}`, {
+                                axios.get(`http://localhost:9000/user/higestrole/${user.discordId}`, {
                                     headers: {
                                         api_id: server.api_id,
                                         api_token: server.api_token
@@ -43,7 +46,7 @@ module.exports = (socket, io) => {
                                         highestRole = res.data.role;
                                     }
 
-                                    axios.get(`http://localhost:9000/user/username/${data.user_id}`, {
+                                    axios.get(`http://localhost:9000/user/username/${user.discordId}`, {
                                         headers: {
                                             api_id: server.api_id,
                                             api_token: server.api_token

@@ -1,6 +1,6 @@
 <div class="row justify-content-center">
     <div class="col-8 mr-5 my-5 bg-core t-10">
-        <h2 class="center mt-4">Create Application</h2>
+        <h2 class="center mt-4 header">Create Application</h2>
         <form id="create-application" name="create-application" class="form-style" method="POST" action="/applications/create">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             {{#if sessionFlash.message}}
@@ -130,7 +130,4 @@
         </form>
     </div>
 </div>
-<script type="text/javascript">
-    let userId = '{{user.discordId}}';
-</script>
 <script src="/js/application/application_create.js"></script>

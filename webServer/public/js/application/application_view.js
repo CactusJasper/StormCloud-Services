@@ -6,18 +6,13 @@ $(() => {
 
     socket.on('connect', () => {
         console.log('WS Opened');
-        socket.emit('updateUserData', {
-            user_id: duid
-        });
+        socket.emit('updateUserData', {});
         socket.emit('getApplication', {
-            applicationId: appId,
-            userId: duid
+            applicationId: appId
         });
 
         setInterval(() => {
-            socket.volatile.emit('updateUserData', {
-                user_id: duid
-            });
+            socket.volatile.emit('updateUserData', {});
         }, (60 * 1000) * 10);
     });
 
@@ -45,7 +40,7 @@ $(() => {
         }
         else if(res.status == 200)
         {
-            $('#application-data').append(`<h4 class="center text-colour">Mod Application By ${res.application.username}</h4>`);
+            $('#application-data').append(`<h4 class="center text-colour header">Mod Application By ${res.application.username}</h4>`);
             $('#application-data').append(`<p class="center text-colour">${timeToDate(res.application.timestamp)}</p>`);
             $('#application-data').append(`<div class="seperator my-4"></div>`);
             $('#application-data').append(`<p class="mt-4 text-colour">Q1. Have you been with the server for longer than a month?</p>`);
@@ -126,7 +121,6 @@ $(() => {
 
                             $('#approve-vote').click(() => {
                                 socket.emit('vote', {
-                                    userId: duid,
                                     applicationId: appId,
                                     vote: true
                                 });
@@ -134,7 +128,6 @@ $(() => {
                         
                             $('#disapprove-vote').click(() => {
                                 socket.emit('vote', {
-                                    userId: duid,
                                     applicationId: appId,
                                     vote: false
                                 });
@@ -147,7 +140,6 @@ $(() => {
 
                             $('#final-approve-vote').click(() => {
                                 socket.emit('finalVote', {
-                                    userId: duid,
                                     applicationId: appId,
                                     approve: true
                                 });
@@ -155,7 +147,6 @@ $(() => {
                         
                             $('#final-disapprove-vote').click(() => {
                                 socket.emit('finalVote', {
-                                    userId: duid,
                                     applicationId: appId,
                                     approve: false
                                 });
@@ -184,7 +175,7 @@ $(() => {
                 $('#comment-wrapper').html('');
                 let commentBox = `<div class="row justify-content-center">`;
                 commentBox += `<div class="col-7 p-4 mb-5 bg-core form-style">`;
-                commentBox += `<h3>Write a comment</h3>`;
+                commentBox += `<h3 class="center header">Write a comment</h3>`;
                 commentBox += `<p class="error" id="comment-error-msg"></p>`
                 commentBox += `<textarea class="mt-2 rounded text-colour" style="width: 98%;" maxlength="250" id="comment-content" name="comment-content" rows="4" placeholder=""></textarea>`;
                 commentBox += `<p class="right mt-2" id="comment-char-count">You have 250 characters left.</p>`;
@@ -195,7 +186,6 @@ $(() => {
 
                 $('#create-comment').click(() => {
                     socket.emit('createComment', {
-                        userId: duid,
                         applicationId: appId,
                         commentContent: $('#comment-content').val()
                     });
@@ -276,6 +266,23 @@ $(() => {
                 {
                     $('#application-data').append(`<p class="mt-4">Voting has ended you should have a Message from SC Services telling you the outcome</p>`);
                 }
+
+                let html = `<div class="row justify-content-center">`;
+                let application = res.application;
+                application.comments.reverse();
+
+                for(let i = 0; i < res.application.comments.length; i++)
+                {
+                    html +=`<div class="col-7 p-4 mb-5 bg-core">`;
+                    html += `<p>Comment by ${res.application.comments[i].username}</p>`;
+                    html += `<p>${timeToDate(res.application.comments[i].timestamp)}</p>`;
+                    html += `<p class="mt-4">${res.application.comments[i].content}</p>`;
+                    html += `</div>`;
+                }
+                html += `</div>`;
+
+                $('#comments-wrapper').html('');
+                $('#comments-wrapper').append(html);
             }
             
         }

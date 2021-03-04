@@ -1,13 +1,9 @@
 $(() => {
     let socket = io();
-    let duid = userId;
-    $('#toRemove').remove();
 
     socket.on('connect', () => {
         console.log('WS Opened');
-        socket.emit('updateUserData', {
-            user_id: duid
-        });
+        socket.emit('updateUserData', {});
         socket.emit('getLeaderboard', {});
 
         setInterval(() => {
@@ -15,9 +11,7 @@ $(() => {
         }, 5 * 1000);
 
         setInterval(() => {
-            socket.volatile.emit('updateUserData', {
-                user_id: duid
-            });
+            socket.volatile.emit('updateUserData', {});
         }, (60 * 1000) * 10);
     });
 
@@ -77,7 +71,7 @@ $(() => {
                     }
                     else
                     {
-                        let html = `<h2>User XP Leaderboard</h2>`;
+                        let html = `<h2 class="center header">User XP Leaderboard</h2>`;
                         html += `<table id="leaderboard" class="table mt-3">`;
                         html += `<tr>`;
                         html += `<th class="bg p-2">Username</th>`;

@@ -326,7 +326,6 @@ app.get('/user/higestrole/:userId', checkAuth, (req, res) => {
     {
         let userId = req.params.userId;
         client.guilds.cache.get(config.server_id).members.fetch({ user: userId, force: true, cache: false }).then(usr => {
-            //usr.roles.
             res.send({
                 status: 200,
                 role: usr.roles.highest.id

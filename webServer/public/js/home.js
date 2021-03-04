@@ -1,23 +1,15 @@
 $(() => {
     let socket = io();
-    let duid = userId;
-    $('#toRemove').remove();
 
     socket.on('connect', () => {
         console.log('WS Opened');
         socket.emit('t10', {});
-        socket.emit('updateUserData', {
-            user_id: duid
-        });
+        socket.emit('updateUserData', {});
 
-        socket.emit('getApplications', {
-            user_id: duid
-        });
+        socket.emit('getApplications', {});
 
         setInterval(() => {
-            socket.volatile.emit('updateUserData', {
-                user_id: duid
-            });
+            socket.volatile.emit('updateUserData', {});
 
             socket.volatile.emit('t10', {});
         }, (60 * 1000) * 10);

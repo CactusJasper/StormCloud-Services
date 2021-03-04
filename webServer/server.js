@@ -111,7 +111,7 @@ app.set('view engine', '.hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Register Express Session Middleware
-app.use(session({
+let sessionMiddleware = session({
     secret: config.secret,
     name: 'StormCloud Dashboard',
     resave: true,
@@ -119,11 +119,12 @@ app.use(session({
     store: new MongoStore({
         secret: config.secret_store,
         mongooseConnection: db,
-        ttl: 14 * 24 * 60 * 60, // = 14 days
+        ttl: 4 * 24 * 60 * 60, // = 4 days
         autoRemove: 'interval',
         autoRemoveInterval: 15 // In minutes.
     })
-}));
+});
+app.use(sessionMiddleware);
 
 // Register Express Message Middleware
 app.use(flash());
@@ -196,27 +197,18 @@ app.get('/leaderboard', utils.ensureAuthenticated, (req, res) => {
         {
             res.render('leaderboard', {
                 user: req.user,
-                admin: true,
-                helpers: {
-                    getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                }
+                admin: true
             });
         }
         else
         {
             res.render('leaderboard', {
-                user: req.user,
-                helpers: {
-                    getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                }
+                user: req.user
             });
         }
     }).catch((err) => {
         res.render('leaderboard', {
-            user: req.user,
-            helpers: {
-                getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-            }
+            user: req.user
         });
     });  
 });
@@ -226,8 +218,18 @@ app.use('/applications', require('./routes/applications'));
 app.use('/admin', require('./routes/admin'));
 
 /* MUST BE LAST ROUTE FOR 404 NOT FOUND ERROR */
-app.get('*', (req, res) => {
+app.all('*', (req, res) => {
     res.render('errors/404', { layout: false });
+});
+
+/* HANDLE 500 ERRORS */
+app.use((err, req, res, next) => {
+    if(process.env.NODE_ENV != 'production')
+    {
+        console.error(err.stack);
+    }
+    
+    res.render('errors/500', { layout: false });
 });
 
 /*
@@ -235,9 +237,19 @@ app.get('*', (req, res) => {
  * =========== WebSocket Server ===========
  * ========================================
  */
+io.use((socket, next) => {
+    sessionMiddleware(socket.request, {}, next);
+});
+
 io.on('connection', (socket) => {
-    require('./events/home')(socket, io); // Home Page Socket Event Handler
-    require('./events/view_application')(socket, io); // Application View Socket Event Handler
-    require('./events/user_data')(socket, io); // User Data Socket Event Handler
-    require('./events/global')(socket, io); // Global Socket Event Handler
+    let userId = socket.request.session.passport.user;
+    if(userId !== undefined || userId != {})
+    {
+        console.log("Your User ID is", userId);
+
+        require('./events/home')(socket, io); // Home Page Socket Event Handler
+        require('./events/view_application')(socket, io); // Application View Socket Event Handler
+        require('./events/user_data')(socket, io); // User Data Socket Event Handler
+        require('./events/global')(socket, io); // Global Socket Event Handler
+    }
 });

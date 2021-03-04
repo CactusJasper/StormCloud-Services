@@ -51,7 +51,8 @@ body {
   resize: none;
 }
 
-.form-style input[type = "text"], .form-style input[type = "password"] {
+.form-style input[type = "text"], .form-style input[type = "password"],
+.form-style input[type = "number"] {
   border: 2px solid #A95BCF; /*#3498DB; the original green colour*/
   background: none;
   display: block;
@@ -64,8 +65,33 @@ body {
   transition: 0.25s;
 }
 
+.form-style select {
+  border: 2px solid #A95BCF; /*#3498DB; the original green colour*/
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  padding:0px 10px;
+  height: 55px;
+  line-height: 50px;
+  width: 200px;
+  outline: none;
+  border-radius: 24px;
+  transition: 0.25s;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-style select:focus {
+  outline: none;
+}
+
+.form-style input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
 .form-style input[type = "text"]:focus, .form-style input[type = "password"]:focus,
-.form-style textarea:focus {
+.form-style textarea:focus, .form-style input[type = "number"]:focus {
   width: 280px;
   border-color: #2ECC71;
 }

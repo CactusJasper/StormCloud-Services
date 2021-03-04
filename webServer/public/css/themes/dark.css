@@ -31,6 +31,11 @@
     color: #FFFFFF !important;
 }
 
+.form-style select:focus {
+  color: #FFFFFF !important;
+  background-color: #222222 !important;
+}
+
 .btn-core {
   color: #fff;
   background-color: #313131;
