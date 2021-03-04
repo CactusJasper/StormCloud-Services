@@ -12,10 +12,7 @@ router.get('/', utils.ensureAuthenticated, (req, res) => {
             res.render('admin/dashboard', {
                 admin: true,
                 superUser: true,
-                user: req.user,
-                helpers: {
-                    getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                }
+                user: req.user
             });
         }
         else if(admin)
@@ -23,10 +20,7 @@ router.get('/', utils.ensureAuthenticated, (req, res) => {
             res.render('admin/dashboard', {
                 admin: true,
                 superUser: false,
-                user: req.user,
-                helpers: {
-                    getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                }
+                user: req.user
             });
         }
         else

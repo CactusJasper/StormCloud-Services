@@ -47,7 +47,7 @@ $(() => {
 
             if(top10.length == 10)
             {
-                $('#t-10').append(`<a href="/user/data/leaderboard" class="text-colour">See Full Leaderboard</a>`);
+                $('#t-10').append(`<a href="/leaderboard" class="text-colour">See Full Leaderboard</a>`);
             }
         }
     });

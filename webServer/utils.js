@@ -99,14 +99,3 @@ exports.convertToTextApplications = (q) => {
         return q;
     }
 }
-
-exports.getPfpIco = (userId, avatarId) => {
-    if(avatarId == undefined)
-    {
-        return 'https://cdn.discordapp.com/avatars/783811510652239904/08db214786c860678804c24f77834927.png';
-    }
-    else
-    {
-        return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.png`;
-    }
-}

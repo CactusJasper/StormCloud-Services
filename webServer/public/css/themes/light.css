@@ -6,6 +6,10 @@
   background: #7c7c7c;
 }
 
+.bg-secondary {
+  background: #9b9b9b;
+}
+
 .bg-core {
   background: #999999;
 }

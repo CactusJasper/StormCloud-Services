@@ -61,6 +61,7 @@ client.on('message', (message) => {
         }
         else
         {
+			if(message.content.length == 1) return;
             UserData.findOne({ user_id: message.member.id }, (err, data) => {
                 if(err)
                 {
@@ -76,15 +77,28 @@ client.on('message', (message) => {
                         if(Math.floor(currentTime) >= userData.last_rewarded + 120)
                         {
                             let xpReward;
-
-                            if(utils.getRandomInt(0, 100) > 98)
-                            {
-                                xpReward = utils.getRandomInt(100, 150);
-                            }
-                            else
-                            {
-                                xpReward = utils.getRandomInt(5, 20);
-                            }
+							if(message.content.length > 5)
+							{
+								if(utils.getRandomInt(0, 100) > 98)
+								{
+									xpReward = utils.getRandomInt(10, 15);
+								}
+								else
+								{
+									xpReward = utils.getRandomInt(2, 5);
+								}
+							}
+							else
+							{
+								if(utils.getRandomInt(0, 100) > 98)
+								{
+									xpReward = utils.getRandomInt(100, 150);
+								}
+								else
+								{
+									xpReward = utils.getRandomInt(5, 20);
+								}
+							}
 
                             let newXpTotal = userData.xp + xpReward;
                             let nextLevelXpNeeded = utils.getLevel(userData.level + 1);

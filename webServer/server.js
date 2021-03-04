@@ -58,6 +58,45 @@ app.use(compression({
     level: 9
 }));
 
+Handlebars.registerHelper('getPfpIco', (userId, avatarId) => {
+    if(avatarId == undefined)
+    {
+        return 'https://cdn.discordapp.com/avatars/783811510652239904/08db214786c860678804c24f77834927.png';
+    }
+    else
+    {
+        return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.png`;
+    }
+});
+
+Handlebars.registerHelper('ifCond', (v1, operator, v2, options) => {
+    switch(operator)
+    {
+        case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!=':
+            return (v1 != v2) ? options.fn(this) : options.inverse(this);
+        case '!==':
+            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '&&':
+            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+        case '||':
+            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+        default:
+            return options.inverse(this);
+    }
+});
+
 // Load Tamplate Engine
 app.engine('.hbs', exphbs({
     defaultLayout: 'main',
@@ -130,27 +169,18 @@ app.get('/', (req, res) => {
             {
                 res.render('index', {
                     user: req.user,
-                    admin: true,
-                    helpers: {
-                        getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                    }
+                    admin: true
                 });
             }
             else
             {
                 res.render('index', {
-                    user: req.user,
-                    helpers: {
-                        getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                    }
+                    user: req.user
                 });
             }
         }).catch((err) => {
             res.render('index', {
-                user: req.user,
-                helpers: {
-                    getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                }
+                user: req.user
             });
         });        
     }
@@ -158,6 +188,37 @@ app.get('/', (req, res) => {
     {
         res.render('index', { layout: false });
     }
+});
+
+app.get('/leaderboard', utils.ensureAuthenticated, (req, res) => {
+    utils.isAdmin(req.user).then((admin) => {
+        if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
+        {
+            res.render('leaderboard', {
+                user: req.user,
+                admin: true,
+                helpers: {
+                    getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
+                }
+            });
+        }
+        else
+        {
+            res.render('leaderboard', {
+                user: req.user,
+                helpers: {
+                    getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
+                }
+            });
+        }
+    }).catch((err) => {
+        res.render('leaderboard', {
+            user: req.user,
+            helpers: {
+                getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
+            }
+        });
+    });  
 });
 
 app.use('/auth', require('./routes/auth'));
@@ -177,5 +238,6 @@ app.get('*', (req, res) => {
 io.on('connection', (socket) => {
     require('./events/home')(socket, io); // Home Page Socket Event Handler
     require('./events/view_application')(socket, io); // Application View Socket Event Handler
+    require('./events/user_data')(socket, io); // User Data Socket Event Handler
     require('./events/global')(socket, io); // Global Socket Event Handler
 });

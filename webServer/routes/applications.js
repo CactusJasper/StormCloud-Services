@@ -16,10 +16,7 @@ router.get('/view/:applicationId', csrfProtection, utils.ensureAuthenticated, (r
                     user: req.user,
                     admin: true,
                     applicationId: req.params.applicationId,
-                    csrfToken: req.csrfToken(),
-                    helpers: {
-                        getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                    }
+                    csrfToken: req.csrfToken()
                 });
             }
             else
@@ -27,20 +24,14 @@ router.get('/view/:applicationId', csrfProtection, utils.ensureAuthenticated, (r
                 res.render('applications/view', {
                     user: req.user,
                     applicationId: req.params.applicationId,
-                    csrfToken: req.csrfToken(),
-                    helpers: {
-                        getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                    }
+                    csrfToken: req.csrfToken()
                 });
             }
         }).catch((err) => {
             res.render('applications/view', {
                 user: req.user,
                 applicationId: req.params.applicationId,
-                csrfToken: req.csrfToken(),
-                helpers: {
-                    getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                }
+                csrfToken: req.csrfToken()
             });
         });
     }
@@ -61,29 +52,20 @@ router.get('/create', csrfProtection, utils.ensureAuthenticated, (req, res) => {
             res.render('applications/create', {
                 user: req.user,
                 admin: true,
-                csrfToken: req.csrfToken(),
-                helpers: {
-                    getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                }
+                csrfToken: req.csrfToken()
             });
         }
         else
         {
             res.render('applications/create', {
                 user: req.user,
-                csrfToken: req.csrfToken(),
-                helpers: {
-                    getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-                }
+                csrfToken: req.csrfToken()
             });
         }
     }).catch((err) => {
         res.render('applications/create', {
             user: req.user,
-            csrfToken: req.csrfToken(),
-            helpers: {
-                getPfpIco: (userId, avatarId) => utils.getPfpIco(userId, avatarId)
-            }
+            csrfToken: req.csrfToken()
         });
     });
 });
