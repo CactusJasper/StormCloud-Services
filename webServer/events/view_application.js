@@ -6,7 +6,7 @@ let axios = require('axios');
 
 module.exports = (socket, io) => {
     // GET USER MOONGOSE DB ID
-    let userId = socket.request.session.passport;
+    let userId = socket.request.session.passport.user;
 
     // Get the data for a Moderation Application
     socket.on('getApplication', (data) => {

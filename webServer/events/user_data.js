@@ -4,7 +4,7 @@ let utils = require('../utils');
 
 module.exports = (socket, io) => {
     // GET USER MOONGOSE DB ID
-    let userId = socket.request.session.passport;
+    let userId = socket.request.session.passport.user;
 
     // Get the leaderboard
     socket.on('getLeaderboard', (data) => {

@@ -4,7 +4,7 @@ const axios = require('axios');
 
 module.exports = (socket, io) => {
     // GET USER MOONGOSE DB ID
-    let userId = socket.request.session.passport;
+    let userId = socket.request.session.passport.user;
 
     // Update Stored User Data Socket Request Handle
     socket.on('updateUserData', (data) => {
