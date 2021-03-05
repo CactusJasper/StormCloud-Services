@@ -12,3 +12,17 @@ let modRoleSchema = mongoose.Schema({
 });
 
 let ModRole = module.exports = mongoose.model('ModRole', modRoleSchema);
+
+/* Instance method Function use is mrole.test(params, cb)
+modRoleSchema.methods.testFunc = function testFunc(params, callback) {
+  //implementation code goes here
+}
+*/
+
+/* Static function for use as ModRole.findByName
+modRoleSchema.statics.findByName = function (name, cb) {
+    return this.find({ 
+        name: new RegExp(name, 'i') 
+    }, cb);
+}
+*/

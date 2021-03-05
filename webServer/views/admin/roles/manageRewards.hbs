@@ -28,18 +28,20 @@
     </div>
 </div>
 
-{{#if rewards}}
-    {{#each rewards}}
-        <div class="row justify-content-center">
-            <div class="col-6 mr-2 p-4 mb-4 bg-core">
-                <h3 id="role-name-{{this._id}}">{{this.role_name}}</h3>
-                <p class="mt-4">Unlocked at Level {{this.level}}</p>
-                <p class="mt-2">Role ID {{this.role_id}}</p>
-                <a data-roleId="{{this._id}}" class="green-btn mt-2 conf-delete-trigger">Delete Reward</a>
+<div id="rewards">
+    {{#if rewards}}
+        {{#each rewards}}
+            <div class="row justify-content-center" id="reward-{{this._id}}">
+                <div class="col-6 mr-2 mb-4 bg-core">
+                    <h3 id="role-name-{{this._id}}" class="center mt-4">{{this.role_name}}</h3>
+                    <p class="mt-4 center">Unlocked at Level {{this.level}}</p>
+                    <p class="mt-2 center">Role ID {{this.role_id}}</p>
+                    <a data-roleId="{{this._id}}" class="green-btn mt-4 mt-2 conf-delete-trigger">Delete Reward</a>
+                </div>
             </div>
-        </div>
-    {{/each}}
-{{/if}}
+        {{/each}}
+    {{/if}}
+</div>
 
 <div class="modal" id="confDeleteModal">
     <div class="modal-content-small">
@@ -51,7 +53,7 @@
             <p id="delete-reward-text">Are you sure you want to delete the reward of</p>
         </div>
         <div class="modal-footer bg-core text-colour">
-            <button id="reward-delete-conf" class="btn btn-core p-2 mt-2">Confirm</button>
+            <button id="reward-delete-conf" data-roleId="" class="btn btn-core p-2 mt-2" style="cursor: pointer;">Confirm</button>
             <a class="btn btn-core p-2 mt-2 close-btn" style="float: right;">Close</a>
         </div>
     </div>

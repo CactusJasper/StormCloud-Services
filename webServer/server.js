@@ -245,11 +245,10 @@ io.on('connection', (socket) => {
     let userId = socket.request.session.passport.user;
     if(userId !== undefined || userId != {})
     {
-        console.log("Your User ID is", userId);
-
         require('./events/home')(socket, io); // Home Page Socket Event Handler
         require('./events/view_application')(socket, io); // Application View Socket Event Handler
         require('./events/user_data')(socket, io); // User Data Socket Event Handler
+        require('./events/manage_rewards')(socket, io) // Manage Role Rewards Socket Event Handler
         require('./events/global')(socket, io); // Global Socket Event Handler
     }
 });
