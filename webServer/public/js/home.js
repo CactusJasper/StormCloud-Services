@@ -98,4 +98,8 @@ $(() => {
             $('#applications-display').html(html);
         }
     });
+
+    setTimeout(() => {
+        $('#errors').hide(3000);
+    }, 2000);
 });

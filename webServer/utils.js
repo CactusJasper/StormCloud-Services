@@ -1,3 +1,4 @@
+const Application = require('./models/application');
 let ModRole = require('./models/mod_role');
 
 exports.isAdmin = async (user) => {
@@ -98,4 +99,70 @@ exports.convertToTextApplications = (q) => {
     {
         return q;
     }
+}
+
+exports.levelToText = (level) => {
+    if(level == 'mod')
+    {
+        return "Moderator";
+    }
+    else if(level == 'admin')
+    {
+        return "Administrator";
+    }
+    else if(level == 'co-o')
+    {
+        return "Co-Owner";
+    }
+    else
+    {
+        return "User";
+    }
+}
+
+exports.canCreateApplication = async (discordId) => {
+    let toReturn;
+    await Application.find({ user_id: discordId }, (err, docs) => {
+        if(err)
+        {
+            toReturn = {
+                status: 500,
+                message: 'Internal Server Error'
+            };
+        }
+        else
+        {
+            if(docs.length > 0)
+            {
+                let applications = docs.sort((a, b) => {
+                    return b.timestamp - a.timestamp;
+                });
+
+                // Check if it has been 4 Weeks since last application
+                if(applications[0].timestamp >= applications[0].timestamp + 2419200)
+                {
+                    toReturn = {
+                        status: 200,
+                        canCreate: true
+                    };
+                }
+                else
+                {
+                    toReturn = {
+                        status: 200,
+                        canCreate: false
+                    };
+                }
+            }
+            else
+            {
+                toReturn = {
+                    status: 200,
+                    canCreate: true
+                };
+            }
+        }
+    });
+
+    return toReturn;
 }

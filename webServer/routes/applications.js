@@ -45,21 +45,93 @@ router.get('/create', csrfProtection, utils.ensureAuthenticated, (req, res) => {
     utils.isAdmin(req.user).then((admin) => {
         if(admin || utils.isWolfy(req.user))
         {
-            res.redirect('back');
+            res.redirect('/');
         }
         else if(utils.isJasper(req.user))
         {
-            res.render('applications/create', {
-                user: req.user,
-                admin: true,
-                csrfToken: req.csrfToken()
+            utils.canCreateApplication(req.user.discordId).then((response) => {
+                if(response.status == 500)
+                {
+                    // Adds a Flash Message
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Something went wrong please try again later'
+                    }
+
+                    res.redirect('/');
+                }
+                else
+                {
+                    if(response.canCreate == true)
+                    {
+                        res.render('applications/create', {
+                            user: req.user,
+                            admin: true,
+                            csrfToken: req.csrfToken()
+                        });
+                    }
+                    else
+                    {
+                        // Adds a Flash Message
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: 'You have already created an application within the last month'
+                        }
+
+                        res.redirect('/');
+                    }
+                }
+            }).catch((err) => {
+                // Adds a Flash Message
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Something went wrong please try again later'
+                }
+
+                res.redirect('/');
             });
         }
         else
         {
-            res.render('applications/create', {
-                user: req.user,
-                csrfToken: req.csrfToken()
+            utils.canCreateApplication(req.user.discordId).then((response) => {
+                if(response.status == 500)
+                {
+                    // Adds a Flash Message
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Something went wrong please try again later'
+                    }
+
+                    res.redirect('/');
+                }
+                else
+                {
+                    if(response.canCreate == true)
+                    {
+                        res.render('applications/create', {
+                            user: req.user,
+                            csrfToken: req.csrfToken()
+                        });
+                    }
+                    else
+                    {
+                        // Adds a Flash Message
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: 'You have already created an application within the last month'
+                        }
+
+                        res.redirect('/');
+                    }
+                }
+            }).catch((err) => {
+                // Adds a Flash Message
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Something went wrong please try again later'
+                }
+
+                res.redirect('/');
             });
         }
     }).catch((err) => {

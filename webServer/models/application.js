@@ -73,4 +73,6 @@ let applicationSchema = mongoose.Schema({
     }
 });
 
-let Application = module.exports = mongoose.model('Application', applicationSchema);
+let Application = mongoose.model('Application', applicationSchema);
+
+module.exports = Application;

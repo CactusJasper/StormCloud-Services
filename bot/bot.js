@@ -77,7 +77,7 @@ client.on('message', (message) => {
                         if(Math.floor(currentTime) >= userData.last_rewarded + 120)
                         {
                             let xpReward;
-							if(message.content.length > 5)
+							if(message.content.length < 5)
 							{
 								if(utils.getRandomInt(0, 100) > 98)
 								{

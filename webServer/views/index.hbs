@@ -6,6 +6,13 @@
     </div>
     <div class="col-9 p-4 mt-5 bg-core">
         <h3 class="center header">Applications</h3>
+        {{#if sessionFlash.message}}
+            {{#contains sessionFlash.type 'error'}}
+                <div id="errors" class="alert alert-danger mx-5 my-4">
+                    {{{sessionFlash.message}}}
+                </div>
+            {{/contains}}
+        {{/if}}
         <div id="applications-display">
             
         </div>
