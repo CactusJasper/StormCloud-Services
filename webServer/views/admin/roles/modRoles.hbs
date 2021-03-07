@@ -3,6 +3,7 @@
 <div class="row justify-content-center">
     <div class="col-6 mr-2 rounded my-5 bg-core">
         <h3 class="center header mt-4">Add Moderator Role</h3>
+        <p class="error center mt-2" id="role-create-error"></p>
         <form action="/admin/add/mod/role" method="POST" id="add-role-form" name="add-role-form" class="mt-4 form-style">
             <div class="seperator my-4"></div>
             <p class="center">Moderation Level</p>
@@ -14,6 +15,7 @@
             <div class="seperator my-4"></div>
             <p class="center">Choose the role you wish to add as a mod role:</p>
             <select id="role_selection" name="role_selection" class="mt-3 text-colour" form="add-role-form">
+                <option disabled="" selected="true">Please Select a Role</option>
                 {{#each roles}}
                     <option value="{{this.id}}">{{this.name}}</option>
                 {{/each}}
@@ -26,11 +28,11 @@
 
 {{#if modRoles}}
     {{#each modRoles}}
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" id="mod-role-{{this._id}}">
             <div class="col-6 mr-2 mb-4 bg-core">
-                <h3 id="role-name-{{this._id}}" class="center">{{this.role_name}}</h3>
-                <p class="mt-4 center">Moderation Level {{{levelToText this.level}}}</p>
-                <p class="mt-2 center">Role ID {{this.role_id}}</p>
+                <h3 id="role-name-{{this._id}}" class="center mt-4">{{this.role_name}}</h3>
+                <p class="mt-4 center">Moderation Level: {{levelToText this.level}}</p>
+                <p class="mt-2 center">Role ID: {{this.role_id}}</p>
                 <a data-roleId="{{this._id}}" class="green-btn mt-4 mt-2 conf-delete-trigger">Delete Role</a>
             </div>
         </div>

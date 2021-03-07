@@ -40,14 +40,17 @@ $(() => {
     });
 
     socket.on('deleteRewardCb', (res) => {
-        if(res.status == 500)
-        {
-            $('#role-create-error').text('Something went wrong please try again later.');
-        }
-        else if(res.status == 200)
+        if(res.status == 200)
         {
             $(`#reward-${res.roleId}`).remove();
             confDeleteModel.css('display', 'none');
+        }
+        else if(res.status == 900)
+        {
+            if(res.message == 'Unauthorised')
+            {
+                window.history.back();
+            }
         }
     });
 

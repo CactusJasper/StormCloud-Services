@@ -94,7 +94,7 @@ router.get('/manage/role/mods', utils.ensureAuthenticated, (req, res) => {
                                             modRoles: modRoles,
                                             admin: true,
                                             helpers: {
-                                                levelToText: (level) => { utils.levelToText(level) }
+                                                levelToText: (level) => { return utils.levelToText(level) }
                                             }
                                         });
                                     }
@@ -104,7 +104,7 @@ router.get('/manage/role/mods', utils.ensureAuthenticated, (req, res) => {
                                             roles: data.roles.cache,
                                             admin: true,
                                             helpers: {
-                                                levelToText: (level) => { utils.levelToText(level) }
+                                                levelToText: (level) => { return utils.levelToText(level) }
                                             }
                                         });
                                     }

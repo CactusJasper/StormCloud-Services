@@ -1,6 +1,6 @@
-let User = require('../models/user');
-let LevelReward = require('../models/level_reward');
-let utils = require('../utils');
+let User = require('../../models/user');
+let LevelReward = require('../../models/level_reward');
+let utils = require('../../utils');
 
 module.exports = (socket, io) => {
     // GET USER MOONGOSE DB ID
