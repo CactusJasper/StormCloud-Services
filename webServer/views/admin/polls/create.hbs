@@ -1,0 +1,33 @@
+<div class="row justify-content-center mt-5">
+    <div class="col-8 my-5 mx-2 bg-core">
+        <h3 class="header center mt-4">Create Poll</h3>
+        <form class="form-style">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
+            <div class="seperator my-4"></div>
+            <button class="text-colour" data-currentcount="2" id="addField">Add New Field</button>
+            <div class="seperator my-4"></div>
+            <div class="row justify-content-center">
+                <div class="col-4 px-4">
+                    <table id="fieldList" class="table">
+                        <tr>
+                            <th class="p-1" style="width: 100px;"></th>
+                            <th class="p-1" style="width: 150px;"></th>
+                            <th class="p-1" style="width: 55px;"></th>
+                        </tr>
+                        <tr id="field-1">
+                            <td class="p-2 center">Option 1</td>
+                            <td class="pt-1"><input type="text" id="1" name="1" placeholder="Option 1" class="text-colour"/></td>
+                        </tr>
+                        <tr id="field-2">
+                            <td class="p-2 center">Option 2</td>
+                            <td class="pt-1"><input type="text" id="2" name="2" placeholder="Option 2" class="text-colour"/></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="seperator my-4"></div>
+            <input type="submit" class="text-colour" value="Create Poll"/>
+        </form>
+    </div>
+</div>
+<script src="/js/admin/polls/create_poll.js"></script>

@@ -90,6 +90,11 @@ body {
   -webkit-appearance: none;
 }
 
+.form-style table input[type = "text"]:focus {
+  border-color: #2ECC71;
+  width: 200px;
+}
+
 .form-style input[type = "text"]:focus, .form-style input[type = "password"]:focus,
 .form-style textarea:focus, .form-style input[type = "number"]:focus {
   width: 280px;
@@ -129,8 +134,30 @@ body {
   cursor: pointer;
 }
 
+.form-style button {
+  border: 2px solid #2ECC71;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  padding: 14px 40px;
+  outline: none;
+  border-radius: 24px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
 .form-style input[type = "submit"]:hover {
   background: #41C979;
+}
+
+.form-style ul {
+  padding: 0;
+  margin: 0;
+}
+
+.form-style ul li {
+  list-style: none;
 }
 
 .green-btn {

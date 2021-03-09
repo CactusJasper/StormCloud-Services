@@ -34,6 +34,33 @@ router.get('/', utils.ensureAuthenticated, (req, res) => {
     });
 });
 
+router.get('/create/poll', csrfProtection, utils.ensureAuthenticated, (req, res) => {
+    utils.isAdmin(req.user).then((admin) => {
+        if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+        {
+            res.render('admin/polls/create', {
+                admin: true,
+                superUser: true,
+                user: req.user,
+                csrfToken: req.csrfToken()
+            });
+        }
+        else if(admin)
+        {
+            res.render('admin/polls/create', {
+                admin: true,
+                superUser: false,
+                user: req.user,
+                csrfToken: req.csrfToken()
+            });
+        }
+        else
+        {
+            res.redirect('back');
+        }
+    });
+});
+
 router.get('/manage/role/mods', utils.ensureAuthenticated, (req, res) => {
     if(utils.isWolfy(req.user) || utils.isJasper(req.user))
     {

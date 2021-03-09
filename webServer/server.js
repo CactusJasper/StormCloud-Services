@@ -23,7 +23,11 @@ const dbConf = require('./config/database');
 const utils = require('./utils');
 
 // Connect to DB
-mongoose.connect(dbConf.db_url, { useNewUrlParser: true, useUnifiedTopology: true }).then((res) => {
+mongoose.connect(dbConf.db_url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+}).then((res) => {
     console.log('Connected to DB Server');
     /*app.listen(8080, () => {
         console.log("Server Started on port 8080");
