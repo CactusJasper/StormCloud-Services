@@ -26,7 +26,6 @@
             <input type="checkbox" id="chk" name="js-check"/>
             <label for="chk" class="show-menu-btn">
                 <img src="{{getPfpIco user.discordId user.discord.avatar}}" width="32" height="32" class="nav-pfp">
-                <!--<i class="fas fa-ellipsis-h"></i>-->
             </label>
             <ul class="menu">
                 {{#if user}}
@@ -51,11 +50,14 @@
                     <div class="mobile-nav p-2">
                         <img src="{{getPfpIco user.discordId user.discord.avatar}}" width="128" height="128" class="mobile-nav-pfp">
                         <p class="mt-2">Logged in as {{user.username}}</p>
+                        <div class="seperator my-2"></div>
                         <a href="/">Home</a>
                         <a href="/polls">Polls</a>
                         <a href="/settings">Settings</a>
+                        <div class="seperator my-2"></div>
                         {{#if admin}}
                             <a href="/admin">Admin</a>
+                            <div class="seperator my-2"></div>
                         {{/if}}
                         <a href="/auth/logout">Logout</a>
                     </div>

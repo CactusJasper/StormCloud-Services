@@ -43,7 +43,8 @@ let pollSchema = mongoose.Schema({
     }
 });
 
-let Poll = module.exports = mongoose.model('Poll', pollSchema);
+let Poll = mongoose.model('Poll', pollSchema);
+module.exports = Poll;
 
 /*
 Basic JSON Layout in the DB for a Poll

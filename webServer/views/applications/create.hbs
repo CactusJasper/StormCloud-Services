@@ -5,6 +5,7 @@
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             {{#if sessionFlash.message}}
                 {{#contains sessionFlash.type 'error'}}
+                    <div class="seperator my-4"></div>
                     <div id="errors" class="alert alert-danger mx-5 my-4">
                         {{{sessionFlash.message}}}
                     </div>
