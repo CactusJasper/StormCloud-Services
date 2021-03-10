@@ -45,6 +45,27 @@ client.on('message', (message) => {
     if(message.author.bot) return;
     if(message.guild.id === config.server_id)
     {
+        if(message.channel.id == '803358616470945884' /*|| message.channel.id == '803459664347004968'*/)
+        {
+            const log = client.channels.cache.find(channel => channel.id === '818916933641699358');
+            if(message.attachments.array().length > 0)
+            {
+                let attachments = message.attachments;
+                if(message.content == '' || message.content == undefined)
+                {
+                    log.send(utils.codeBlock(`Attachment sent by  ${message.author.username}: ${message.content}`), attachments.first());
+                }
+                else
+                {
+                    log.send(utils.codeBlock(`Message by ${message.author.username}: ${message.content}`), attachments.first());
+                }
+            }
+            else
+            {
+                log.send(utils.codeBlock(`Message by ${message.author.username}: ${message.content}`));
+            }
+        }
+		
         if(message.content.startsWith('$'))
         {
             const args = message.content.slice(1).trim().split(/ +/);
