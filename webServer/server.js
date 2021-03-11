@@ -26,7 +26,10 @@ const utils = require('./utils');
 mongoose.connect(dbConf.db_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    poolSize: 10,
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000
 }).then((res) => {
     console.log('Connected to DB Server');
     /*app.listen(8080, () => {

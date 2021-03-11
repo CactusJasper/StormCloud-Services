@@ -35,6 +35,36 @@ router.get('/', utils.ensureAuthenticated, (req, res) => {
     });
 });
 
+router.get('/approve/polls', utils.ensureAuthenticated, (req, res) => {
+    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    {
+        res.render('admin/polls/approve', {
+            admin: true,
+            superUser: true,
+            user: req.user,
+        });
+    }
+    else
+    {
+        res.redirect('back');
+    }
+});
+
+router.get('/manage/polls', utils.ensureAuthenticated, (req, res) => {
+    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    {
+        res.render('admin/polls/manage', {
+            admin: true,
+            superUser: true,
+            user: req.user,
+        });
+    }
+    else
+    {
+        res.redirect('back');
+    }
+});
+
 router.get('/create/poll', csrfProtection, utils.ensureAuthenticated, (req, res) => {
     utils.isAdmin(req.user).then((admin) => {
         if(utils.isWolfy(req.user) || utils.isJasper(req.user))

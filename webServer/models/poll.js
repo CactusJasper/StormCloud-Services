@@ -43,6 +43,10 @@ let pollSchema = mongoose.Schema({
     }
 });
 
+pollSchema.statics.findByStatus = (status, cb) => {
+    return this.find({ status: status }, cb);
+}
+
 let Poll = mongoose.model('Poll', pollSchema);
 module.exports = Poll;
 
