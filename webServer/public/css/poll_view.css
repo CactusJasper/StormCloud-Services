@@ -1,0 +1,52 @@
+.results {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+}
+
+.result-name {
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 30px 0;
+}
+
+.result-bar {
+    height: 20px;
+    border-radius: 8px;
+}
+
+.result-per {
+    height: 20px;
+    background-color: #A95BCF;
+    border-radius: 8px;
+    width: 0;
+    transition: 2s linear;
+    position: relative;
+}
+
+.result-per::before {
+    content: attr(per) '%';
+    position: absolute;
+    padding: 4px 6px;
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    top: -35px;
+    right: 0;
+    transform: translateX(50%);
+}
+
+.result-per::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: #000;
+    top: -16px;
+    right: 0;
+    transform: translateX(50%) rotate(45deg);
+    border-radius: 2px;
+}

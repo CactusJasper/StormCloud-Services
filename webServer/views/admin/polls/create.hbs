@@ -10,6 +10,14 @@
                     </div>
                 </div>
             {{/contains}}
+            {{#contains sessionFlash.type 'success'}}
+                <div class="seperator my-4"></div>
+                <div class="row justify-content-center">
+                    <div id="success" class="alert alert-success p-2 col-4">
+                        {{{sessionFlash.message}}}
+                    </div>
+                </div>
+            {{/contains}}
         {{/if}}
         <form class="form-style" method="POST" action="/admin/create/poll">
             <input type="hidden" name="_csrf" value="{{csrfToken}}"/>

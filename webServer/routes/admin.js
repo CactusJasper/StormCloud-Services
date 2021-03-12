@@ -128,7 +128,7 @@ router.post('/create/poll', csrfProtection, utils.ensureAuthenticated, [
                     description: req.body.description,
                     options: [],
                     votes: [],
-                    status: 1,
+                    state: 1,
                     created_timestamp: Math.round(new Date().getTime() / 1000)
                 });
 
@@ -147,7 +147,7 @@ router.post('/create/poll', csrfProtection, utils.ensureAuthenticated, [
                         }
                         else
                         {
-                            res.redirect(`/polls/view/${poll.id}`);
+                            res.redirect(`/poll/view/${poll.id}`);
                         }
                     });
                 });
@@ -160,7 +160,7 @@ router.post('/create/poll', csrfProtection, utils.ensureAuthenticated, [
                     description: req.body.description,
                     options: [],
                     votes: [],
-                    status: 0,
+                    state: 0,
                     created_timestamp: Math.round(new Date().getTime() / 1000)
                 });
 
@@ -179,7 +179,12 @@ router.post('/create/poll', csrfProtection, utils.ensureAuthenticated, [
                         }
                         else
                         {
-                            res.redirect(`/polls/view/${poll.id}`);
+                            req.session.sessionFlash = {
+                                type: 'success',
+                                message: 'Your poll have been made and is awaiting approval.'
+                            }
+                    
+                            res.redirect('back');
                         }
                     });
                 });

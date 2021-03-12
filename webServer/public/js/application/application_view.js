@@ -27,7 +27,7 @@ $(() => {
         {
             if(res.message == 'Unauthorised')
             {
-                window.history.back();
+                window.location.href = '/';
             }
             else if(res.message == 'No Application ID Provided')
             {
@@ -35,7 +35,7 @@ $(() => {
             }
             else if(res.message == 'Invalid Application ID')
             {
-                window.history.back();
+                window.location.href = '/';
             }
         }
         else if(res.status == 200)

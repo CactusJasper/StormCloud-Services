@@ -30,7 +30,7 @@ $(() => {
             }
             else if(res.message == 'Unauthorised')
             {
-                window.history.back();
+                window.location.href = '/';
             }
         }
         else if(res.status == 200)

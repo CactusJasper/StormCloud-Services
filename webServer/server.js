@@ -26,10 +26,7 @@ const utils = require('./utils');
 mongoose.connect(dbConf.db_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
-    poolSize: 10,
-    serverSelectionTimeoutMS: 5000,
-    socketTimeoutMS: 45000
+    useCreateIndex: true
 }).then((res) => {
     console.log('Connected to DB Server');
     /*app.listen(8080, () => {
@@ -223,6 +220,7 @@ app.get('/leaderboard', utils.ensureAuthenticated, (req, res) => {
 app.use('/auth', require('./routes/auth'));
 app.use('/applications', require('./routes/applications'));
 app.use('/admin', require('./routes/admin'));
+app.use('/poll', require('./routes/poll'));
 
 /* MUST BE LAST ROUTE FOR 404 NOT FOUND ERROR */
 app.all('*', (req, res) => {
@@ -249,14 +247,15 @@ io.use((socket, next) => {
 });
 
 io.on('connection', (socket) => {
-    let userId = socket.request.session.passport.user;
+    let userId = socket.request.session.passport;
     if(userId !== undefined || userId != {})
     {
         require('./events/home')(socket, io); // Home Page Socket Event Handler
         require('./events/view_application')(socket, io); // Application View Socket Event Handler
         require('./events/user_data')(socket, io); // User Data Socket Event Handler
-        require('./events/admin/roles/manage_rewards')(socket, io) // Manage Role Rewards Socket Event Handler
-        require('./events/admin/roles/manage_mod_roles')(socket, io) // Manage Moderation Roles Socket Event Handler
+        require('./events/admin/roles/manage_rewards')(socket, io); // Manage Role Rewards Socket Event Handler
+        require('./events/admin/roles/manage_mod_roles')(socket, io); // Manage Moderation Roles Socket Event Handler
+        require('./events/view_poll')(socket, io); // View Poll Socket Event Handler
         require('./events/global')(socket, io); // Global Socket Event Handler
     }
 });
