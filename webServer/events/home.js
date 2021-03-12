@@ -118,6 +118,10 @@ module.exports = (socket, io) => {
                                 {
                                     if(docs.length > 0)
                                     {
+                                        docs.sort((a, b) => {
+                                            return b.timestamp - a.timestamp;
+                                        });
+
                                         socket.emit('updateApplications', {
                                             status: 200,
                                             admin: false,

@@ -13,6 +13,10 @@ $(() => {
 
             socket.volatile.emit('t10', {});
         }, (60 * 1000) * 10);
+
+        setInterval(() => {
+            socket.volatile.emit('getApplications', {});
+        }, (30 * 1000));
     });
 
     socket.on('t10', (res) => {
