@@ -1,0 +1,339 @@
+/* GLOBAL STUFF */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+  }
+  
+  html,
+  body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    top: 0;
+    font-size: 100%;
+  }
+  
+  .link-list {
+    text-decoration: none;
+    list-style: none;
+  }
+  
+  .link-list a {
+    text-decoration: none;
+    list-style: none;
+  }
+  
+  .form-style h1 {
+    text-transform: uppercase;
+  }
+  
+  .form-style h3 {
+    text-transform: uppercase;
+  }
+  
+  .form-style input[type="file"] {
+    display: none;
+  }
+  
+  .form-style textarea {
+    border: 2px solid #A95BCF; /*#3498DB; the original green colour*/
+    background: none;
+    display: block;
+    margin: 20px auto;
+    padding: 14px 10px;
+    width: auto;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+    resize: none;
+  }
+  
+  .form-style input[type = "text"], .form-style input[type = "password"],
+  .form-style input[type = "number"] {
+    border: 2px solid #A95BCF; /*#3498DB; the original green colour*/
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+  }
+  
+  .form-style select {
+    border: 2px solid #A95BCF; /*#3498DB; the original green colour*/
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    padding:0px 10px;
+    height: 55px;
+    line-height: 50px;
+    width: 200px;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+  }
+  
+  .form-style select:focus {
+    outline: none;
+  }
+  
+  .form-style input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  
+  .form-style table input[type = "text"]:focus {
+    border-color: #2ECC71;
+    width: 200px;
+  }
+  
+  .form-style input[type = "text"]:focus, .form-style input[type = "password"]:focus,
+  .form-style textarea:focus, .form-style input[type = "number"]:focus {
+    width: 280px;
+    border-color: #2ECC71;
+  }
+  
+  .form-style .file-upload-label {
+    height: 50px;
+    width: 50%;
+    font-size: 18px;
+    border: 2px solid #A95BCF;
+    border-radius: 44px;
+    margin: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.25s;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  .form-style .file-upload-label:hover {
+    background: #A95BCF;
+  }
+  
+  .form-style input[type = "submit"] {
+    border: 2px solid #2ECC71;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    padding: 14px 40px;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+  }
+  
+  .form-style button {
+    border: 2px solid #2ECC71;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    padding: 14px 40px;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+  }
+  
+  .form-style input[type = "submit"]:hover {
+    background: #41C979;
+  }
+  
+  .form-style ul {
+    padding: 0;
+    margin: 0;
+  }
+  
+  .form-style ul li {
+    list-style: none;
+  }
+  
+  .green-btn {
+    border: 2px solid #2ECC71;
+    background: none;
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px 40px;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+  }
+  
+  .vote-btn {
+    width: 175px !important;
+  }
+  
+  .green-btn:hover, .vote-btn:hover {
+    background: #41C979;
+  }
+  
+  .btn-disabled{
+    pointer-events: none;
+  }
+  
+  .field-error {
+    border: 2px solid #E62B2B !important;
+  }
+  
+  .btn-error {
+    border: 2px solid #E62B2B !important;
+  }
+  
+  .btn-error:hover {
+    background: #D34444 !important;
+  }
+  
+  .error {
+    color: #E62B2B !important;
+  }
+  
+  .success {
+    color: #2ECC71 !important;
+  }
+  
+  .box {
+    width: 400px;
+    padding: 20px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -45%);
+  }
+  
+  .box h1 {
+    text-transform: uppercase;
+  }
+  
+  .box h2 {
+    text-transform: uppercase;
+  }
+  
+  .box #home-btn {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .box form {
+    margin-top: 20px;
+    padding: 0px;
+    width: 98%;
+  }
+  
+  .box input[type = "text"], .box input[type = "password"] {
+    border: 2px solid #A95BCF; /*#3498DB; the original green colour*/
+    background: none;
+    display: block;
+    margin: 20px 0;
+    text-align: center;
+    padding: 14px 10px;
+    width: 90%;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+  }
+  
+  .box input[type = "text"]:focus, .box input[type = "password"]:focus {
+    width: 95%;
+    border-color: #2ECC71;
+  }
+  
+  .box input[type = "submit"] {
+    border: 2px solid #2ECC71;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    padding: 14px 40px;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+  }
+  
+  .box input[type = "submit"]:hover {
+    background: #41C979;
+  }
+  
+  @media screen and (max-width: 800px) {
+    .box {
+        width: 400px;
+        padding: 20px;
+        position: absolute;
+        top: 45%;
+        left: 45%;
+        transform: translate(-45%, -45%);
+    }
+  
+    .box form {
+        margin-top: 20px;
+        padding: 40px;
+        width: 300px;
+    }
+  
+    .box input[type = "text"], .box input[type = "password"] {
+        border: 2px solid #A95BCF; /*#3498DB; the original green colour*/
+        background: none;
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        padding: 14px 10px;
+        width: 200px;
+        outline: none;
+        border-radius: 24px;
+        transition: 0.25s;
+    }
+  
+    .box input[type = "text"]:focus, .box input[type = "password"]:focus {
+        width: 280px;
+        border-color: #2ECC71;
+    }
+  }
+  
+  .discord-login {
+    border: 2px solid #7289da;
+    background: none;
+    display: block;
+    margin: 50px auto;
+    text-align: center;
+    text-decoration: none;
+    padding: 8px 10px;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+  }
+  
+  .discord-login:hover {
+    background: #7289da;
+  }
+  
+  .login-bg {
+    background: #2B2B2B;
+  }
+  
+  .switch-page {
+    float: right;
+    cursor: pointer;
+  }
+  
+  .back-home {
+    float: left;
+    cursor: pointer;
+    text-decoration: none;
+  }

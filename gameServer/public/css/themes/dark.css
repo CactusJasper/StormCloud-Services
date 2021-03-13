@@ -1,0 +1,76 @@
+.bg {
+  background: #313131;
+}
+
+.bg-main {
+  background:
+    radial-gradient(#212121 15%, transparent 16%) 0 0,
+    radial-gradient(#212121 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(255,255,255,.025) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255,255,255,.025) 15%, transparent 20%) 8px 9px;
+  background-size: 16px 16px;
+  background-color: #212121;
+  color: #FFFFFF;
+}
+
+.bg-secondary {
+  background: #414141;
+}
+
+.bg-core {
+  background: #222222;
+  color: #FFFFFF !important;
+}
+
+.bg-dropdown {
+  background: #414141;
+  color: #FFFFFF !important;
+}
+
+.text-colour {
+    color: #FFFFFF !important;
+}
+
+.form-style select:focus {
+  color: #FFFFFF !important;
+  background-color: #222222 !important;
+}
+
+.btn-core {
+  color: #fff;
+  background-color: #313131;
+  border-color: #313131;
+}
+
+.btn-core:hover {
+  color: #fff;
+  background-color: #313131;
+  border-color: #313131;
+}
+
+/*
+ * Navbar Stuff
+ */
+.menu a {
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 0 10px;
+  transition: 0.4s;
+}
+
+.menu a:hover, 
+.show-menu-btn:hover,
+.hide-menu-btn:hover {
+  color: #BDBDBD;
+}
+
+.dropdown-content a:hover,
+.mobile-nav a:hover {
+  background-color: #313131;
+}
+
+@media screen and (max-width: 800px) {
+  .menu {
+    background: #212121;
+  }
+}

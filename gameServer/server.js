@@ -168,14 +168,17 @@ app.get('*', (req, res, next) => {
 app.get('/', (req, res) => {
     if(req.user)
     {
-        res.send('Logged In');      
+        res.render('index', {
+            user: req.user
+        });
     }
     else
     {
-        res.send('Not logged in');
-        //res.render('index', { layout: false });
+        res.render('index', { layout: false });
     }
 });
+
+app.use('/auth', require('./routes/auth'));
 
 /* MUST BE LAST ROUTE FOR 404 NOT FOUND ERROR */
 app.all('*', (req, res) => {

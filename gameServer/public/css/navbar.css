@@ -1,0 +1,133 @@
+.navbar {
+  height: 65px;
+  padding: 0 20px;
+}
+
+.logo {
+  line-height: 65px;
+  float: left;
+}
+
+.menu {
+  float: right;
+  line-height: 65px;
+}
+
+.show-menu-btn, .hide-menu-btn {
+  transition: 0.4s;
+  font-size: 30px;
+  cursor: pointer;
+  display: none;
+}
+
+.show-menu-btn {
+  float: right;
+  line-height: 65px;
+}
+
+#chk {
+  position: absolute;
+  visibility: hidden;
+  z-index: -1111;
+}
+
+.pfp {
+  float: right;
+  position: relative;
+}
+
+.pfp-nav-btn {
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.nav-pfp {
+  border-radius: 44px;
+  vertical-align: middle;
+}
+
+.mobile-nav-pfp {
+  border-radius: 512px;
+  vertical-align: middle;
+}
+
+#pfp-dropdown {
+  padding: 0.25rem;
+}
+
+.dropdown-content {
+  margin-top: 0.5rem;
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  right: 0;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  padding: 0.75rem !important;
+  line-height: 20px !important;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content p {
+  padding: 0.75rem !important;
+  line-height: 20px !important;
+  font-size: 14px;
+  text-decoration: none;
+  display: block;
+}
+
+.mobile-nav {
+  display: none;
+}
+
+.mobile-nav a {
+  line-height: 55px;
+  transition: 0.25s;
+}
+
+@media screen and (max-width: 800px) {
+  .show-menu-btn, .hide-menu-btn {
+    display: block;
+  }
+
+  .menu {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    right: -100%;
+    text-align: center;
+    padding: 80px 0;
+    line-height: normal;
+    transition: 0.7s;
+  }
+
+  .pfp {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: block;
+  }
+
+  .menu a {
+    display: block;
+  }
+
+  .hide-menu-btn {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+  }
+
+  #chk:checked ~ .menu {
+    right: 0;
+  }
+}

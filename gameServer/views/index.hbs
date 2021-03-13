@@ -1,0 +1,26 @@
+{{#if user}}
+
+{{else}}
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="Description" content="Unnamed Pad is a website designed for people to write storys freely.">
+            <title>SC Games</title>
+            <!-- CSS -->
+            <link rel="stylesheet" href="/css/main.css"/>
+            <link rel="stylesheet" href="/css/utils.css"/>
+            {{>theme}}
+            <!-- JavaScript -->
+            <script type="module" src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.esm.js"></script>
+            <script nomodule="" src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.js"></script>
+        </head>
+        <body class="login-bg">
+            <div class="box bg-main text-colour">
+                <h2 class="center">StormCloud Games</h2>
+                <a href="/auth/discord" class="discord-login"><p class="text-colour"><ion-icon name="logo-discord" class="va-m"></ion-icon> Login with Discord</p></a>
+            </div>
+        </body>
+    </html>
+{{/if}}
