@@ -19,43 +19,39 @@ module.exports = (socket, io) => {
                         pollList.push(polls[i]);
                     }
                 }
-            }
-        });
 
-        await Poll.schema.statics.findByState(2, (err, polls) => {
-            if(!err)
-            {
-                if(polls.length > 0)
-                {
-                    for(let i = 0; i < polls.length; i++)
+                Poll.schema.statics.findByState(2, (err, polls) => {
+                    if(!err)
                     {
-                        pollList.push(polls[i]);
+                        if(polls.length > 0)
+                        {
+                            for(let i = 0; i < polls.length; i++)
+                            {
+                                pollList.push(polls[i]);
+                            }
+                        }
+
+                        if(pollList.length > 0)
+                        {
+                            pollList.sort((a, b) => {
+                                return b.created_timestamp - a.created_timestamp;
+                            });
+
+                            socket.emit('getPollListCb', {
+                                status: 200,
+                                polls: pollList
+                            });
+                        }
+                        else
+                        {
+                            socket.emit('getPollListCb', {
+                                status: 900,
+                                message: 'No Polls'
+                            });
+                        }
                     }
-                }
+                });
             }
         });
-
-        if(pollList.length > 0)
-        {
-            pollList.sort((a, b) => {
-                return b.created_timestamp - a.created_timestamp;
-            });
-
-            socket.emit('getPollListCb', {
-                status: 200,
-                polls: pollList
-            });
-
-            io.emit('pollListData', {
-                polls: pollList
-            });
-        }
-        else
-        {
-            socket.emit('getPollListCb', {
-                status: 900,
-                message: 'No Polls'
-            });
-        }
     });
 }
