@@ -44,6 +44,9 @@ services:
         environment:
             - NODE_ENV=production
     nginx:
+        restart: "no"
+        restart: always
+        restart: on-failure
         restart: unless-stopped
         network_mode: host
         depends_on: 
