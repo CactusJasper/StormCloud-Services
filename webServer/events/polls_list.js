@@ -6,10 +6,10 @@ module.exports = (socket, io) => {
     // GET USER MOONGOSE DB ID
     let userId = socket.request.session.passport.user;
 
-    socket.on('getPollList', async (data) => {
+    socket.on('getPollList', (data) => {
         let pollList = []
 
-        await Poll.schema.statics.findByState(1, (err, polls) => {
+        Poll.schema.statics.findByState(1, (err, polls) => {
             if(!err)
             {
                 if(polls.length > 0)
