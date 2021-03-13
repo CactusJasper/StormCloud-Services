@@ -1,11 +1,11 @@
 let express = require('express');
 let router = express.Router();
 const passport = require('passport');
-let utils = require('../utils/middleware');
+let middleware = require('../utils/middleware');
 
-router.get('/discord', utils.ensureNotAuthenticated, passport.authenticate('discord'));
+router.get('/discord', middleware.ensureNotAuthenticated, passport.authenticate('discord'));
 
-router.get('/discord/callback', utils.ensureNotAuthenticated, passport.authenticate('discord', {
+router.get('/discord/callback', middleware.ensureNotAuthenticated, passport.authenticate('discord', {
     failureRedirect: '/',
     failureMessage: true,
     failureFlash: true
@@ -13,7 +13,7 @@ router.get('/discord/callback', utils.ensureNotAuthenticated, passport.authentic
     res.redirect('/');
 });
 
-router.get('/logout', utils.ensureAuthenticated, (req, res) => {
+router.get('/logout', middleware.ensureAuthenticated, (req, res) => {
     req.session.destroy((err) => {
         res.redirect('/');
     });

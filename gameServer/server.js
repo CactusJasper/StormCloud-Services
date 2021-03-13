@@ -179,6 +179,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', require('./routes/auth'));
+app.use('/games', require('./routes/games'));
 
 /* MUST BE LAST ROUTE FOR 404 NOT FOUND ERROR */
 app.all('*', (req, res) => {
@@ -208,6 +209,6 @@ io.on('connection', (socket) => {
     let userId = socket.request.session.passport;
     if(userId !== undefined || userId != {})
     {
-        
+        require('./events/2048')(socket, io); // 2048 Game Socket Event Handler
     }
 });
