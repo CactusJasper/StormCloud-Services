@@ -1,0 +1,23 @@
+# pull the Node.js Docker image
+FROM mhart/alpine-node:14.6.0
+
+# install aditional deps
+RUN apk add git python make gcc g++
+
+# create the directory inside the container
+WORKDIR /usr/src/gameServer
+
+# copy the package.json files from local machine to the workdir in container
+COPY package*.json ./
+
+# run npm install in our local machine
+RUN npm install
+
+# copy the generated modules and all other files to the container
+COPY . .
+
+# our app is running on port 8081 within the container, so need to expose it
+EXPOSE 8081
+
+# the command that starts our app
+CMD ["node", "server.js"]

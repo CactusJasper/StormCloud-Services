@@ -16,6 +16,23 @@ services:
             - "80:80/udp"
         environment:
             - NODE_ENV=production
+    game_server:
+        restart: always
+        network_mode: bridge
+        depends_on:
+            - bot
+            - webserver
+        build:
+            context: ./gameServer
+        ports:
+            - "8080:8080/tcp"
+            - "8080:8080/udp"
+            - "443:443/tcp"
+            - "443:443/udp"
+            - "80:80/tcp"
+            - "80:80/udp"
+        environment:
+            - NODE_ENV=production
     bot:
         restart: always
         network_mode: bridge
@@ -31,6 +48,7 @@ services:
         network_mode: bridge
         depends_on: 
             - webserver
+            - game_server
             - bot
         build:
             context: ./nginx
