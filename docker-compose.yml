@@ -4,7 +4,7 @@ services:
         restart: always
         network_mode: bridge
         depends_on:
-            - bot
+            - core_bot
         build:
             context: ./webServer
         ports:
@@ -16,11 +16,11 @@ services:
             - "80:80/udp"
         environment:
             - NODE_ENV=production
-    bot:
+    core_bot:
         restart: always
         network_mode: bridge
         build:
-            context: ./bot
+            context: ./coreBot
         ports:
             - "9000:9000/tcp"
             - "9000:9000/udp"

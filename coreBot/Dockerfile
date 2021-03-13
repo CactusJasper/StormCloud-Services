@@ -5,7 +5,7 @@ FROM mhart/alpine-node:14.6.0
 RUN apk add git python make gcc g++
 
 # create the directory inside the container
-WORKDIR /usr/src/bot
+WORKDIR /usr/src/coreBot
 
 # copy the package.json files from local machine to the workdir in container
 COPY package*.json ./
