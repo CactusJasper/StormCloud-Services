@@ -21,6 +21,18 @@ function getLevelToXP(level)
     return (Math.round((100 + (level * 11.89) * 6) + (level * 3.76)) * 2) * level;
 }
 
+function getStatus(state)
+{
+    if(state == 1)
+    {
+        return 'In Progress';
+    }
+    else if(state == 2)
+    {
+        return 'Voting Ended';
+    }
+}
+
 function getPollResults(poll)
 {
     let opt1 = 0;

@@ -111,7 +111,7 @@ $(() => {
                 $('#poll').append(`<p class="center mt-2">Total Votes: ${poll.votes.length}</p>`);
                 if(hasVoted == true)
                 {
-                    $('#poll').append(`<p class="center mt-3">You have voted for ${poll.options[vote.option - 1].vote_string}</p>`);
+                    $('#poll').append(`<p class="center mt-3">You voted for ${poll.options[vote.option - 1].vote_string}</p>`);
                 }
                 $('#poll').append(`<div id="poll-results"></div>`);
                 socket.emit('getPollData', {
