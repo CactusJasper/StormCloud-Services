@@ -2,7 +2,7 @@ version: "3.3"
 services:
     webserver:
         restart: always
-        network_mode: bridge
+        network_mode: host
         depends_on:
             - bot
         build:
@@ -18,7 +18,7 @@ services:
             - NODE_ENV=production
     game_server:
         restart: always
-        network_mode: bridge
+        network_mode: host
         depends_on:
             - bot
             - webserver
@@ -35,7 +35,7 @@ services:
             - NODE_ENV=production
     bot:
         restart: always
-        network_mode: bridge
+        network_mode: host
         build:
             context: ./bot
         ports:
@@ -45,7 +45,7 @@ services:
             - NODE_ENV=production
     nginx:
         restart: unless-stopped
-        network_mode: bridge
+        network_mode: host
         depends_on: 
             - webserver
             - game_server
