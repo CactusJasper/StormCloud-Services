@@ -43,7 +43,7 @@ $(() => {
                 {
                     html += `<td class="bg-secondary p-2">${polls[i].title}</td>`;
                     html += `<td class="bg-secondary p-2">${timeToDate(polls[i].created_timestamp)}</td>`;
-                    html += `<td class="bg-secondary p-2">${getStatus(polls[i].state)}</td>`;
+                    html += `<td class="bg-secondary p-2">${getPollStatus(polls[i].state)}</td>`;
                     html += `<td class="bg-secondary p-2">${polls[i].votes.length}</td>`;
                     html += `<td class="bg-secondary p-2"><a href="/poll/view/${polls[i]._id}" class="text-colour" style="text-decoration: none;">View</a></td>`;
                 }
@@ -51,7 +51,7 @@ $(() => {
                 {
                     html += `<td class="bg p-2">${polls[i].title}</td>`;
                     html += `<td class="bg p-2">${timeToDate(polls[i].created_timestamp)}</td>`;
-                    html += `<td class="bg p-2">${getStatus(polls[i].state)}</td>`;
+                    html += `<td class="bg p-2">${getPollStatus(polls[i].state)}</td>`;
                     html += `<td class="bg p-2">${polls[i].votes.length}</td>`;
                     html += `<td class="bg p-2"><a href="/poll/view/${polls[i]._id}" class="text-colour" style="text-decoration: none;">View</a></td>`;
                 }
