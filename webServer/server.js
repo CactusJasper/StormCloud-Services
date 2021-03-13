@@ -221,6 +221,7 @@ app.use('/auth', require('./routes/auth'));
 app.use('/applications', require('./routes/applications'));
 app.use('/admin', require('./routes/admin'));
 app.use('/poll', require('./routes/poll'));
+app.use('/settings', require('./routes/settings'));
 
 /* MUST BE LAST ROUTE FOR 404 NOT FOUND ERROR */
 app.all('*', (req, res) => {

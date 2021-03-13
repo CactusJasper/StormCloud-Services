@@ -1,0 +1,38 @@
+<div class="row justify-content-center mt-5">
+    <div class="col-6 my-5 mx-2 p-4 bg-core">
+        <h3 class="header center">Settings</h3>
+        {{#if sessionFlash.message}}
+            {{#contains sessionFlash.type 'error'}}
+                <div class="seperator my-4"></div>
+                <div class="row justify-content-center">
+                    <div id="errors" class="alert alert-danger p-2 col-4">
+                        {{{sessionFlash.message}}}
+                    </div>
+                </div>
+            {{/contains}}
+            {{#contains sessionFlash.type 'success'}}
+                <div class="seperator my-4"></div>
+                <div class="row justify-content-center">
+                    <div id="success" class="alert alert-success p-2 col-4">
+                        {{{sessionFlash.message}}}
+                    </div>
+                </div>
+            {{/contains}}
+        {{/if}}
+        <form method="POST" action="/settings/change" id="change-settings" class="form-style">
+            <div class="seperator my-4"></div>
+            <h3 class="pb-2">Change Theme</h3>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <div class="form-check pb-1">
+                <input class="form-check-input" type="radio" name="theme" id="light_mode" value="light" {{{setChecked 'light' user.theme}}}>
+                <label class="form-check-label input-hover" for="light_mode">Light Mode</label>
+            </div>
+            <div class="form-check pb-1">
+                <input class="form-check-input" type="radio" name="theme" id="dark_mode" value="dark" {{{setChecked 'dark' user.theme}}}>
+                <label class="form-check-label input-hover" for="dark_mode">Dark Mode</label>
+            </div>
+            <div class="seperator my-4"></div>
+            <input type="submit" class="text-colour" value="Save Settings"/>
+        </form>
+    </div>
+</div>
