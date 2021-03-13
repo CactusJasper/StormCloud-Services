@@ -43,11 +43,17 @@ let pollSchema = mongoose.Schema({
     }
 });
 
+let Poll = mongoose.model('Poll', pollSchema);
+
 pollSchema.statics.findByState = (state, cb) => {
-    return this.find({ state: state }, cb);
+    return Poll.find({ state: state }, cb);
 }
 
-let Poll = mongoose.model('Poll', pollSchema);
+// USAGE OF ABOVE FUNTION
+//Poll.schema.statics.findByState(0, (err, polls) => {
+//    console.log(polls);
+//});
+
 module.exports = Poll;
 
 /*

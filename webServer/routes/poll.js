@@ -5,6 +5,28 @@ let csrf = require('csurf');
 let csrfProtection = csrf({ cookie: true });
 let utils = require('../utils');
 
+router.get('/list', (req, res) => {
+    utils.isAdmin(req.user).then((admin) => {
+        if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
+        {
+            res.render('polls/list', {
+                user: req.user,
+                admin: true
+            });
+        }
+        else
+        {
+            res.render('polls/list', {
+                user: req.user
+            });
+        }
+    }).catch((err) => {
+        res.render('polls/list', {
+            user: req.user
+        });
+    });
+});
+
 router.get('/view/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
     if(req.params.pollId !== undefined)
     {
@@ -19,7 +41,14 @@ router.get('/view/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res
                 {
                     if(poll.state == 0)
                     {
-                        
+                        if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+                        {
+                            // TODO: Add the res of this to display the review view
+                        }
+                        else
+                        {
+                            res.redirect('back');
+                        }
                     }
                     else
                     {
@@ -42,9 +71,9 @@ router.get('/view/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res
                                 });
                             }
                         }).catch((err) => {
-                            res.render('applications/view', {
+                            res.render('polls/view', {
                                 user: req.user,
-                                applicationId: req.params.applicationId,
+                                pollId: poll._id,
                                 csrfToken: req.csrfToken()
                             });
                         });

@@ -144,9 +144,6 @@ $(() => {
                 html += `<div class="result-per" per="${percentage}"></div>`;
                 html += `</div>`;
                 html += `</div>`;
-
-                //html += `<p class="center mt-3">${poll.options[i].vote_string}</p>`;
-                //html += `<p class="center mt-2">Total ${results[i]} Votes</p>`
             }            
 
             html += `</div>`;
