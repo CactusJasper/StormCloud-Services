@@ -1,0 +1,54 @@
+
+
+/* Variables CSS */
+:root{
+    --blue: 70,80,161;
+    --pink: 209, 99, 142;
+}
+
+/* Main CSS */
+#canvas{
+    background: rgba(var(--blue),1);
+    margin-top: 30px;
+    box-sizing: border-box;
+}
+
+#bestScore{
+    margin-top: 15px;
+}
+
+.size-block input{
+    margin-left: 10px;
+    max-width: 50px;
+}
+
+#size{
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    font-size: 18px;
+    padding: 5px 8px 5px 5px;
+    width: 60px;
+    outline: none;
+    box-sizing: border-box;
+    text-align: center;
+}
+.lose, .start2{
+    z-index: 999;
+    position: absolute;
+    margin-top: 15px;
+    font-size: 35px;
+    display: none;
+}
+.start2{
+    display: block;
+    min-width: 150px;
+    margin-top: 200px;
+}
+
+#canvas-block{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

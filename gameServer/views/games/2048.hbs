@@ -1,9 +1,18 @@
+<link rel="stylesheet" href="/css/games/2048.css"/>
 <div class="row justify-content-center">
-    <div class="col-8 bg-core my-5 p-4">
-        <h3 class="center header">2048 For XP</h3>
+    <div class="col-4 mt-5 bg-core p-4" style="min-height: 600px;">
+        <h2 class="center header mt-4">2048 For XP</h2>
         <p class="center">How to play: Join the tiles, get to <b>2048</b>!</p>
-        <div id="game-board">
-
+        <div class="mt-4">
+            <p id="score">Score: 0</p>
+            <p id="bestScore">Best Score: 0</p>
+            <div class="reset mt-3 green-btn">Reset</div>
+        </div>
+        <div id="canvas-block">
+            <div class="start2">> Start</div>
+            <div class="lose">Game Over</div>
+            <canvas id="canvas" height="300" class="mb-4"></canvas>
         </div>
     </div>
 </div>
+<script src="/js/games/2048.js"></script>

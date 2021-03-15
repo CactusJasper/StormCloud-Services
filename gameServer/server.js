@@ -210,5 +210,6 @@ io.on('connection', (socket) => {
     if(userId !== undefined || userId != {})
     {
         require('./events/2048')(socket, io); // 2048 Game Socket Event Handler
+        require('./events/global')(socket, io); // Global Socket Event Handler
     }
 });
