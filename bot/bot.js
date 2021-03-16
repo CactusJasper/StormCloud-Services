@@ -253,11 +253,6 @@ function updateUserRoles(eUser)
                         }
                     });
                 }
-                else
-                {
-                    let role = client.guilds.cache.get(config.server_id).roles.cache.get('803467878854426644');
-                    user.roles.add(role).catch(err => console.error(err));
-                }
             }
         });
         

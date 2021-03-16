@@ -59,6 +59,12 @@ $(() => {
         size = res.size;
         score = res.score;
         drawAllCells();
+        scoreLabel.html("Score: " + score);
+        
+        if(score > parseInt($('#bestScore').text()))
+        {
+            $('#bestScore').text(`High Score: ${score}`);
+        }
     });
 
     $(document).keydown((event) => {
@@ -66,24 +72,18 @@ $(() => {
             if(event.keyCode == 38 || event.keyCode == 87)
             {
                 socket.emit('moveUp', {});
-            } //moveUp();
+            }
             else if(event.keyCode == 39 || event.keyCode == 68)
             {
                 socket.emit('moveRight', {});
-            } //moveRight();
+            }
             else if(event.keyCode == 40 || event.keyCode == 83)
             {
                 socket.emit('moveDown', {});
-            } //moveDown();
+            }
             else if(event.keyCode == 37 || event.keyCode == 65)
             {
                 socket.emit('moveLeft', {});
-            } //moveLeft();
-            scoreLabel.html("Score: " + score);
-
-            if(score > parseInt($('#bestScore').text()))
-            {
-                $('#bestScore').text(`High Score: ${score}`);
             }
         }
     });
@@ -110,41 +110,42 @@ function finishGame()
     $(".lose").css({"display":"block"});
 }
 
-function drawCell(cell){
+function drawCell(cell)
+{
     ctx.beginPath();
     ctx.rect(cell.x, cell.y, width, width);
 
     let fontColor;
 
-    ctx.fillStyle = "#384081";
+    ctx.fillStyle = "#9f8b77";
 
     switch(cell.value)
     {
-        case 0 : ctx.fillStlye = "rgb(135,200,116)"; fontColor = "white"; break;
-        case 2 : ctx.fillStyle = "rgb(135,200,116)"; fontColor = "white"; break;
-        case 4 : ctx.fillStyle = "rgb(95,149,212)"; fontColor = "white"; break;
-        case 8 : ctx.fillStyle = "rgb(139,89,177)"; fontColor = "white"; break;
-        case 16 : ctx.fillStyle = "rgb(229,195,81)"; fontColor = "white"; break;
-        case 32 : ctx.fillStyle = "rgb(202,77,64)"; fontColor = "white"; break;
-        case 64 : ctx.fillStyle = "rgb(108,129,112)"; fontColor = "white"; break;
-        case 128 : ctx.fillStyle = "rgb(207,126,63)"; fontColor = "white"; break;
-        case 256 : ctx.fillStyle = "rgb(82,125,124)"; fontColor = "white"; break;
-        case 512 : ctx.fillStyle = "rgb(191,76,134)"; fontColor = "white"; break;
-        case 1024 : ctx.fillStyle = "rgb(119,41,92)"; fontColor = "white"; break;
-        case 2048 : ctx.fillStyle = "rgb(118,179,194)"; fontColor = "white"; break;
-        case 4096 : ctx.fillStyle = "rgb(52,63,79)"; fontColor = "white"; break;
+        case 0 : ctx.fillStlye = "rgb(204, 192, 179)"; fontColor = "gray"; break;
+        case 2 : ctx.fillStyle = "rgb(238, 228, 218)"; fontColor = "gray"; break;
+        case 4 : ctx.fillStyle = "rgb(237, 224, 200)"; fontColor = "gray"; break;
+        case 8 : ctx.fillStyle = "rgb(242, 177, 121)"; fontColor = "white"; break;
+        case 16 : ctx.fillStyle = "rgb(245, 149, 99)"; fontColor = "white"; break;
+        case 32 : ctx.fillStyle = "rgb(246, 124, 95)"; fontColor = "white"; break;
+        case 64 : ctx.fillStyle = "rgb(246, 94, 59)"; fontColor = "white"; break;
+        case 128 : ctx.fillStyle = "rgb(237, 207, 114)"; fontColor = "white"; break;
+        case 256 : ctx.fillStyle = "rgb(237, 204, 97)"; fontColor = "white"; break;
+        case 512 : ctx.fillStyle = "rgb(237, 200, 80)"; fontColor = "white"; break;
+        case 1024 : ctx.fillStyle = "rgb(237, 197, 63)"; fontColor = "white"; break;
+        case 2048 : ctx.fillStyle = "rgb(237, 194, 46)"; fontColor = "white"; break;
+        case 4096 : ctx.fillStyle = "rgb(0, 0, 0)"; fontColor = "white"; break;
         default : ctx.fillStyle = "rgba(70,80,161,0.8)"; fontColor = "white"; 
     }
 
     ctx.fill();
     if(cell.value)
     {
-       fontSize = width/2;
+       fontSize = width / 2;
        ctx.font = fontSize + "px Viga";
        ctx.fillStyle = fontColor;
        ctx.textAlign = "center";
       //  ctx.textBaseline = "middle";
-       ctx.fillText(cell.value, cell.x+width/2, cell.y+width/1.5);
+       ctx.fillText(cell.value, cell.x + width / 2, cell.y + width / 1.5);
     }
 }
 
