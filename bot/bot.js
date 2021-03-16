@@ -38,7 +38,10 @@ for(const file of commandFiles)
 }
 
 client.on('guildMemberAdd', (event) => {
-
+	if(event.guild.id == config.server_id)
+    {
+        updateUserRoles(event.user)
+    }
 });
 
 client.on('message', (message) => {
@@ -180,6 +183,8 @@ client.on('message', (message) => {
                                 });
                             }
                         }
+
+                        updateUserRoles(message.author.id);
                     }
                     else
                     {
@@ -206,6 +211,58 @@ client.on('message', (message) => {
         }
     }
 });
+
+function updateUserRoles(eUser)
+{
+    client.guilds.cache.get(config.server_id).members.fetch({ user: eUser.id, force: true }).then(usr => {
+        let user = usr;
+        UserData.findOne({ user_id: user.id }, (err, dat) => {
+            if(err)
+            {
+                let role = client.guilds.cache.get(config.server_id).roles.cache.get('803467878854426644');
+                user.roles.add(role).catch(err => console.error(err));
+            }
+            else
+            {
+                if(dat)
+                {
+                    let data = dat;
+                    LevelReward.find({}, (err, rewards) => {
+                        if(err)
+                        {
+                            let role = client.guilds.cache.get(config.server_id).roles.cache.get('803467878854426644');
+                            user.roles.add(role).catch(err => console.error(err));
+                        }
+                        else
+                        {
+                            rewards.sort((a, b) => {
+                                return b.level - a.level;
+                            });
+
+                            for(let i = 0; i < rewards.length; i++)
+                            {
+                                if(data.level >= rewards[i].level)
+                                {
+                                    let role = client.guilds.cache.get(config.server_id).roles.cache.get(rewards[i].role_id);
+                                    user.roles.add(role).catch(err => console.error(err));
+                                }
+                            }
+
+                            let role = client.guilds.cache.get(config.server_id).roles.cache.get('803467878854426644');
+                            user.roles.add(role).catch(err => console.error(err));
+                        }
+                    });
+                }
+                else
+                {
+                    let role = client.guilds.cache.get(config.server_id).roles.cache.get('803467878854426644');
+                    user.roles.add(role).catch(err => console.error(err));
+                }
+            }
+        });
+        
+    }).catch(err => console.error(err));
+}
 
 /*
  *
