@@ -90,9 +90,14 @@ module.exports = (socket, io) => {
                             else
                             {
                                 let xpReward = Math.floor(score * 0.1);
-                                if(xpReward > 2500)
+                                if(xpReward > 1500)
                                 {
                                     xpReward = Math.floor(score * 0.05);
+                                }
+                                
+                                if(xpReward > 25000)
+                                {
+                                    xpReward = Math.floor((score / 100) * 0.25);
                                 }
                                 
                                 if(data)
