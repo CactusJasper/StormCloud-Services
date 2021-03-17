@@ -13,74 +13,61 @@ let loss = false;
 
 $(() => {
     let socket = io();
-    let userId;
 
     socket.on('connect', () => {
         console.log('WS Opened');
         socket.emit('updateUserData', {});
+        socket.emit('startGame', {});
 
         setInterval(() => {
             socket.volatile.emit('updateUserData', {});
         }, (60 * 1000) * 10);
     });
 
-    socket.on('userID', (res) => {
-        userId = res.userId;
-        socket.emit('startGame', {});
-
-        // Game Start Socket Event
-        socket.on(`startGameCb:${userId}`, (res) => {
-            if(res.status == 500)
-            {
-                $('#err-msg').text('Unnable to establish a connection to a game server');
-                $('.start2').css('display', 'none');
-                $('.retry').css('display', 'block');
-            }
-            else if(res.status == 200)
-            {
-                cells = res.cells;
-                size = res.size;
-                score = res.score;
-                $("canvas").css({"display":"block"});
-                drawAllCells();
-                $('.retry').css('display', 'none');
-                $(".start2").css({"display":"none"});
-    
-                if(res.highScore !== undefined)
-                {
-                    $('#bestScore').text(`High Score: ${res.highScore}`);
-                }
-    
-                $('#score').text(`Score: ${res.score}`)
-            }
-        });
-    
-        // Game Loss Socket Event
-        socket.on(`gameLoss:${userId}`, (res) => {
-            cells = res.cells;
-            drawAllCells();
-            score = res.score;
-            finishGame();
-        });
-
-        // Game Data Socket Event
-        socket.on(`gameData:${userId}`, (res) => {
+    socket.on('startGameCb', (res) => {
+        if(res.status == 500)
+        {
+            $('#err-msg').text('Unnable to establish a connection to a game server');
+            $('.start2').css('display', 'none');
+            $('.retry').css('display', 'block');
+        }
+        else if(res.status == 200)
+        {
             cells = res.cells;
             size = res.size;
             score = res.score;
+            $("canvas").css({"display":"block"});
             drawAllCells();
-            scoreLabel.html("Score: " + score);
-            
-            if(score > parseInt($('#bestScore').text()))
+            $('.retry').css('display', 'none');
+            $(".start2").css({"display":"none"});
+
+            if(res.highScore !== undefined)
             {
-                $('#bestScore').text(`High Score: ${score}`);
+                $('#bestScore').text(`High Score: ${res.highScore}`);
             }
 
-            $('.start2').css('display', 'none');
-            $('.lose').css('display', 'none');
-            loss = false;
-            canvas.style.opacity = '1.0';
-        });
+            $('#score').text(`Score: ${res.score}`)
+        }
+    });
+
+    socket.on('gameLoss', (res) => {
+        cells = res.cells;
+        drawAllCells();
+        score = res.score;
+        finishGame();
+    });
+
+    socket.on('gameData', (res) => {
+        cells = res.cells;
+        size = res.size;
+        score = res.score;
+        drawAllCells();
+        scoreLabel.html("Score: " + score);
+        
+        if(score > parseInt($('#bestScore').text()))
+        {
+            $('#bestScore').text(`High Score: ${score}`);
+        }
     });
 
     $(document).keydown((event) => {

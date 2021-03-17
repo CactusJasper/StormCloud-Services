@@ -8,9 +8,6 @@ module.exports = (socket, io) => {
     // GET USER MOONGOSE DB ID
     let userId = socket.request.session.passport.user;
 
-    // Send the user there ID
-    socket.emit('userID', { userId: userId });
-
     /* GAME DATA */
     let size = 4;
     let cells = [];
@@ -185,7 +182,7 @@ module.exports = (socket, io) => {
                 }
             });
 
-            io.emit(`gameLoss:${userId}`, {
+            socket.emit('gameLoss', {
                 cells: cells,
                 score: score
             });
@@ -237,7 +234,7 @@ module.exports = (socket, io) => {
         pasteNewCell();
         pasteNewCell();
 
-        io.emit(`gameData:${userId}`, {
+        socket.emit('gameData', {
             cells: cells,
             size: size,
             score: score,
@@ -251,7 +248,7 @@ module.exports = (socket, io) => {
         UserGameData.findOne({ userId: userId }, (err, data) => {
             if(err)
             {
-                socket.emit(`startGameCb:${userId}`, {
+                socket.emit('startGameCb', {
                     status: 500
                 });
             }
@@ -280,7 +277,7 @@ module.exports = (socket, io) => {
                             }
                         }
 
-                        io.emit(`startGameCb:${userId}`, {
+                        socket.emit('startGameCb', {
                             status: 200,
                             cells: cells,
                             size: size,
@@ -295,7 +292,7 @@ module.exports = (socket, io) => {
                         createCells(width);
                         pasteNewCell();
                         pasteNewCell();
-                        io.emit(`startGameCb:${userId}`, {
+                        socket.emit('startGameCb', {
                             status: 200,
                             cells: cells,
                             size: size,
@@ -310,7 +307,7 @@ module.exports = (socket, io) => {
                     createCells(width);
                     pasteNewCell();
                     pasteNewCell();
-                    io.emit(`startGameCb:${userId}`, {
+                    socket.emit('startGameCb', {
                         status: 200,
                         cells: cells,
                         size: size,
@@ -360,7 +357,7 @@ module.exports = (socket, io) => {
         }
 
         pasteNewCell();
-        io.emit(`gameData:${userId}`, {
+        socket.emit('gameData', {
             cells: cells,
             size: size,
             score: score,
@@ -402,7 +399,7 @@ module.exports = (socket, io) => {
         }
 
         pasteNewCell();
-        io.emit(`gameData:${userId}`, {
+        socket.emit('gameData', {
             cells: cells,
             size: size,
             score: score,
@@ -444,7 +441,7 @@ module.exports = (socket, io) => {
         }
 
         pasteNewCell();
-        io.emit(`gameData:${userId}`, {
+        socket.emit('gameData', {
             cells: cells,
             size: size,
             score: score,
@@ -486,7 +483,7 @@ module.exports = (socket, io) => {
         }
 
         pasteNewCell();
-        io.emit(`gameData:${userId}`, {
+        socket.emit('gameData', {
             cells: cells,
             size: size,
             score: score,
