@@ -4,7 +4,8 @@
   "description": "The Game Server for the storm cloud XP System",
   "main": "server.js",
   "scripts": {
-    "test": "node server.js"
+    "test": "node server.js",
+    "build": "node build.js"
   },
   "author": "Jasper",
   "license": "ISC",

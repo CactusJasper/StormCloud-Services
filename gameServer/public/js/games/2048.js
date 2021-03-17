@@ -38,6 +38,7 @@ $(() => {
             score = res.score;
             $("canvas").css({"display":"block"});
             drawAllCells();
+            $('.retry').css('display', 'none');
             $(".start2").css({"display":"none"});
 
             if(res.highScore !== undefined)

@@ -44,9 +44,7 @@
 }
 
 .retry {
-    display: block;
     min-width: 300px;
-    text-align: center;
     margin-top: 25px;
 }
 
