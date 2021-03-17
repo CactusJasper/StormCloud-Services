@@ -27,7 +27,9 @@ $(() => {
     socket.on('startGameCb', (res) => {
         if(res.status == 500)
         {
-            // TODO: add faild to load error msg
+            $('#err-msg').text('Unnable to establish a connection to a game server');
+            $('.start2').css('display', 'none');
+            $('.retry').css('display', 'block');
         }
         else if(res.status == 200)
         {
@@ -95,13 +97,16 @@ $(() => {
         loss = false;
         canvas.style.opacity = '1.0';
     });
+
+    $('.retry').click(() => {
+        socket.emit('startGame', {});
+    });
 });
 
 function canvasClear()
 {
     ctx.clearRect(0,0,300,300);
 }
-
 
 function finishGame()
 {

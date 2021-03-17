@@ -1,28 +1,26 @@
-
-
 /* Variables CSS */
-:root{
+:root {
     --blue: 70,80,161;
     --pink: 209, 99, 142;
 }
 
 /* Main CSS */
-#canvas{
+#canvas {
     background: #8f7a66;
     margin-top: 30px;
     box-sizing: border-box;
 }
 
-#bestScore{
+#bestScore {
     margin-top: 15px;
 }
 
-.size-block input{
+.size-block input {
     margin-left: 10px;
     max-width: 50px;
 }
 
-#size{
+#size {
     background: transparent;
     border: 2px solid white;
     color: white;
@@ -33,20 +31,26 @@
     box-sizing: border-box;
     text-align: center;
 }
-.lose, .start2{
+.lose, .start2, .retry {
     z-index: 999;
     position: absolute;
     margin-top: 15px;
     font-size: 35px;
     display: none;
 }
-.start2{
-    display: block;
-    min-width: 150px;
-    margin-top: 200px;
+.start2 {
+    min-width: 300px;
+    margin-top: 25px;
 }
 
-#canvas-block{
+.retry {
+    display: block;
+    min-width: 300px;
+    text-align: center;
+    margin-top: 25px;
+}
+
+#canvas-block {
     position: relative;
     display: flex;
     justify-content: center;

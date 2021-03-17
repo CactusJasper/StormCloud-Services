@@ -12,7 +12,7 @@ module.exports = (socket, io) => {
     let size = 4;
     let cells = [];
     let score = 0;
-    let width = 300 / 4 - 6;
+    let width = 300 / size - 6;
     let loss = false;
 
     function createCells(width)
