@@ -9,6 +9,7 @@ module.exports = (socket, io) => {
 
     // Top 10 XP Leaders Socket Request Handle
     socket.on('t10', (data) => {
+        console.time('t10_start');
         UserData.find({}, (err, docs) => {
             if(err)
             {
@@ -51,6 +52,8 @@ module.exports = (socket, io) => {
                     });
                 }
             }
+
+            console.timeEnd('t10_start');
         });
     });
 
