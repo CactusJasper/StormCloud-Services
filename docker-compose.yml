@@ -7,13 +7,6 @@ services:
             - bot
         build:
             context: ./webServer
-        ports:
-            - "8080:8080/tcp"
-            - "8080:8080/udp"
-            - "443:443/tcp"
-            - "443:443/udp"
-            - "80:80/tcp"
-            - "80:80/udp"
         environment:
             - NODE_ENV=production
     game_server:
@@ -24,13 +17,6 @@ services:
             - webserver
         build:
             context: ./gameServer
-        ports:
-            - "8081:8081/tcp"
-            - "8081:8081/udp"
-            - "443:443/tcp"
-            - "443:443/udp"
-            - "80:80/tcp"
-            - "80:80/udp"
         environment:
             - NODE_ENV=production
     bot:
@@ -38,9 +24,6 @@ services:
         network_mode: "host"
         build:
             context: ./bot
-        ports:
-            - "9000:9000/tcp"
-            - "9000:9000/udp"
         environment:
             - NODE_ENV=production
     nginx:
@@ -56,8 +39,3 @@ services:
             - bot
         build:
             context: ./nginx
-        ports:
-            - "80:80/tcp"
-            - "80:80/udp"
-            - "443:443/tcp"
-            - "443:443/udp"

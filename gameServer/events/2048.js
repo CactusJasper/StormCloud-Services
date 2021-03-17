@@ -42,6 +42,8 @@ module.exports = (socket, io) => {
             }
         }
 
+        // TODO: Improve by having a check to see if any tiles can be merged still to prevent ending at filled block
+
         if(!countFree)
         {
             loss = true;
@@ -316,6 +318,10 @@ module.exports = (socket, io) => {
             }
         });
     });
+
+    /*
+     * TODO: ADD A SET OF CHECKS TO SEE IF ANY TILES CAN EVEN MERGE
+     */
 
     socket.on('moveLeft', (data) => {
         let i, j, col;
