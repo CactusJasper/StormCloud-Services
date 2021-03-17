@@ -4,12 +4,16 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "node server.js"
+    "test": "node server.js",
+    "build": "node build.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.3",
+    "@node-minify/core": "^6.2.0",
+    "@node-minify/csso": "^6.2.0",
+    "@node-minify/uglify-es": "^6.2.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",

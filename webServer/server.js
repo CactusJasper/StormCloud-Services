@@ -112,7 +112,14 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs');
 
 // Set the Static folder
-app.use(express.static(path.join(__dirname, 'public')));
+if(process.env.NODE_ENV == 'production')
+{
+    app.use(express.static(path.join(__dirname, 'public/dist')));
+}
+else
+{
+    app.use(express.static(path.join(__dirname, 'public')));
+}
 
 // Register Express Session Middleware
 let sessionMiddleware = session({
