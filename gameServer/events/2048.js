@@ -27,7 +27,7 @@ module.exports = (socket, io) => {
         } 
     }
 
-    function pasteNewCell()
+    function pasteNewCell(falsify)
     {
         let countFree = 0;
         let i, j;
@@ -46,157 +46,21 @@ module.exports = (socket, io) => {
 
         if(!countFree)
         {
-            loss = true;
-            // Wipe SaveGame
-            UserGameData.findOne({ userId: userId }, (err, data) => {
-                if(err)
-                {
-                    console.error(err);
-                }
-                else
-                {
-                    if(data)
-                    {
-                        if(score > data.game2048.highScore)
-                        {
-                            data.game2048.highScore = score;
-                        }
-
-                        data.set('game2048.saveGame.score', 0);
-                        data.set('game2048.saveGame.cells', []);
-
-                        data.markModified('game2048');
-
-                        data.save((err) => {
-                            if(err) console.error(err);
-                        });
-                    }
-                }
-            });
-
-            User.findOne({ _id: userId }, (err, usr) => {
-                if(err)
-                {
-                    console.error(err);
-                }
-                else
-                {
-                    if(usr)
-                    {
-                        let user = usr;
-                        UserData.findOne({ user_id: user.discordId }, (err, data) => {
-                            if(err)
-                            {
-                                console.error(err);
-                            }
-                            else
-                            {
-                                let xpReward = Math.floor(score * 0.05);
-                                if(xpReward > 1500)
-                                {
-                                    xpReward = Math.floor(score * 0.01);
-                                }
-                                
-                                if(xpReward > 25000)
-                                {
-                                    xpReward = Math.floor((score / 100) * 0.001);
-                                }
-                                
-                                if(data)
-                                {
-                                    let newXpTotal = data.xp + xpReward;
-                                    data.xp = newXpTotal;
-                                    let nextLevelXpNeeded = utils.getLevel(data.level + 1);
-
-                                    if(newXpTotal >= nextLevelXpNeeded)
-                                    {
-                                        let levelUps = 1;
-                                        for(let i = data.level + 2; i < 10; i++)
-                                        {
-                                            let xpNeeded = utils.getLevel(i);
-                                            if(newXpTotal >= xpNeeded)
-                                            {
-                                                levelUps++;
-                                            }
-                                        }
-
-                                        data.level = data.level + levelUps;
-                                        data.markModified('xp');
-                                        data.markModified('level');
-                                        data.save((err) => {
-                                            if(err) console.error(err);
-                                        });
-                                    }
-                                    else
-                                    {
-                                        data.markModified('xp');
-                                        data.save((err) => {
-                                            if(err) console.error(err);
-                                        });
-                                    }
-                                }
-                                else
-                                {
-                                    let userData = new UserData({
-                                        user_id: user.discordId,
-                                        username: user.username,
-                                        xp: xpReward,
-                                        level: 0,
-                                        last_rewarded: Math.floor(new Date().getTime() / 1000.0)
-                                    });
-
-                                    userData.xp = xpReward;
-                                    let nextLevelXpNeeded = utils.getLevel(userData.level + 1);
-
-                                    if(xpReward >= nextLevelXpNeeded)
-                                    {
-                                        let levelUps = 1;
-                                        for(let i = userData.level + 2; i < 10; i++)
-                                        {
-                                            let xpNeeded = utils.getLevel(i);
-                                            if(newXpTotal >= xpNeeded)
-                                            {
-                                                levelUps++;
-                                            }
-                                            else
-                                            {
-                                                return;
-                                            }
-
-                                            userData.level = userData.level + levelUps;
-                                            userData.save((err) => {
-                                                if(err) console.error(err);
-                                            });
-                                        }
-                                    }
-                                    else
-                                    {
-                                        userData.save((err) => {
-                                            if(err) console.error(err);
-                                        });
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-
-            socket.emit('gameLoss', {
-                cells: cells,
-                score: score
-            });
+            gameLoss();
             return;
         }
 
-        while(true)
+        if(!falsify)
         {
-            let row = Math.floor(Math.random() * size);
-            let col = Math.floor(Math.random() * size);
-            if(!cells[row][col].value)
+            while(true)
             {
-                cells[row][col].value = 2 * Math.ceil(Math.random() * 2);
-                return;
+                let row = Math.floor(Math.random() * size);
+                let col = Math.floor(Math.random() * size);
+                if(!cells[row][col].value)
+                {
+                    cells[row][col].value = 2 * Math.ceil(Math.random() * 2);
+                    return;
+                }
             }
         }
     }
@@ -231,8 +95,8 @@ module.exports = (socket, io) => {
         cells = [];
         score = 0;
         await createCells(width);
-        pasteNewCell();
-        pasteNewCell();
+        pasteNewCell(false);
+        pasteNewCell(false);
 
         socket.emit('gameData', {
             cells: cells,
@@ -290,8 +154,8 @@ module.exports = (socket, io) => {
                     {
                         // Create New Game
                         createCells(width);
-                        pasteNewCell();
-                        pasteNewCell();
+                        pasteNewCell(false);
+                        pasteNewCell(false);
                         socket.emit('startGameCb', {
                             status: 200,
                             cells: cells,
@@ -305,8 +169,8 @@ module.exports = (socket, io) => {
                 {
                     // Create New Game and UserGameData
                     createCells(width);
-                    pasteNewCell();
-                    pasteNewCell();
+                    pasteNewCell(false);
+                    pasteNewCell(false);
                     socket.emit('startGameCb', {
                         status: 200,
                         cells: cells,
@@ -355,7 +219,10 @@ module.exports = (socket, io) => {
             }
         }
 
-        if(shouldPlace) pasteNewCell();
+        if(shouldPlace)
+            pasteNewCell(false);
+        else
+            pasteNewCell(true)
 
         socket.emit('gameData', {
             cells: cells,
@@ -401,7 +268,10 @@ module.exports = (socket, io) => {
             }
         }
 
-        if(shouldPlace) pasteNewCell();
+        if(shouldPlace)
+            pasteNewCell(false);
+        else
+            pasteNewCell(true)
         
         socket.emit('gameData', {
             cells: cells,
@@ -447,7 +317,10 @@ module.exports = (socket, io) => {
             }
         }
 
-        if(shouldPlace) pasteNewCell();
+        if(shouldPlace)
+            pasteNewCell(false);
+        else
+            pasteNewCell(true)
 
         socket.emit('gameData', {
             cells: cells,
@@ -493,7 +366,10 @@ module.exports = (socket, io) => {
             }
         }
 
-        if(shouldPlace) pasteNewCell();
+        if(shouldPlace)
+            pasteNewCell(false);
+        else
+            pasteNewCell(true)
 
         socket.emit('gameData', {
             cells: cells,
@@ -626,6 +502,150 @@ module.exports = (socket, io) => {
                     }
                 }
             }
+        });
+    }
+
+    function gameLoss()
+    {
+        loss = true;
+        // Wipe SaveGame
+        UserGameData.findOne({ userId: userId }, (err, data) => {
+            if(err)
+            {
+                console.error(err);
+            }
+            else
+            {
+                if(data)
+                {
+                    if(score > data.game2048.highScore)
+                    {
+                        data.game2048.highScore = score;
+                    }
+
+                    data.set('game2048.saveGame.score', 0);
+                    data.set('game2048.saveGame.cells', []);
+
+                    data.markModified('game2048');
+
+                    data.save((err) => {
+                        if(err) console.error(err);
+                    });
+                }
+            }
+        });
+
+        User.findOne({ _id: userId }, (err, usr) => {
+            if(err)
+            {
+                console.error(err);
+            }
+            else
+            {
+                if(usr)
+                {
+                    let user = usr;
+                    UserData.findOne({ user_id: user.discordId }, (err, data) => {
+                        if(err)
+                        {
+                            console.error(err);
+                        }
+                        else
+                        {
+                            let xpReward = Math.floor(score * 0.05);
+                            if(xpReward > 1500)
+                            {
+                                xpReward = Math.floor(score * 0.01);
+                            }
+                            
+                            if(xpReward > 25000)
+                            {
+                                xpReward = Math.floor((score / 100) * 0.001);
+                            }
+                            
+                            if(data)
+                            {
+                                let newXpTotal = data.xp + xpReward;
+                                data.xp = newXpTotal;
+                                let nextLevelXpNeeded = utils.getLevel(data.level + 1);
+
+                                if(newXpTotal >= nextLevelXpNeeded)
+                                {
+                                    let levelUps = 1;
+                                    for(let i = data.level + 2; i < 10; i++)
+                                    {
+                                        let xpNeeded = utils.getLevel(i);
+                                        if(newXpTotal >= xpNeeded)
+                                        {
+                                            levelUps++;
+                                        }
+                                    }
+
+                                    data.level = data.level + levelUps;
+                                    data.markModified('xp');
+                                    data.markModified('level');
+                                    data.save((err) => {
+                                        if(err) console.error(err);
+                                    });
+                                }
+                                else
+                                {
+                                    data.markModified('xp');
+                                    data.save((err) => {
+                                        if(err) console.error(err);
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                let userData = new UserData({
+                                    user_id: user.discordId,
+                                    username: user.username,
+                                    xp: xpReward,
+                                    level: 0,
+                                    last_rewarded: Math.floor(new Date().getTime() / 1000.0)
+                                });
+
+                                userData.xp = xpReward;
+                                let nextLevelXpNeeded = utils.getLevel(userData.level + 1);
+
+                                if(xpReward >= nextLevelXpNeeded)
+                                {
+                                    let levelUps = 1;
+                                    for(let i = userData.level + 2; i < 10; i++)
+                                    {
+                                        let xpNeeded = utils.getLevel(i);
+                                        if(newXpTotal >= xpNeeded)
+                                        {
+                                            levelUps++;
+                                        }
+                                        else
+                                        {
+                                            return;
+                                        }
+
+                                        userData.level = userData.level + levelUps;
+                                        userData.save((err) => {
+                                            if(err) console.error(err);
+                                        });
+                                    }
+                                }
+                                else
+                                {
+                                    userData.save((err) => {
+                                        if(err) console.error(err);
+                                    });
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        socket.emit('gameLoss', {
+            cells: cells,
+            score: score
         });
     }
 }
