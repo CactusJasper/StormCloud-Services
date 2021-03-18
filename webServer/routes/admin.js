@@ -65,6 +65,31 @@ router.get('/manage/polls', utils.ensureAuthenticated, (req, res) => {
     }
 });
 
+router.get('/delete/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
+    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    {
+        if(req.params.pollId !== undefined)
+        {
+            Poll.deleteOne({ _id: req.params.pollId }, (err) => {
+                req.session.sessionFlash = {
+                    type: 'success',
+                    message: 'Successfuly delete poll from the records.'
+                };
+
+                res.redirect('back');
+            });
+        }
+        else
+        {
+            res.redirect('back');
+        }
+    }
+    else
+    {
+        res.redirect('back');
+    }
+});
+
 router.get('/create/poll', csrfProtection, utils.ensureAuthenticated, (req, res) => {
     utils.isAdmin(req.user).then((admin) => {
         if(utils.isWolfy(req.user) || utils.isJasper(req.user))

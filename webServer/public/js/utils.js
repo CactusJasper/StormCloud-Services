@@ -23,7 +23,11 @@ function getLevelToXP(level)
 
 function getPollStatus(state)
 {
-    if(state == 1)
+    if(state == 0)
+    {
+        return 'Awaiting Approval';
+    }
+    else if(state == 1)
     {
         return 'In Progress';
     }

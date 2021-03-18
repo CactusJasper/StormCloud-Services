@@ -265,6 +265,7 @@ io.on('connection', (socket) => {
         require('./events/admin/roles/manage_mod_roles')(socket, io); // Manage Moderation Roles Socket Event Handler
         require('./events/view_poll')(socket, io); // View Poll Socket Event Handler
         require('./events/polls_list')(socket, io); // Poll List Socket Event Handler
+        require('./events/admin/polls/manage_polls')(socket, io); // Admin Manage Polls Socket Event Handler
         require('./events/global')(socket, io); // Global Socket Event Handler
     }
 });

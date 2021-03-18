@@ -43,7 +43,12 @@ router.get('/view/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res
                     {
                         if(utils.isWolfy(req.user) || utils.isJasper(req.user))
                         {
-                            // TODO: Add the res of this to display the review view
+                            res.render('admin/polls/review', {
+                                user: req.user,
+                                admin: true,
+                                pollId: poll._id,
+                                csrfToken: req.csrfToken()
+                            });
                         }
                         else
                         {

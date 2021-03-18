@@ -1,0 +1,25 @@
+<div class="row justify-content-center">
+    <div class="col-8 p-4 my-5 bg-core">
+        <h3 class="header center">Manage Polls</h3>
+        {{#if sessionFlash.message}}
+            {{#contains sessionFlash.type 'error'}}
+                <div class="seperator my-4"></div>
+                <div class="row justify-content-center">
+                    <div id="errors" class="alert alert-danger p-2 col-4">
+                        {{{sessionFlash.message}}}
+                    </div>
+                </div>
+            {{/contains}}
+            {{#contains sessionFlash.type 'success'}}
+                <div class="seperator my-4"></div>
+                <div class="row justify-content-center">
+                    <div id="success" class="alert alert-success p-2 col-4">
+                        {{{sessionFlash.message}}}
+                    </div>
+                </div>
+            {{/contains}}
+        {{/if}}
+        <div id="polls-display"></div>
+    </div>
+</div>
+<script src="/js/admin/polls/manage_polls.js"></script>
