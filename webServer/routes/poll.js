@@ -46,7 +46,7 @@ router.get('/view/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res
                             res.render('admin/polls/review', {
                                 user: req.user,
                                 admin: true,
-                                pollId: poll._id,
+                                poll: poll,
                                 csrfToken: req.csrfToken()
                             });
                         }

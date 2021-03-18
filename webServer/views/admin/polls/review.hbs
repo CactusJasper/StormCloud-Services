@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="/css/poll_view.css"/>
+<div class="row justify-content-center">
+    <div class="col-5 mx-2 mt-5 p-4 bg-core text-colour">
+        <h3 class="header center">{{poll.title}} (Review Stage)</h3>
+        <p class="center mt-2">{{poll.description}}</p>
+        <h4 class="mt-4">Options:</h4>
+        <ul class="mt-3 ml-4">
+            {{#each poll.options}}
+                <li class="text-colour mt-2">{{this.vote_string}}</li>
+            {{/each}}
+        </ul>
+        {{#if sessionFlash.message}}
+            {{#contains sessionFlash.type 'error'}}
+                <div class="seperator my-4"></div>
+                <div class="row justify-content-center">
+                    <div id="errors" class="alert alert-danger p-2 col-4">
+                        {{{sessionFlash.message}}}
+                    </div>
+                </div>
+            {{/contains}}
+        {{/if}}
+        <a href="/admin/approve/poll/{{poll._id}}" class="green-btn vote-btn text-colour" style="float: left;">Approve Poll</a>
+        <a href="/admin/delete/poll/{{poll._id}}" class="green-btn vote-btn text-colour ml-4" style="float: left;">Disapprove Poll</a>
+    </div>
+</div>

@@ -54,7 +54,7 @@ $(() => {
                     html += `<td class="bg-secondary p-2">${getPollStatus(polls[i].state)}</td>`;
                     html += `<td class="bg-secondary p-2">${polls[i].votes.length}</td>`;
                     html += `<td class="bg-secondary p-2">
-                                <a href="/poll/view/${polls[i]._id}" class="text-colour ml-4" style="text-decoration: none;">View</a>
+                                <a href="/poll/view/${polls[i]._id}" class="text-colour mr-3" style="text-decoration: none;">View</a>
                                 <a href="/admin/delete/poll/${polls[i]._id}" class="text-colour" style="text-decoration: none;">Delete</a>
                             </td>`;
                 }
@@ -65,7 +65,7 @@ $(() => {
                     html += `<td class="bg p-2">${getPollStatus(polls[i].state)}</td>`;
                     html += `<td class="bg p-2">${polls[i].votes.length}</td>`;
                     html += `<td class="bg p-2">
-                                <a href="/poll/view/${polls[i]._id}" class="text-colour ml-4" style="text-decoration: none;">View</a>
+                                <a href="/poll/view/${polls[i]._id}" class="text-colour mr-3" style="text-decoration: none;">View</a>
                                 <a href="/admin/delete/poll/${polls[i]._id}" class="text-colour" style="text-decoration: none;">Delete</a>
                             </td>`;
                 }

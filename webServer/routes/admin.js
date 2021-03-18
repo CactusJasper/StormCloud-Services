@@ -65,6 +65,67 @@ router.get('/manage/polls', utils.ensureAuthenticated, (req, res) => {
     }
 });
 
+router.get('/approve/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
+    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    {
+        if(req.params.pollId !== undefined)
+        {
+            Poll.findOne({ _id: req.params.pollId }, (err, poll) => {
+                if(err)
+                {
+                    req.session.sessionFlash = {
+                        type: 'success',
+                        message: 'Something went wrong try again later.'
+                    };
+    
+                    res.redirect('back');
+                }
+                else
+                {
+                    if(poll)
+                    {
+                        poll.state = 1;
+                        poll.markModified('state');
+
+                        poll.save((err) => {
+                            if(err)
+                            {
+                                req.session.sessionFlash = {
+                                    type: 'error',
+                                    message: 'Something went wrong try again later.'
+                                };
+                
+                                res.redirect('back');
+                            }
+                            else
+                            {
+                                res.redirect('back');
+                            }
+                        });
+                    }
+                    else
+                    {
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: 'Something went wrong try again later.'
+                        };
+        
+                        res.redirect('back');
+                    }
+                }
+            });
+        }
+        else
+        {
+            res.redirect('back');
+        }
+    }
+    else
+    {
+        res.redirect('back');
+    }
+});
+
 router.get('/delete/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
     if(utils.isWolfy(req.user) || utils.isJasper(req.user))
     {
@@ -76,7 +137,7 @@ router.get('/delete/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (r
                     message: 'Successfuly delete poll from the records.'
                 };
 
-                res.redirect('back');
+                res.redirect('/');
             });
         }
         else
