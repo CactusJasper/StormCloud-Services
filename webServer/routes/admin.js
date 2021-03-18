@@ -126,6 +126,76 @@ router.get('/approve/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (
     }
 });
 
+router.get('/close/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
+    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    {
+        if(req.params.pollId !== undefined)
+        {
+            Poll.findOne({ _id: req.params.pollId }, (err, poll) => {
+                if(err)
+                {
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Something went wrong try again later.'
+                    };
+    
+                    res.redirect('back');
+                }
+                else
+                {
+                    if(poll)
+                    {
+                        poll.state = 2;
+                        poll.markModified('state');
+                        poll.save((err, poll) => {
+                            if(err)
+                            {
+                                req.session.sessionFlash = {
+                                    type: 'error',
+                                    message: 'Something went wrong try again later.'
+                                };
+                
+                                res.redirect('back');
+                            }
+                            else
+                            {
+                                req.session.sessionFlash = {
+                                    type: 'success',
+                                    message: `Closed poll titled ${poll.title} successfully.`
+                                };
+                
+                                res.redirect('back');
+                            }
+                        })
+                    }
+                    else
+                    {
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: 'Something went wrong try again later.'
+                        };
+        
+                        res.redirect('back');
+                    }
+                }
+            });
+        }
+        else
+        {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Something went wrong try again later.'
+            };
+
+            res.redirect('back');
+        }
+    }
+    else
+    {
+        res.redirect('back');
+    }
+});
+
 router.get('/delete/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
     if(utils.isWolfy(req.user) || utils.isJasper(req.user))
     {
@@ -137,7 +207,7 @@ router.get('/delete/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (r
                     message: 'Successfuly delete poll from the records.'
                 };
 
-                res.redirect('/');
+                res.redirect('/admin/manage/polls');
             });
         }
         else

@@ -28,7 +28,7 @@ $(() => {
             }
             else if(res.message == 'No Polls')
             {
-                $('#polls-display').html('<p class"center error">No Polls have been made at this moment in time.</p>');
+                $('#polls-display').html('<p class="center error">No Polls have been made at this moment in time.</p>');
             }
         }
         else if(res.status == 200)
@@ -53,10 +53,7 @@ $(() => {
                     html += `<td class="bg-secondary p-2">${timeToDate(polls[i].created_timestamp)}</td>`;
                     html += `<td class="bg-secondary p-2">${getPollStatus(polls[i].state)}</td>`;
                     html += `<td class="bg-secondary p-2">${polls[i].votes.length}</td>`;
-                    html += `<td class="bg-secondary p-2">
-                                <a href="/poll/view/${polls[i]._id}" class="text-colour mr-3" style="text-decoration: none;">View</a>
-                                <a href="/admin/delete/poll/${polls[i]._id}" class="text-colour" style="text-decoration: none;">Delete</a>
-                            </td>`;
+                    html += `<td class="bg-secondary p-2">${getActions(polls[i])}</td>`;
                 }
                 else
                 {
@@ -64,10 +61,7 @@ $(() => {
                     html += `<td class="bg p-2">${timeToDate(polls[i].created_timestamp)}</td>`;
                     html += `<td class="bg p-2">${getPollStatus(polls[i].state)}</td>`;
                     html += `<td class="bg p-2">${polls[i].votes.length}</td>`;
-                    html += `<td class="bg p-2">
-                                <a href="/poll/view/${polls[i]._id}" class="text-colour mr-3" style="text-decoration: none;">View</a>
-                                <a href="/admin/delete/poll/${polls[i]._id}" class="text-colour" style="text-decoration: none;">Delete</a>
-                            </td>`;
+                    html += `<td class="bg p-2">${getActions(polls[i])}</td>`;
                 }
                 html += `</tr>`;
             }
@@ -77,4 +71,18 @@ $(() => {
             $('#polls-display').html(html);
         }
     });
+
+    function getActions(poll)
+    {
+        let toReturn = `<a href="/poll/view/${poll._id}" class="text-colour mr-3" style="text-decoration: none;">View</a>`;
+
+        if(poll.state == 1)
+        {
+            toReturn += `<a href="/admin/close/poll/${poll._id}" class="text-colour mr-3" style="text-decoration: none;">Close</a>`;
+        }
+
+        toReturn += `<a href="/admin/delete/poll/${poll._id}" class="text-colour" style="text-decoration: none;">Delete</a>`;
+
+        return toReturn;
+    }
 });
