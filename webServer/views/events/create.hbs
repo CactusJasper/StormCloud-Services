@@ -1,45 +1,6 @@
 <div class="row justify-content-center">
-    <div class="col-6 my-5 bg-core">
-        <h3 class="header center mt-4">Create Event</h3>
-        <form class="form-style" id="create-event" name="create-event">
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">
-            {{#if sessionFlash.message}}
-                {{#contains sessionFlash.type 'error'}}
-                    <div class="seperator my-4"></div>
-                    <div id="errors" class="alert alert-danger mx-5 my-4">
-                        {{{sessionFlash.message}}}
-                    </div>
-                {{/contains}}
-            {{/if}}
-            <div class="seperator my-4"></div>
+    <div class="col-8 p-4 my-5 bg-core">
 
-            <p class="center">Event Title</p>
-            <input type="text" class="text-colour" id="eventTitle" name="eventTitle" maxlength="32" placeholder="Event Title"/>
-
-            <div class="seperator my-4"></div>
-
-            <p class="center">Event Description</p>
-            <textarea class="mt-2 rounded text-colour" style="width: 93%;" maxlength="500" id="eventDesc" name="eventDesc" rows="4" placeholder="Event Description..." form="create-event">{{#if sessionFlash.eventDesc}} {{sessionFlash.eventDesc}} {{/if}}</textarea>
-            <p class="right mt-2 mr-3" id="eventDesc-char-count">You have 500 characters left.</p>
-
-            <div class="seperator my-4"></div>
-
-            <p class="center">Voice Chat Name</p>
-            <input type="text" class="text-colour" id="voiceCall" name="voiceCall" maxlength="32" placeholder="Voice Call Name"/>
-
-            <div class="seperator my-4"></div>
-
-            <p class="center">Game Name (Optional)</p>
-            <input type="text" class="text-colour" id="gameName" name="gameName" maxlength="50" placeholder="Game Name (Optional)"/>
-
-            <div class="seperator my-4"></div>
-
-            <p class="center">Event Time</p>
-
-            <div class="seperator my-4"></div>
-
-            <input type="submit" class="text-colour" id="createEvent" name="createEvent" value="Create Event"/>
-        </form>
     </div>
 </div>
 <script src="/js/defualt.js"></script>
