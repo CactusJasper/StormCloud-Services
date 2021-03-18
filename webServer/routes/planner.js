@@ -6,7 +6,28 @@ let csrf = require('csurf');
 let csrfProtection = csrf({ cookie: true });
 
 router.get('/', csrfProtection, utils.ensureAuthenticated, (req, res) => {
-    
+    utils.isAdmin(req.user).then((admin) => {
+        if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
+        {
+            res.render('events/planner', {
+                user: req.user,
+                admin: true,
+                csrfToken: req.csrfToken(),
+            });
+        }
+        else
+        {
+            res.render('events/planner', {
+                user: req.user,
+                csrfToken: req.csrfToken(),
+            });
+        }
+    }).catch((err) => {
+        res.render('events/planner', {
+            user: req.user,
+            csrfToken: req.csrfToken(),
+        });
+    });
 });
 
 router.get('/create/event', csrfProtection, utils.ensureAuthenticated, (req, res) => {
