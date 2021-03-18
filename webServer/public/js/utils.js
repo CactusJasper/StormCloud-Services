@@ -1,7 +1,7 @@
 function timeToDate(timestamp)
 {
     let date = new Date(timestamp * 1000);
-    return `Created on ${date.toLocaleDateString()} at ${date.getHours()}:${date.getMinutes()}`;
+    return `Created on ${date.toLocaleDateString()} at ${date.getHours()}:${(date.getMinutes()<10?'0':'') + date.getMinutes()}`;
 }
 
 function getStatus(status)

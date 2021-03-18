@@ -16,6 +16,7 @@ let jsFiles = [
     'js/admin/dashboard.js',
     'js/admin/polls/create_poll.js',
     'js/admin/polls/manage_polls.js',
+    'js/admin/polls/approve_polls.js',
     'js/admin/roles/manage_mod_roles.js',
     'js/admin/roles/manage_rewards.js'
 ];

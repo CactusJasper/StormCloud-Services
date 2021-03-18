@@ -38,10 +38,11 @@ router.get('/', utils.ensureAuthenticated, (req, res) => {
 router.get('/approve/polls', utils.ensureAuthenticated, (req, res) => {
     if(utils.isWolfy(req.user) || utils.isJasper(req.user))
     {
+        
         res.render('admin/polls/approve', {
             admin: true,
             superUser: true,
-            user: req.user,
+            user: req.user
         });
     }
     else
