@@ -18,8 +18,7 @@ let jsFiles = [
     'js/admin/polls/manage_polls.js',
     'js/admin/polls/approve_polls.js',
     'js/admin/roles/manage_mod_roles.js',
-    'js/admin/roles/manage_rewards.js',
-    'js/planner/create_event.js'
+    'js/admin/roles/manage_rewards.js'
 ];
 
 let cssFiles = [
@@ -45,7 +44,6 @@ let distDirs = [
     'js/application',
     'js/polls',
     'js/libs',
-    'js/planner',
     'css/themes',
 ];
 
