@@ -5,10 +5,6 @@ let ServerEvent = require('../models/server_event');
 let csrf = require('csurf');
 let csrfProtection = csrf({ cookie: true });
 
-router.get('/', csrfProtection, utils.ensureAuthenticated, (req, res) => {
-    
-});
-
 router.get('/create/event', csrfProtection, utils.ensureAuthenticated, (req, res) => {
     utils.isAdmin(req.user).then((admin) => {
         if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
