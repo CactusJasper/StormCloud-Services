@@ -319,12 +319,9 @@ module.exports = (socket, io) => {
         });
     });
 
-    /*
-     * TODO: ADD A SET OF CHECKS TO SEE IF ANY TILES CAN EVEN MERGE
-     */
-
     socket.on('moveLeft', (data) => {
         let i, j, col;
+        let shouldPlace = false;
         for(i = 0; i < size; i++)
         {
             for(j = 1; j < size; j++)
@@ -339,12 +336,14 @@ module.exports = (socket, io) => {
                             cells[i][col - 1].value = cells[i][col].value;
                             cells[i][col].value = 0;
                             col--;
+                            shouldPlace = true;
                         }
                         else if(cells[i][col].value == cells[i][col - 1].value)
                         {
                             cells[i][col - 1].value *= 2;
                             score +=   cells[i][col - 1].value;
                             cells[i][col].value = 0;
+                            shouldPlace = true;
                             break;
                         }
                         else
@@ -356,7 +355,8 @@ module.exports = (socket, io) => {
             }
         }
 
-        pasteNewCell();
+        if(shouldPlace) pasteNewCell();
+
         socket.emit('gameData', {
             cells: cells,
             size: size,
@@ -367,6 +367,7 @@ module.exports = (socket, io) => {
 
     socket.on('moveRight', (data) => {
         let i, j, col;
+        let shouldPlace = false;
         for(i = 0; i < size; i++)
         {
             for(j = size - 2; j >= 0; j--)
@@ -381,12 +382,14 @@ module.exports = (socket, io) => {
                             cells[i][col + 1].value = cells[i][col].value;
                             cells[i][col].value = 0;
                             col++;
+                            shouldPlace = true;
                         }
                         else if (cells[i][col].value == cells[i][col + 1].value)
                         {
                             cells[i][col + 1].value *= 2;
                             score +=  cells[i][col + 1].value;
                             cells[i][col].value = 0;
+                            shouldPlace = true;
                             break;
                         }
                         else
@@ -398,7 +401,8 @@ module.exports = (socket, io) => {
             }
         }
 
-        pasteNewCell();
+        if(shouldPlace) pasteNewCell();
+        
         socket.emit('gameData', {
             cells: cells,
             size: size,
@@ -409,6 +413,7 @@ module.exports = (socket, io) => {
 
     socket.on('moveUp', (data) => {
         let i, j, row;
+        let shouldPlace = false;
         for(j = 0; j < size; j++)
         {
             for(i = 1; i < size; i++)
@@ -423,12 +428,14 @@ module.exports = (socket, io) => {
                             cells[row - 1][j].value = cells[row][j].value;
                             cells[row][j].value = 0;
                             row--;
+                            shouldPlace = true;
                         }
                         else if (cells[row][j].value == cells[row - 1][j].value)
                         {
                             cells[row - 1][j].value *= 2;
                             score +=  cells[row - 1][j].value;
                             cells[row][j].value = 0;
+                            shouldPlace = true;
                             break;
                         }
                         else
@@ -440,7 +447,8 @@ module.exports = (socket, io) => {
             }
         }
 
-        pasteNewCell();
+        if(shouldPlace) pasteNewCell();
+
         socket.emit('gameData', {
             cells: cells,
             size: size,
@@ -451,6 +459,7 @@ module.exports = (socket, io) => {
 
     socket.on('moveDown', (data) => {
         let i, j, row;
+        let shouldPlace = false;
         for(j = 0; j < size; j++)
         {
             for(i = size - 2; i >= 0; i--)
@@ -465,12 +474,14 @@ module.exports = (socket, io) => {
                             cells[row + 1][j].value = cells[row][j].value;
                             cells[row][j].value = 0;
                             row++;
+                            shouldPlace = true;
                         }
                         else if (cells[row][j].value == cells[row + 1][j].value)
                         {
                             cells[row + 1][j].value *= 2;
                             score +=  cells[row + 1][j].value;
                             cells[row][j].value = 0;
+                            shouldPlace = true;
                             break;
                         }
                         else
@@ -482,7 +493,8 @@ module.exports = (socket, io) => {
             }
         }
 
-        pasteNewCell();
+        if(shouldPlace) pasteNewCell();
+
         socket.emit('gameData', {
             cells: cells,
             size: size,
