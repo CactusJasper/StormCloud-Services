@@ -52,8 +52,7 @@ body {
 }
 
 .form-style input[type = "text"], .form-style input[type = "password"],
-.form-style input[type = "number"], .form-style input[type = "date"],
-.form-style input[type = "time"] {
+.form-style input[type = "number"] {
   border: 2px solid #A95BCF; /*#3498DB; the original green colour*/
   background: none;
   display: block;
@@ -97,8 +96,7 @@ body {
 }
 
 .form-style input[type = "text"]:focus, .form-style input[type = "password"]:focus,
-.form-style textarea:focus, .form-style input[type = "number"]:focus,
-.form-style input[type = "date"]:focus, .form-style input[type = "time"]:focus {
+.form-style textarea:focus, .form-style input[type = "number"]:focus {
   width: 280px;
   border-color: #2ECC71;
 }
