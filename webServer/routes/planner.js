@@ -152,7 +152,12 @@ router.post('/create/event', csrfProtection, utils.ensureAuthenticated, [
                 }
                 else
                 {
-                    res.redirect('/planner');
+                    req.session.sessionFlash = {
+                        type: 'success',
+                        message: 'You event has been sent for approval'
+                    }
+
+                    res.redirect('back');
                 }
             });
         }

@@ -10,6 +10,12 @@
                         {{{sessionFlash.message}}}
                     </div>
                 {{/contains}}
+                {{#contains sessionFlash.type 'success'}}
+                    <div class="seperator my-4"></div>
+                    <div class="alert alert-success mx-5 my-4">
+                        {{{sessionFlash.message}}}
+                    </div>
+                {{/contains}}
             {{/if}}
             <div class="seperator my-4"></div>
 
