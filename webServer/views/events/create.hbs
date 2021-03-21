@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-6 my-5 bg-core">
         <h3 class="header center mt-4">Create Event</h3>
-        <form class="form-style" id="create-event" name="create-event">
+        <form class="form-style" id="create-event" name="create-event" method="POST" action="/planner/create/event">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             {{#if sessionFlash.message}}
                 {{#contains sessionFlash.type 'error'}}
@@ -14,7 +14,7 @@
             <div class="seperator my-4"></div>
 
             <p class="center">Event Title</p>
-            <input type="text" class="text-colour" id="eventTitle" name="eventTitle" maxlength="32" placeholder="Event Title"/>
+            <input type="text" class="text-colour" id="eventTitle" name="eventTitle" maxlength="32" placeholder="Event Title" value="{{#if sessionFlash.eventTitle}} {{sessionFlash.eventTitle}} {{/if}}"/>
 
             <div class="seperator my-4"></div>
 
@@ -25,18 +25,19 @@
             <div class="seperator my-4"></div>
 
             <p class="center">Voice Chat Name</p>
-            <input type="text" class="text-colour" id="voiceCall" name="voiceCall" maxlength="32" placeholder="Voice Call Name"/>
+            <input type="text" class="text-colour" id="voiceCall" name="voiceCall" maxlength="32" placeholder="Voice Call Name" value="{{#if sessionFlash.voiceCall}} {{sessionFlash.voiceCall}} {{/if}}"/>
 
             <div class="seperator my-4"></div>
 
             <p class="center">Game Name (Optional)</p>
-            <input type="text" class="text-colour" id="gameName" name="gameName" maxlength="50" placeholder="Game Name (Optional)"/>
+            <input type="text" class="text-colour" id="gameName" name="gameName" maxlength="50" placeholder="Game Name (Optional)" value="{{#if sessionFlash.gameName}} {{sessionFlash.gameName}} {{/if}}"/>
 
             <div class="seperator my-4"></div>
 
-            <p class="center">Event Time</p>
-            <input type="date" class="text-colour" placeholder="dd-mm-yyyy"/>
-            <input type="time" class="text-colour" placeholder="hh-mm"/>
+            <p class="center">Event Time (EST Timing)</p>
+            <p class="center">Please ensure that there is at least 2 hours before the event</p>
+            <input type="date" id="eventDate" name="eventDate" class="text-colour" placeholder="dd-mm-yyyy"/>
+            <input type="time" id="eventTime" name="eventTime" class="text-colour" placeholder="hh-mm"/>
 
             <div class="seperator my-4"></div>
 
