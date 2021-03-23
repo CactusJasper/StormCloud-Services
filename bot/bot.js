@@ -13,6 +13,7 @@ const config = require('./config');
 let app = express();
 let fs = require('fs');
 let utils = require('./utils.js');
+let analysis = require('./moderation'); 
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -86,6 +87,15 @@ client.on('message', (message) => {
         else
         {
 			if(message.content.length == 1) return;
+
+            if(message.content != '') 
+            {
+                if(!analysis.checkMessage(message))
+                {
+                    message.react('👎').catch((err) => console.error(err));
+                }
+            }
+
             UserData.findOne({ user_id: message.member.id }, (err, data) => {
                 if(err)
                 {
