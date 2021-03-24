@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aes256": "^1.1.0",
     "body-parser": "^1.19.0",
     "cld": "^2.7.0",
     "discord.js": "^12.5.1",

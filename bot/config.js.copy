@@ -2,5 +2,6 @@ module.exports = {
     db_url: '',
     web_port: 9000,
     discord_token: '',
-    server_id: ''
+    server_id: '',
+    logger_key: ''
 };
