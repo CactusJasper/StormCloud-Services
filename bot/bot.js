@@ -13,6 +13,7 @@ let fs = require('fs');
 let utils = require('./utils.js');
 let analysis = require('./modules/moderation');
 let censor = require('./modules/censor');
+let logging = require('./modules/logging');
 let aes256 = require('aes256');
 let cipher = aes256.createCipher(config.logger_key);
 
@@ -68,23 +69,8 @@ client.on('message', (message) => {
             }).catch((err) => console.error(err));
         }
 
-        const log = client.channels.cache.find(channel => channel.id === '818916933641699358');
-        if(message.attachments.array().length > 0)
-        {
-            let attachments = message.attachments;
-            if(message.content == '' || message.content == undefined)
-            {
-                log.send(utils.codeBlock(`[${message.channel.name}] Attachment sent by  ${message.author.username}:`), attachments.first());
-            }
-            else
-            {
-                log.send(utils.codeBlock(`[${message.channel.name}] Message by ${message.author.username}: ${cipher.encrypt(message.content)}`), attachments.first());
-            }
-        }
-        else
-        {
-            log.send(utils.codeBlock(`[${message.channel.name}] Message by ${message.author.username}: ${cipher.encrypt(message.content)}`));
-        }
+        const log = client.channels.cache.find(channel => channel.id === config.logging_channel);
+        logging.logMessage(message, log);
         
         if(message.content.startsWith('$'))
         {

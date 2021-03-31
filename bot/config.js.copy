@@ -3,5 +3,6 @@ module.exports = {
     web_port: 9000,
     discord_token: '',
     server_id: '',
+    logging_channel: '',
     logger_key: ''
 };
