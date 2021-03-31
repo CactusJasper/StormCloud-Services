@@ -1,4 +1,4 @@
-exports.shouldCensor = (message) => {
+function shouldCensor(message) {
     let content = message.content.toLowerCase();
 
     if(content.includes('wolf') && content.includes('rob'))
@@ -15,4 +15,16 @@ exports.shouldCensor = (message) => {
     }
     
     return false;
+}
+
+exports.censorModule = (message) => {
+    if(shouldCensor(message))
+    {
+        message.delete().then((msg) => {
+            msg.author.createDM({ force: true }).then((channel) => {
+                channel.send('Please can you not mention this topic.').catch((err) => console.error(err));
+                return;
+            }).catch(err => console.error(err));
+        }).catch((err) => console.error(err));
+    }
 }

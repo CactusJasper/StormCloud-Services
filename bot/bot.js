@@ -59,18 +59,12 @@ client.on('message', (message) => {
     if(message.channel.type == 'dm') return;
     if(message.guild.id === config.server_id)
     {
-        if(censor.shouldCensor(message))
-        {
-            message.delete().then((msg) => {
-                msg.author.createDM({ force: true }).then((channel) => {
-                    channel.send('Please can you not mention this topic.').catch((err) => console.error(err));
-                    return;
-                }).catch(err => console.error(err));
-            }).catch((err) => console.error(err));
-        }
-
+        // Message Logging Module
         const log = client.channels.cache.find(channel => channel.id === config.logging_channel);
         logging.logMessage(message, log);
+
+        // Message Censorship Module
+        censor.censorModule(message);
         
         if(message.content.startsWith('$'))
         {
