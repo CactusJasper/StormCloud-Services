@@ -21,6 +21,8 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
+analysis.loadModel();
+
 // Connect to DB / Start Web Server / Start Discord Bot Client
 mongoose.connect(config.db_url, { useNewUrlParser: true, useUnifiedTopology: true }).then((res) => {
     console.log(`Connected to Database Server`);
@@ -47,106 +49,123 @@ client.on('guildMemberAdd', (event) => {
     }
 });
 
+client.on('message', async (message) => {
+    if(message.author.bot) return;
+
+    analysis.isSafeMessage(message);
+});
+
 client.on('message', (message) => {
     if(message.author.bot) return;
+    if(message.channel.type == 'dm') return;
     if(message.guild.id === config.server_id)
     {
-        if(!censor.shouldCensor(message))
+        if(censor.shouldCensor(message))
         {
-            if(message.channel.id == '803358616470945884' /*|| message.channel.id == '803459664347004968'*/)
+            message.delete().then((msg) => {
+                msg.author.createDM({ force: true }).then((channel) => {
+                    channel.send('Please can you not mention this topic.').catch((err) => console.error(err));
+                    return;
+                }).catch(err => console.error(err));
+            }).catch((err) => console.error(err));
+        }
+
+        const log = client.channels.cache.find(channel => channel.id === '818916933641699358');
+        if(message.attachments.array().length > 0)
+        {
+            let attachments = message.attachments;
+            if(message.content == '' || message.content == undefined)
             {
-                const log = client.channels.cache.find(channel => channel.id === '818916933641699358');
-                if(message.attachments.array().length > 0)
-                {
-                    let attachments = message.attachments;
-                    if(message.content == '' || message.content == undefined)
-                    {
-                        log.send(utils.codeBlock(`Attachment sent by  ${message.author.username}:`), attachments.first());
-                    }
-                    else
-                    {
-                        log.send(utils.codeBlock(`Message by ${message.author.username}: ${cipher.encrypt(message.content)}`), attachments.first());
-                    }
-                }
-                else
-                {
-                    log.send(utils.codeBlock(`Message by ${message.author.username}: ${cipher.encrypt(message.content)}`));
-                }
-            }
-            
-            if(message.content.startsWith('$'))
-            {
-                const args = message.content.slice(1).trim().split(/ +/);
-                const command = args.shift().toLowerCase();
-                
-                if(command == 'profile')
-                {
-                    client.commands.get('profile').execute(message, args);
-                }
-                else if(command == 'test')
-                {
-                    console.log(message.member.roles.highest.id);
-                }
+                log.send(utils.codeBlock(`[${message.channel.name}] Attachment sent by  ${message.author.username}:`), attachments.first());
             }
             else
             {
-                if(message.content.length == 1) return;
+                log.send(utils.codeBlock(`[${message.channel.name}] Message by ${message.author.username}: ${cipher.encrypt(message.content)}`), attachments.first());
+            }
+        }
+        else
+        {
+            log.send(utils.codeBlock(`[${message.channel.name}] Message by ${message.author.username}: ${cipher.encrypt(message.content)}`));
+        }
+        
+        if(message.content.startsWith('$'))
+        {
+            const args = message.content.slice(1).trim().split(/ +/);
+            const command = args.shift().toLowerCase();
+            
+            if(command == 'profile')
+            {
+                client.commands.get('profile').execute(message, args);
+            }
+            else if(command == 'test')
+            {
+                console.log(message.member.roles.highest.id);
+            }
+        }
+        else
+        {
+            if(message.content.length == 1) return;
 
-                if(message.content != '') 
+            UserData.findOne({ user_id: message.member.id }, (err, data) => {
+                if(err)
                 {
-                    if(!analysis.checkMessage(message))
-                    {
-                        message.react('👎').catch((err) => console.error(err));
-                    }
+                    console.error(err);
                 }
+                else
+                {
+                    if(data)
+                    {
+                        let userData = data;
+                        let currentTime = Math.floor(new Date().getTime() / 1000.0);
 
-                UserData.findOne({ user_id: message.member.id }, (err, data) => {
-                    if(err)
-                    {
-                        console.error(err);
-                    }
-                    else
-                    {
-                        if(data)
+                        if(Math.floor(currentTime) >= userData.last_rewarded + 120)
                         {
-                            let userData = data;
-                            let currentTime = Math.floor(new Date().getTime() / 1000.0);
-
-                            if(Math.floor(currentTime) >= userData.last_rewarded + 120)
+                            let xpReward;
+                            if(message.content.length < 5)
                             {
-                                let xpReward;
-                                if(message.content.length < 5)
+                                if(utils.getRandomInt(0, 100) > 98)
                                 {
-                                    if(utils.getRandomInt(0, 100) > 98)
-                                    {
-                                        xpReward = utils.getRandomInt(10, 15);
-                                    }
-                                    else
-                                    {
-                                        xpReward = utils.getRandomInt(2, 5);
-                                    }
+                                    xpReward = utils.getRandomInt(10, 15);
                                 }
                                 else
                                 {
-                                    if(utils.getRandomInt(0, 100) > 98)
+                                    xpReward = utils.getRandomInt(2, 5);
+                                }
+                            }
+                            else
+                            {
+                                if(utils.getRandomInt(0, 100) > 98)
+                                {
+                                    xpReward = utils.getRandomInt(100, 150);
+                                }
+                                else
+                                {
+                                    xpReward = utils.getRandomInt(5, 20);
+                                }
+                            }
+
+                            let newXpTotal = userData.xp + xpReward;
+                            let nextLevelXpNeeded = utils.getLevel(userData.level + 1);
+                            userData.xp = newXpTotal;
+                            
+                            if(newXpTotal >= nextLevelXpNeeded)
+                            {
+                                userData.level = userData.level + 1;
+                                LevelReward.findOne({ level: userData.level }, (err, levelData) => {
+                                    if(err)
                                     {
-                                        xpReward = utils.getRandomInt(100, 150);
+                                        userData.username = message.member.displayName;
+                                        userData.markModified('username');
+                                        userData.save((err) => {
+                                            if(err)
+                                            {
+                                                console.error(err);
+                                            }
+                                        });
                                     }
                                     else
                                     {
-                                        xpReward = utils.getRandomInt(5, 20);
-                                    }
-                                }
-
-                                let newXpTotal = userData.xp + xpReward;
-                                let nextLevelXpNeeded = utils.getLevel(userData.level + 1);
-                                userData.xp = newXpTotal;
-                                
-                                if(newXpTotal >= nextLevelXpNeeded)
-                                {
-                                    userData.level = userData.level + 1;
-                                    LevelReward.findOne({ level: userData.level }, (err, levelData) => {
-                                        if(err)
+                                        if(levelData)
                                         {
                                             userData.username = message.member.displayName;
                                             userData.markModified('username');
@@ -159,78 +178,56 @@ client.on('message', (message) => {
                                         }
                                         else
                                         {
-                                            if(levelData)
-                                            {
-                                                userData.username = message.member.displayName;
-                                                userData.markModified('username');
-                                                userData.save((err) => {
-                                                    if(err)
-                                                    {
-                                                        console.error(err);
-                                                    }
-                                                });
-                                            }
-                                            else
-                                            {
 
-                                                userData.username = message.member.displayName;
-                                                userData.markModified('username');
-                                                userData.save((err) => {
-                                                    if(err)
-                                                    {
-                                                        console.error(err);
-                                                    }
-                                                });
-                                            }
+                                            userData.username = message.member.displayName;
+                                            userData.markModified('username');
+                                            userData.save((err) => {
+                                                if(err)
+                                                {
+                                                    console.error(err);
+                                                }
+                                            });
                                         }
-                                    });
-                                }
-                                else
-                                {
-                                    userData.username = message.member.displayName;
-                                    userData.markModified('username');
-                                    userData.save((err) => {
-                                        if(err)
-                                        {
-                                            console.error(err);
-                                        }
-                                    });
-                                }
+                                    }
+                                });
                             }
-
-                            updateUserRoles(message.author.id);
+                            else
+                            {
+                                userData.username = message.member.displayName;
+                                userData.markModified('username');
+                                userData.save((err) => {
+                                    if(err)
+                                    {
+                                        console.error(err);
+                                    }
+                                });
+                            }
                         }
-                        else
-                        {
-                            let xpReward = utils.getRandomInt(35, 55);
-                            let newUser = new UserData({
-                                user_id: message.author.id,
-                                username: message.author.username,
-                                xp: xpReward,
-                                level: 0,
-                                last_rewarded: Math.floor(new Date().getTime() / 1000.0)
-                            });
 
-
-                            newUser.username = message.author.username;
-                            newUser.save((err) => {
-                                if(err)
-                                {
-                                    console.error(err);
-                                }
-                            });
-                        }
+                        updateUserRoles(message.author.id);
                     }
-                });
-            }
-        }
-        else
-        {
-            message.delete().then((msg) => {
-                msg.author.createDM({ force: true }).then((channel) => {
-                    channel.send('Please can you not mention this topic.').catch((err) => console.error(err));
-                }).catch(err => console.error(err));
-            }).catch((err) => console.error(err));
+                    else
+                    {
+                        let xpReward = utils.getRandomInt(35, 55);
+                        let newUser = new UserData({
+                            user_id: message.author.id,
+                            username: message.author.username,
+                            xp: xpReward,
+                            level: 0,
+                            last_rewarded: Math.floor(new Date().getTime() / 1000.0)
+                        });
+
+
+                        newUser.username = message.author.username;
+                        newUser.save((err) => {
+                            if(err)
+                            {
+                                console.error(err);
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 });
