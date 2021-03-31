@@ -11,20 +11,18 @@ const config = require('./config');
 let app = express();
 let fs = require('fs');
 let utils = require('./utils.js');
-let analysis = require('./modules/moderation');
+let moderation = require('./modules/moderation');
 let censor = require('./modules/censor');
 let logging = require('./modules/logging');
-let aes256 = require('aes256');
-let cipher = aes256.createCipher(config.logger_key);
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-// Connect to DB / Start Web Server / Start Discord Bot Client
+// Connect to DB / Load Toxicity modules model / Start Web Server / Start Discord Bot Client
 mongoose.connect(config.db_url, { useNewUrlParser: true, useUnifiedTopology: true }).then((res) => {
     console.log(`Connected to Database Server`);
-    analysis.loadModel();
+    moderation.loadModel();
     app.listen(config.web_port, () => {
         console.log(`Web Server started on port ${config.web_port}`);
         client.login(config.discord_token);
@@ -48,12 +46,6 @@ client.on('guildMemberAdd', (event) => {
     }
 });
 
-client.on('message', async (message) => {
-    if(message.author.bot) return;
-
-    analysis.isSafeMessage(message);
-});
-
 client.on('message', (message) => {
     if(message.author.bot) return;
     if(message.channel.type == 'dm') return;
@@ -65,6 +57,9 @@ client.on('message', (message) => {
 
         // Message Censorship Module
         censor.censorModule(message);
+
+        // Message Moderation Module
+        moderation.isSafeMessage(message);
         
         if(message.content.startsWith('$'))
         {
