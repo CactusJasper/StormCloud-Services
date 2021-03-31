@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const randomstring = require('randomstring');
 const UserData = require('./models/user_data');
 const LevelReward = require('./models/level_reward');
-const ModRole = require('./models/mod_role');
 const config = require('./config');
 let app = express();
 let fs = require('fs');
@@ -21,11 +20,10 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-analysis.loadModel();
-
 // Connect to DB / Start Web Server / Start Discord Bot Client
 mongoose.connect(config.db_url, { useNewUrlParser: true, useUnifiedTopology: true }).then((res) => {
     console.log(`Connected to Database Server`);
+    analysis.loadModel();
     app.listen(config.web_port, () => {
         console.log(`Web Server started on port ${config.web_port}`);
         client.login(config.discord_token);

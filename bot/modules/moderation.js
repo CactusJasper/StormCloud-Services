@@ -39,7 +39,7 @@ exports.isSafeMessage = (message) => {
                 const match = p.results[0].match;
                 const prediction = p.results[0].probabilities[1];
                 //console.log(label + ': ' + match + ' (' + prediction + ')\n');
-                return match != false && prediction > 0.952;
+                return match != false && prediction >= 0.95;
             }).some(label => label);
 
             if(result)
