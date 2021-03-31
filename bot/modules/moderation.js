@@ -33,12 +33,12 @@ exports.isSafeMessage = (message) => {
     if(model != undefined)
     {
         model.classify(message.content).then(predictions => {
-            console.log('Message ', message.content);
+            //console.log('Message ', message.content);
             let result = predictions.map(p => {
                 const label = p.label;
                 const match = p.results[0].match;
                 const prediction = p.results[0].probabilities[1];
-                console.log(label + ': ' + match + ' (' + prediction + ')\n');
+                //console.log(label + ': ' + match + ' (' + prediction + ')\n');
                 return match != false && prediction > 0.952;
             }).some(label => label);
 
