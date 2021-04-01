@@ -67,7 +67,7 @@ exports.isSafeMessage = (message) => {
                 let analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
                 let analysis = analyzer.getSentiment(filteredReview);
 
-                if(analysis <= -7)
+                if(analysis <= -5)
                 {
                     message.delete().catch(err => console.error(err));
                 }
