@@ -13,11 +13,11 @@ exports.logMessage = (message, logChannel) => {
         }
         else
         {
-            logChannel.send(utils.codeBlock(`[${message.channel.name}] Message by ${message.author.username}: ${cipher.encrypt(message.content)}`), attachments.first());
+            logChannel.send(utils.codeBlock(`[${message.channel.name}] Message by ${message.author.username}: ${message.content}`), attachments.first());
         }
     }
     else
     {
-        logChannel.send(utils.codeBlock(`[${message.channel.name}] Message by ${message.author.username}: ${cipher.encrypt(message.content)}`));
+        logChannel.send(utils.codeBlock(`[${message.channel.name}] Message by ${message.author.username}: ${message.content}`));
     }
 }
