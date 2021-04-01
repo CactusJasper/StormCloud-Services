@@ -48,31 +48,34 @@ exports.isSafeMessage = (message) => {
 
             if(result)
             {
+                let alphaOnlyReview = casedReview.replace(/[^a-zA-Z\s]+/g, '');
+
+                let { WordTokenizer } = natural;
+                let tokenizer = new WordTokenizer();
+                let tokenizedReview = tokenizer.tokenize(alphaOnlyReview);
+
+                tokenizedReview.forEach((word, index) => {
+                    tokenizedReview[index] = spellCorrector.correct(word);
+                });
+
+                let filteredReview = SW.removeStopwords(tokenizedReview);
+                let { SentimentAnalyzer, PorterStemmer } = natural;
+                let analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
+                let analysis = analyzer.getSentiment(filteredReview);
+
                 if(predicts[0].prediction <= 0.952)
-                {
-                    let alphaOnlyReview = casedReview.replace(/[^a-zA-Z\s]+/g, '');
-
-                    let { WordTokenizer } = natural;
-                    let tokenizer = new WordTokenizer();
-                    let tokenizedReview = tokenizer.tokenize(alphaOnlyReview);
-
-                    tokenizedReview.forEach((word, index) => {
-                        tokenizedReview[index] = spellCorrector.correct(word);
-                    });
-
-                    let filteredReview = SW.removeStopwords(tokenizedReview);
-                    let { SentimentAnalyzer, PorterStemmer } = natural;
-                    let analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
-                    let analysis = analyzer.getSentiment(filteredReview);
-                    
-                    if(analysis <= -3)
+                {                    
+                    if(analysis <= -2)
                     {
                         message.delete().catch(err => console.error(err));
                     }
                 }
                 else
                 {
-                    message.delete().catch(err => console.error(err));
+                    if(analysis <= -4)
+                    {
+                        message.delete().catch(err => console.error(err));
+                    }
                 }                
             }
         }).catch(err => {
