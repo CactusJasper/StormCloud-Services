@@ -29,7 +29,8 @@ let model;
 
 exports.loadModel = () => {
     toxicity.load(threshold).then(genModel => {
-        model = genModel
+        model = genModel;
+        console.log('Model Loaded Successfully');
     }).catch(err => {
         console.error(err);
     });
@@ -68,7 +69,7 @@ exports.isSafeMessage = (message) => {
                 let analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
                 let analysis = analyzer.getSentiment(filteredReview);
                 
-                if(analysis < -3)
+                if(analysis <= -3)
                 {
                     message.delete().catch(err => console.error(err));
                 }
