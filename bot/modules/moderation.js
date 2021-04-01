@@ -5,6 +5,12 @@ let tf = require('@tensorflow/tfjs');
 require('@tensorflow/tfjs-node');
 let toxicity = require('@tensorflow-models/toxicity');
 const cld = require('cld');
+const aposToLexForm = require('apos-to-lex-form');
+const natural = require('natural');
+const SW = require('stopword');
+const SpellCorrector = require('spelling-corrector');
+let spellCorrector = new SpellCorrector();
+spellCorrector.loadDictionary();
 
 let options = {
     extras: {
@@ -44,7 +50,27 @@ exports.isSafeMessage = (message) => {
 
             if(result)
             {
-                message.delete().catch(err => console.error(err));
+                let lexedReview = aposToLexForm(message.content);
+                let casedReview = lexedReview.toLowerCase();
+                let alphaOnlyReview = casedReview.replace(/[^a-zA-Z\s]+/g, '');
+
+                let { WordTokenizer } = natural;
+                let tokenizer = new WordTokenizer();
+                let tokenizedReview = tokenizer.tokenize(alphaOnlyReview);
+
+                tokenizedReview.forEach((word, index) => {
+                    tokenizedReview[index] = spellCorrector.correct(word);
+                });
+
+                let filteredReview = SW.removeStopwords(tokenizedReview);
+                let { SentimentAnalyzer, PorterStemmer } = natural;
+                let analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
+                let analysis = analyzer.getSentiment(filteredReview);
+                console.log(analysis);
+                if(analysis < -3)
+                {
+                    message.delete().catch(err => console.error(err));
+                }
             }
         }).catch(err => {
             console.error(err);
