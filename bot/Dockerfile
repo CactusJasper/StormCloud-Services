@@ -3,7 +3,8 @@
 FROM node:15.12.0-buster
 
 # install aditional deps
-RUN apt-get install git python make gcc g++ build-essentials wget python3 libc6-compat
+RUN apt-get update
+RUN apt-get install -y git python make gcc g++ build-essential wget python3 libc6-dev
 
 # create the directory inside the container
 WORKDIR /usr/src/bot
