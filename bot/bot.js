@@ -80,7 +80,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
     {
         if(newMember.roles.cache.get(config.muted_role) == undefined)
         {
-            MutedUser.delete({ user_id: newMember.id }, (err) => {
+            MutedUser.deleteMany({ user_id: newMember.id }, (err) => {
                 if(err) console.error(err);
             });
         }
