@@ -75,7 +75,8 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
             });
         }
     }
-    else
+
+    if(oldMember.roles.cache.get(config.muted_role) !== undefined)
     {
         if(newMember.roles.cache.get(config.muted_role) == undefined)
         {
