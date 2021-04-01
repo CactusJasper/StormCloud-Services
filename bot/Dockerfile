@@ -1,8 +1,9 @@
 # pull the Node.js Docker image
-FROM mhart/alpine-node:14.6.0
+#FROM mhart/alpine-node:14.6.0
+FROM node:15.12.0-buster
 
 # install aditional deps
-RUN apk add --no-cache git python make gcc g++ alpine-sdk wget python3 libc-dev 
+RUN apt-get install git python make gcc g++ build-essentials wget python3 libc6-compat
 
 # create the directory inside the container
 WORKDIR /usr/src/bot
