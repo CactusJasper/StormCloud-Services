@@ -94,7 +94,7 @@ client.on('message', (message) => {
     {
         // Message Logging Module
         const log = client.channels.cache.find(channel => channel.id === config.logging_channel);
-        logging.logMessage(message, log);
+        if(log !== undefined) logging.logMessage(message, log);
 
         // Message Censorship Module
         censor.censorModule(message);
