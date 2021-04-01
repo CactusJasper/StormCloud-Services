@@ -72,7 +72,7 @@ exports.isSafeMessage = (message) => {
                 }
                 else
                 {
-
+                    message.delete().catch(err => console.error(err));
                 }                
             }
         }).catch(err => {
