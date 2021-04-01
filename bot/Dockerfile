@@ -12,9 +12,6 @@ WORKDIR /usr/src/bot
 # copy the package.json files from local machine to the workdir in container
 COPY package*.json ./
 
-# update npm
-RUN npm install -g npm@latest
-
 # run npm install in our local machine
 RUN npm install
 
