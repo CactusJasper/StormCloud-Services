@@ -111,9 +111,9 @@ client.on('message', (message) => {
             {
                 client.commands.get('profile').execute(message, args);
             }
-            else if(command == 'test')
+            else if(command == 'leaderboard')
             {
-                console.log(message.member.roles.highest.id);
+                client.commands.get('leaderboard').execute(message, args)
             }
         }
         else

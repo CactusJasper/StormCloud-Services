@@ -1,6 +1,4 @@
-const Discord = require('discord.js');
 let utils = require('../utils');
-let bot = require('../bot');
 let UserData = require('../models/user_data');
 
 module.exports = {
