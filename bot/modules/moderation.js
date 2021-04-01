@@ -28,35 +28,52 @@ exports.isSafeMessage = (message) => {
         let casedReview = lexedReview.toLowerCase();
         model.classify(casedReview).then(predictions => {
             //console.log('Message ', message.content);
+            let predicts = []
             let result = predictions.map(p => {
                 const label = p.label;
                 const match = p.results[0].match;
                 const prediction = p.results[0].probabilities[1];
                 //console.log(label + ': ' + match + ' (' + prediction + ')\n');
+
+                if(match != false && prediction >= 0.95)
+                {
+                    predicts.push({
+                        label: label,
+                        prediction: prediction
+                    });
+                }
+
                 return match != false && prediction >= 0.95;
             }).some(label => label);
 
             if(result)
             {
-                let alphaOnlyReview = casedReview.replace(/[^a-zA-Z\s]+/g, '');
-
-                let { WordTokenizer } = natural;
-                let tokenizer = new WordTokenizer();
-                let tokenizedReview = tokenizer.tokenize(alphaOnlyReview);
-
-                tokenizedReview.forEach((word, index) => {
-                    tokenizedReview[index] = spellCorrector.correct(word);
-                });
-
-                let filteredReview = SW.removeStopwords(tokenizedReview);
-                let { SentimentAnalyzer, PorterStemmer } = natural;
-                let analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
-                let analysis = analyzer.getSentiment(filteredReview);
-                
-                if(analysis <= -3)
+                if(predicts[0].prediction <= 0.952)
                 {
-                    message.delete().catch(err => console.error(err));
+                    let alphaOnlyReview = casedReview.replace(/[^a-zA-Z\s]+/g, '');
+
+                    let { WordTokenizer } = natural;
+                    let tokenizer = new WordTokenizer();
+                    let tokenizedReview = tokenizer.tokenize(alphaOnlyReview);
+
+                    tokenizedReview.forEach((word, index) => {
+                        tokenizedReview[index] = spellCorrector.correct(word);
+                    });
+
+                    let filteredReview = SW.removeStopwords(tokenizedReview);
+                    let { SentimentAnalyzer, PorterStemmer } = natural;
+                    let analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
+                    let analysis = analyzer.getSentiment(filteredReview);
+                    
+                    if(analysis <= -3)
+                    {
+                        message.delete().catch(err => console.error(err));
+                    }
                 }
+                else
+                {
+
+                }                
             }
         }).catch(err => {
             console.error(err);
