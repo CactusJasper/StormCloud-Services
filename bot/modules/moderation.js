@@ -35,7 +35,7 @@ exports.isSafeMessage = (message) => {
                 const prediction = p.results[0].probabilities[1];
                 //console.log(label + ': ' + match + ' (' + prediction + ')\n');
 
-                if(match != false && prediction >= 0.95)
+                if(match != false && prediction >= 0.97)
                 {
                     predicts.push({
                         label: label,
@@ -43,10 +43,14 @@ exports.isSafeMessage = (message) => {
                     });
                 }
 
-                return match != false && prediction >= 0.95;
+                return match != false && prediction >= 0.97;
             }).some(label => label);
 
             if(result)
+            {
+                message.delete().catch(err => console.error(err));         
+            }
+            else
             {
                 let alphaOnlyReview = casedReview.replace(/[^a-zA-Z\s]+/g, '');
 
@@ -63,20 +67,10 @@ exports.isSafeMessage = (message) => {
                 let analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
                 let analysis = analyzer.getSentiment(filteredReview);
 
-                if(predicts[0].prediction <= 0.96)
-                {                    
-                    if(analysis <= -5)
-                    {
-                        message.delete().catch(err => console.error(err));
-                    }
-                }
-                else
+                if(analysis <= -7)
                 {
-                    if(analysis <= -2)
-                    {
-                        message.delete().catch(err => console.error(err));
-                    }
-                }                
+                    message.delete().catch(err => console.error(err));
+                }
             }
         }).catch(err => {
             console.error(err);
