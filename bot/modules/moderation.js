@@ -63,7 +63,7 @@ exports.isSafeMessage = (message) => {
                 let analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
                 let analysis = analyzer.getSentiment(filteredReview);
 
-                if(predicts[0].prediction <= 0.952)
+                if(predicts[0].prediction <= 0.97)
                 {                    
                     if(analysis <= -2)
                     {
