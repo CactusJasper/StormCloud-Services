@@ -66,12 +66,24 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
     {
         if(newMember.roles.cache.get(config.muted_role) !== undefined)
         {
-            let muted = new MutedUser({
-                user_id: newMember.id
-            });
-
-            muted.save((err) => {
-                if(err) console.error(err);
+            MutedUser.findOne({ user_id: newMember.id }, (err, doc) => {
+                if(err)
+                {
+                    console.error(err);
+                }
+                else
+                {
+                    if(!doc)
+                    {
+                        let muted = new MutedUser({
+                            user_id: newMember.id
+                        });
+            
+                        muted.save((err) => {
+                            if(err) console.error(err);
+                        });
+                    }
+                }
             });
         }
     }
@@ -80,7 +92,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
     {
         if(newMember.roles.cache.get(config.muted_role) == undefined)
         {
-            MutedUser.deleteMany({ user_id: newMember.id }, (err) => {
+            MutedUser.deleteOne({ user_id: newMember.id }, (err) => {
                 if(err) console.error(err);
             });
         }
