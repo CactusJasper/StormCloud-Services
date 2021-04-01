@@ -35,7 +35,7 @@ exports.isSafeMessage = (message) => {
                 const prediction = p.results[0].probabilities[1];
                 //console.log(label + ': ' + match + ' (' + prediction + ')\n');
 
-                if(match != false && prediction >= 0.97)
+                if(match != false && prediction >= 0.955)
                 {
                     predicts.push({
                         label: label,
@@ -43,7 +43,7 @@ exports.isSafeMessage = (message) => {
                     });
                 }
 
-                return match != false && prediction >= 0.97;
+                return match != false && prediction >= 0.955;
             }).some(label => label);
 
             if(result)
