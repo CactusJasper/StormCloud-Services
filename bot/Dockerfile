@@ -2,7 +2,7 @@
 FROM mhart/alpine-node:14.6.0
 
 # install aditional deps
-RUN apk add --no-cache git python make gcc g++ build-essential wget python3 libc-dev 
+RUN apk add --no-cache git python make gcc g++ alpine-sdk wget python3 libc-dev 
 
 # create the directory inside the container
 WORKDIR /usr/src/bot
