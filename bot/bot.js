@@ -14,6 +14,7 @@ let utils = require('./utils.js');
 let moderation = require('./modules/moderation');
 let censor = require('./modules/censor');
 let logging = require('./modules/logging');
+const MutedUser = require('./models/muted_user');
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -42,7 +43,46 @@ for(const file of commandFiles)
 client.on('guildMemberAdd', (event) => {
 	if(event.guild.id == config.server_id)
     {
-        updateUserRoles(event.user)
+        updateUserRoles(event.user);
+
+        MutedUser.findOne({ user_id: event.user.id }, (err, doc) => {
+            if(err)
+            {
+                console.error(err);
+            }
+            else
+            {
+                if(doc)
+                {
+                    event.roles.add(config.muted_role).catch((err) => console.error(err));
+                }
+            }
+        });
+    }
+});
+
+client.on('guildMemberUpdate', (oldMember, newMember) => {
+    if(oldMember.roles.cache.get(config.muted_role) == undefined)
+    {
+        if(newMember.roles.cache.get(config.muted_role) !== undefined)
+        {
+            let muted = new MutedUser({
+                user_id: newMember.id
+            });
+
+            muted.save((err) => {
+                if(err) console.error(err);
+            });
+        }
+    }
+    else
+    {
+        if(newMember.roles.cache.get(config.muted_role) == undefined)
+        {
+            MutedUser.deleteOne({ user_id: newMember.id }, (err) => {
+                if(err) console.error(err);
+            });
+        }
     }
 });
 
