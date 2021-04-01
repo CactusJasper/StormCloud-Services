@@ -38,7 +38,10 @@ exports.loadModel = () => {
 exports.isSafeMessage = (message) => {
     if(model != undefined)
     {
-        model.classify(message.content).then(predictions => {
+        let content = message.content;
+        let lexedReview = aposToLexForm(content);
+        let casedReview = lexedReview.toLowerCase();
+        model.classify(casedReview).then(predictions => {
             //console.log('Message ', message.content);
             let result = predictions.map(p => {
                 const label = p.label;
@@ -50,8 +53,6 @@ exports.isSafeMessage = (message) => {
 
             if(result)
             {
-                let lexedReview = aposToLexForm(message.content);
-                let casedReview = lexedReview.toLowerCase();
                 let alphaOnlyReview = casedReview.replace(/[^a-zA-Z\s]+/g, '');
 
                 let { WordTokenizer } = natural;
