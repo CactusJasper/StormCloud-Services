@@ -19,7 +19,8 @@ let jsFiles = [
     'js/admin/polls/approve_polls.js',
     'js/admin/roles/manage_mod_roles.js',
     'js/admin/roles/manage_rewards.js',
-    'js/planner/create_event.js'
+    'js/planner/create_event.js',
+    'js/planner/planner.js'
 ];
 
 let cssFiles = [

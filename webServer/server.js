@@ -257,7 +257,7 @@ io.use((socket, next) => {
 
 io.on('connection', (socket) => {
     let userId = socket.request.session.passport;
-    if(userId !== undefined || userId != {})
+    if(userId !== undefined && userId !== {} && typeof userId !== "undefined")
     {
         require('./events/home')(socket, io); // Home Page Socket Event Handler
         require('./events/view_application')(socket, io); // Application View Socket Event Handler
