@@ -8,7 +8,7 @@ const SpellCorrector = require('spelling-corrector');
 let spellCorrector = new SpellCorrector();
 spellCorrector.loadDictionary();
 
-const threshold = 0.9;
+const threshold = 1.0;
 let model;
 
 exports.loadModel = () => {
@@ -21,69 +21,56 @@ exports.loadModel = () => {
 }
 
 exports.isSafeMessage = (message) => {
+    let content = message.content;
+    let lexedReview = aposToLexForm(content);
+    let casedReview = lexedReview.toLowerCase();
+    let alphaOnlyReview = casedReview.replace(/[^a-zA-Z\s]+/g, '');
+
+    let { WordTokenizer } = natural;
+    let tokenizer = new WordTokenizer();
+    let tokenizedReview = tokenizer.tokenize(alphaOnlyReview);
+
+    tokenizedReview.forEach((word, index) => {
+        tokenizedReview[index] = spellCorrector.correct(word);
+    });
+
+    content = SW.removeStopwords(tokenizedReview).toString();
+
+    if(content.includes('nigger') || content.includes('ngger'))
+    {
+        message.delete().catch(err => console.error(err));
+        return false;
+    }
+
     if(model != undefined)
     {
-        let content = message.content;
-        let lexedReview = aposToLexForm(content);
-        let casedReview = lexedReview.toLowerCase();
-        model.classify(casedReview).then(predictions => {
-            //console.log('Message ', message.content);
-            let predicts = []
+        model.classify(content).then(predictions => {
+            console.log('Message ', message.content);
             let result = predictions.map(p => {
                 const label = p.label;
                 const match = p.results[0].match;
                 const prediction = p.results[0].probabilities[1];
-                //console.log(label + ': ' + match + ' (' + prediction + ')\n');
-
-                if(match != false && prediction >= 0.95)
-                {
-                    predicts.push({
-                        label: label,
-                        prediction: prediction
-                    });
-                }
-
-                return match != false && prediction >= 0.95;
+                console.log(label + ': ' + match + ' (' + prediction + ')\n');
+                return match != false && prediction >= 0.97;
             }).some(label => label);
 
             if(result)
             {
-                let alphaOnlyReview = casedReview.replace(/[^a-zA-Z\s]+/g, '');
-
-                let { WordTokenizer } = natural;
-                let tokenizer = new WordTokenizer();
-                let tokenizedReview = tokenizer.tokenize(alphaOnlyReview);
-
-                tokenizedReview.forEach((word, index) => {
-                    tokenizedReview[index] = spellCorrector.correct(word);
-                });
-
-                let filteredReview = SW.removeStopwords(tokenizedReview);
-                let { SentimentAnalyzer, PorterStemmer } = natural;
-                let analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
-                let analysis = analyzer.getSentiment(filteredReview);
-
-                if(predicts[0].prediction <= 0.96)
-                {                    
-                    if(analysis <= -5)
-                    {
-                        message.delete().catch(err => console.error(err));
-                    }
-                }
-                else
-                {
-                    if(analysis <= -2)
-                    {
-                        message.delete().catch(err => console.error(err));
-                    }
-                }                
+                message.delete().catch(err => console.error(err));
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }).catch(err => {
             console.error(err);
+            return true;
         });
     }
     else
     {
         this.loadModel();
+        return true;
     }
 }

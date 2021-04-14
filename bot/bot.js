@@ -103,12 +103,14 @@ client.on('message', (message) => {
     if(message.channel.type == 'dm') return;
     if(message.guild.id === config.server_id)
     {
+        // Message Moderation Module
+        let shouldLog = true;
+        let output = moderation.isSafeMessage(message);
+        if(output == false) shouldLog = false;
+
         // Message Logging Module
         const log = client.channels.cache.find(channel => channel.id === config.logging_channel);
-        if(log !== undefined) logging.logMessage(message, log);
-
-        // Message Moderation Module
-        moderation.isSafeMessage(message);
+        if(log !== undefined && shouldLog == true) logging.logMessage(message, log);
         
         if(message.content.startsWith('$'))
         {
