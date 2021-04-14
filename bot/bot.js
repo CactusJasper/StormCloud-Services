@@ -12,7 +12,6 @@ let app = express();
 let fs = require('fs');
 let utils = require('./utils.js');
 let moderation = require('./modules/moderation');
-let censor = require('./modules/censor');
 let logging = require('./modules/logging');
 const MutedUser = require('./models/muted_user');
 
@@ -107,9 +106,6 @@ client.on('message', (message) => {
         // Message Logging Module
         const log = client.channels.cache.find(channel => channel.id === config.logging_channel);
         if(log !== undefined) logging.logMessage(message, log);
-
-        // Message Censorship Module
-        censor.censorModule(message);
 
         // Message Moderation Module
         moderation.isSafeMessage(message);
