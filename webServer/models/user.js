@@ -10,6 +10,10 @@ let userSchema = mongoose.Schema({
         default: 'discord'
     },
     highest_role: {},
+    event_manager: {
+        type: Boolean,
+        default: false
+    },
     discordId: {
         type: String
     },
