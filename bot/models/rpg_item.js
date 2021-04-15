@@ -26,7 +26,34 @@ let rpgItemSchema = mongoose.Schema({
             type: Boolean,
             default: false
         }
-    }]
+    }],
+    buy_price: {
+        type: Number,
+        default: 0
+    },
+    sell_price: {
+        type: Number,
+        default: 0
+    },
+    image: {
+        type: String
+    },
+    min_skill: {
+        skill_id: {
+            type: Number
+        },
+        min_level: {
+            type: Number
+        }
+    },
+    xp_reward: {
+        min_reward: {
+            type: Number
+        },
+        max_reward: {
+            type: Number
+        }
+    }
 });
 
 module.exports = rpgItemSchema;

@@ -1,0 +1,74 @@
+[
+    {
+        "item_id": 1,
+        "name": "Coal Ore",
+        "stat": [],
+        "buy_price": 6.5,
+        "sell_price": 5,
+        "image": "CoalOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 0
+        }
+    },
+    {
+        "item_id": 2,
+        "name": "Copper Ore",
+        "stat": [],
+        "buy_price": 17,
+        "sell_price": 11,
+        "image": "CopperOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 5
+        }
+    },
+    {
+        "item_id": 3,
+        "name": "Iron Ore",
+        "stat": [],
+        "buy_price": 19.25,
+        "sell_price": 13.5,
+        "image": "IronOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 16
+        }
+    },
+    {
+        "item_id": 4,
+        "name": "Silver Ore",
+        "stat": [],
+        "buy_price": 27.5,
+        "sell_price": 25,
+        "image": "SilverOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 27
+        }
+    },
+    {
+        "item_id": 5,
+        "name": "Gold Ore",
+        "stat": [],
+        "buy_price": 55,
+        "sell_price": 52,
+        "image": "GoldOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 39
+        }
+    },
+    {
+        "item_id": 6,
+        "name": "Aluminium Ore",
+        "stat": [],
+        "buy_price": 45,
+        "sell_price": 42,
+        "image": "AluminiumOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 43
+        }
+    }
+]

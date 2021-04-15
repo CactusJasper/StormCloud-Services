@@ -31,10 +31,18 @@ mongoose.connect(config.db_url, { useNewUrlParser: true, useUnifiedTopology: tru
 let db = mongoose.connection;
 
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+let commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for(const file of commandFiles)
 {
     const command = require(`./commands/${file}`);
+    console.log(`Registered ${command.name} Command`);
+	client.commands.set(command.name, command);
+}
+
+commandFiles = fs.readdirSync('./commands/rpg').filter(file => file.endsWith('.js'));
+for(const file of commandFiles)
+{
+    const command = require(`./commands/rpg/${file}`);
     console.log(`Registered ${command.name} Command`);
 	client.commands.set(command.name, command);
 }
@@ -146,6 +154,10 @@ client.on('message', (message) => {
                 {
                     message.channel.send('You had fun in a rainbow land').catch(err => console.error(err));
                 }
+            }
+            else if(command == 'mine' && message.author.id == '217387293571284992')
+            {
+                client.commands.get('mine').execute(message, args);
             }
         }
         else

@@ -41,3 +41,9 @@ let rpgDataSchema = mongoose.Schema({
 
 let RPGData = mongoose.model('RpgData', rpgDataSchema);
 module.exports = RPGData;
+
+/*
+SKILL ID'S:
+> Mining = 1
+> Woodcutting = 2
+*/
