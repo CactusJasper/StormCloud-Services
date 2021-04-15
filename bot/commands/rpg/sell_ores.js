@@ -43,23 +43,11 @@ module.exports = {
                         money += total;
                         data.money = money;
                         let inventory = data.inventory;
-                        let newInventory = [];
 
                         // Remove Sold Items
-                        for(let i = 0; i < inventory.length; i++)
+                        for(let i = 0; i < data.inventory.length; i++)
                         {
-                            let isOre = false;
-
-                            for(let x = 0; x < ores.length; x++)
-                            {
-                                if(inventory[i].item_id == ores[i].item_id)
-                                {
-                                    let isOre = true;
-                                }
-                            }
-
-                            if(!isOre)
-                                newInventory.push(inventory[i])
+                            inventory = utils.removeOre(data, ores, i);
                         }
 
                         data.inventory = inventory;

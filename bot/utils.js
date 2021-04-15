@@ -19,3 +19,16 @@ exports.getRPGXpNeeded = (level) =>
 {
     return (Math.round((100 + (level * 11.89) * 6) + (level * 6.76)) * 2) * level;
 }
+
+exports.removeOre = (data, ores, i) =>
+{
+    let inventory = data.inventory;
+    for(const ore of ores)
+    {
+        if(data.inventory[i].item_id == ore.item_id)
+        {
+            inventory.splice(i);
+            return inventory;
+        }
+    }
+}
