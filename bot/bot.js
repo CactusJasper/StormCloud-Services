@@ -125,6 +125,28 @@ client.on('message', (message) => {
             {
                 client.commands.get('leaderboard').execute(message, args)
             }
+            else if(command == 'kill')
+            {
+                if(message.mentions.members.size >= 1)
+                {
+                    let target = message.mentions.members.first();
+                    if(target.id == message.author.id)
+                    {
+                        message.channel.send('You had fun in a rainbow land').catch(err => console.error(err));
+                    }
+                    else
+                    {
+                        if(typeof target.nickname !== "undefined" && target.nickname !== null)
+                            client.commands.get('kill').execute(message, args, target.nickname);
+                        else
+                            client.commands.get('kill').execute(message, args, target.user.username);
+                    }
+                }
+                else
+                {
+                    message.channel.send('You had fun in a rainbow land').catch(err => console.error(err));
+                }
+            }
         }
         else
         {
