@@ -24,7 +24,7 @@ module.exports = {
                 }
             }
         });*/
-        let embed = new Discord.MessageEmbed().setTitle('You Mined Coal').attachFiles(['./images/ores/CoalOre001.png']).setImage('attachment://CoalOre001.png');
-        message.channel.send(embed).catch(err => console.error(err));
+        //let embed = new Discord.MessageEmbed().setTitle('You Mined Coal').attachFiles(['./images/ores/CoalOre001.png']).setImage('attachment://CoalOre001.png');
+        //message.channel.send(embed).catch(err => console.error(err));
 	},
 };

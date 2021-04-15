@@ -57,3 +57,13 @@ let rpgItemSchema = mongoose.Schema({
 });
 
 module.exports = rpgItemSchema;
+
+/*
+ITEM ID'S:
+> Coal Ore = 1
+> Copper Ore = 2
+> Iron Ore = 3
+> Silver Ore = 4
+> Gold Ore = 5
+> Aluminium Ore = 6
+*/
