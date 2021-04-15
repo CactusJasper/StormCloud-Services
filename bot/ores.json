@@ -9,6 +9,10 @@
         "min_skill": {
             "skill_id": 1,
             "min_level": 0
+        },
+        "xp_reward": {
+            "min_reward": 5,
+            "max_reward": 16
         }
     },
     {
@@ -21,6 +25,10 @@
         "min_skill": {
             "skill_id": 1,
             "min_level": 5
+        },
+        "xp_reward": {
+            "min_reward": 12,
+            "max_reward": 24
         }
     },
     {
@@ -33,6 +41,10 @@
         "min_skill": {
             "skill_id": 1,
             "min_level": 16
+        },
+        "xp_reward": {
+            "min_reward": 20,
+            "max_reward": 27
         }
     },
     {
@@ -45,6 +57,10 @@
         "min_skill": {
             "skill_id": 1,
             "min_level": 27
+        },
+        "xp_reward": {
+            "min_reward": 25,
+            "max_reward": 38
         }
     },
     {
@@ -57,6 +73,10 @@
         "min_skill": {
             "skill_id": 1,
             "min_level": 39
+        },
+        "xp_reward": {
+            "min_reward": 45,
+            "max_reward": 55
         }
     },
     {
@@ -69,6 +89,10 @@
         "min_skill": {
             "skill_id": 1,
             "min_level": 43
+        },
+        "xp_reward": {
+            "min_reward": 25,
+            "max_reward": 36
         }
     }
 ]
