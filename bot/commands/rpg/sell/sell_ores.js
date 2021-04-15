@@ -1,5 +1,5 @@
-let utils = require('../../utils');
-let RPGData = require('../../models/rpg_data');
+let utils = require('../../../utils');
+let RPGData = require('../../../models/rpg_data');
 const Discord = require('discord.js');
 let fs = require('fs');
 
