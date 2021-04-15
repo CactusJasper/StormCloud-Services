@@ -80,39 +80,68 @@ module.exports = {
                     let rewardCount = 1;
 
                     // Calculates Ore Reward
-                    // TODO: Add handeling of items already in the inventory
+                    let hadSpace = true;
                     availableOres.forEach(availableOre => {
                         if(availableOre.item_id == rewardItemId)
                         {
                             reward = availableOre;
                             rewardCount = utils.getRandomInt(1, availableOre.max_random_amount);
                             reward.amount = rewardCount;
-                            data.inventory.push(reward);
+                            let inInvAlready = false;
+                            data.inventory.forEach(item => {
+                                if(item.item_id == reward.item_id)
+                                {
+                                    if(item.amount + reward.amount <= item.max_amount)
+                                    {
+                                        item.amount += reward.amount;
+                                        inInvAlready = true;
+                                    }
+                                    else
+                                    {
+                                        inInvAlready = false;
+                                    }
+                                }
+                            });
+
+                            if(inInvAlready == false)
+                            {
+                                if(data.inventory.length < data.inventory_size)
+                                {
+                                    data.inventory.push(reward);
+                                }
+                                else
+                                {
+                                    hadSpace = false;
+                                }
+                            }
                         }
                     });
 
                     // Handles Skill Leveling
-                    data.skills.forEach(skill => {
-                        if(skill.skill_id == 1)
-                        {
-                            let xpReward = utils.getRandomInt(reward.xp_reward.min_reward, reward.xp_reward.max_reward);
-                            let totalXp = skill.xp + xpReward;
-                            let newLevel = skill.level;
-
-                            for(let x = 1; x < skill.max_level; x++)
+                    if(hadSpace)
+                    {
+                        data.skills.forEach(skill => {
+                            if(skill.skill_id == 1)
                             {
-                                let nextLevel = skill.level + x
-                                if(totalXp >= utils.getRPGXpNeeded(nextLevel))
-                                    newLevel = nextLevel;
+                                let xpReward = utils.getRandomInt(reward.xp_reward.min_reward, reward.xp_reward.max_reward);
+                                let totalXp = skill.xp + xpReward;
+                                let newLevel = skill.level;
+
+                                for(let x = 1; x < skill.max_level; x++)
+                                {
+                                    let nextLevel = skill.level + x
+                                    if(totalXp >= utils.getRPGXpNeeded(nextLevel))
+                                        newLevel = nextLevel;
+                                }
+
+                                if(newLevel > skill.level)
+                                    skill.level = newLevel;
+
+                                skill.xp = totalXp;
+                                console.log(skill);
                             }
-
-                            if(newLevel > skill.level)
-                                skill.level = newLevel;
-
-                            skill.xp = totalXp;
-                            console.log(skill);
-                        }
-                    });
+                        });
+                    }
 
                     // Save All Data
                     data.save((err) => {
@@ -122,8 +151,15 @@ module.exports = {
                         }
                         else
                         {
-                            let embed = new Discord.MessageEmbed().setTitle(`You Mined ${reward.name}`).attachFiles([`./images/ores/${reward.image}`]).setImage(`attachment://${reward.image}`).setFooter(`You gained ${rewardCount} x ${reward.name}`);
-                            message.channel.send(embed).catch(err => console.error(err));
+                            if(hadSpace)
+                            {
+                                let embed = new Discord.MessageEmbed().setTitle(`You Mined ${reward.name}`).attachFiles([`./images/ores/${reward.image}`]).setImage(`attachment://${reward.image}`).setFooter(`You gained ${rewardCount} x ${reward.name}`);
+                                message.channel.send(embed).catch(err => console.error(err));
+                            }
+                            else
+                            {
+                                message.channel.send(`You don't have any space left in your inventory.\nSell items or upgrade your inventory.`).catch(err => console.error(err));
+                            }
                         }
                     });
                 }
