@@ -112,9 +112,18 @@ client.on('message', (message) => {
     if(message.guild.id === config.server_id)
     {
         // Message Moderation Module
+        let command = false;
         let shouldLog = true;
-        let output = moderation.isSafeMessage(message);
-        if(output == false) shouldLog = false;
+        if(message.content.startsWith('$')) command = true;
+        if(!command)
+        {
+            let output = moderation.isSafeMessage(message);
+            if(output == false) shouldLog = false;
+        }
+        else
+        {
+            shouldLog = false;
+        }
 
         // Message Logging Module
         const log = client.channels.cache.find(channel => channel.id === config.logging_channel);
@@ -155,7 +164,7 @@ client.on('message', (message) => {
                     message.channel.send('You had fun in a rainbow land').catch(err => console.error(err));
                 }
             }
-            else if(command == 'mine' && message.author.id == '217387293571284992')
+            else if(command == 'mine' && (message.author.id == '217387293571284992' || message.author.id == '228618507955208192'))
             {
                 client.commands.get('mine').execute(message, args);
             }

@@ -138,7 +138,6 @@ module.exports = {
                                     skill.level = newLevel;
 
                                 skill.xp = totalXp;
-                                console.log(skill);
                             }
                         });
                     }
