@@ -13,8 +13,8 @@
             "min_level": 0
         },
         "xp_reward": {
-            "min_reward": 2,
-            "max_reward": 7
+            "min_reward": 12,
+            "max_reward": 16
         }
     },
     {
@@ -31,8 +31,8 @@
             "min_level": 0
         },
         "xp_reward": {
-            "min_reward": 5,
-            "max_reward": 16
+            "min_reward": 16,
+            "max_reward": 32
         }
     },
     {
