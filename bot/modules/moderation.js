@@ -51,7 +51,7 @@ exports.isSafeMessage = (message) => {
                 const match = p.results[0].match;
                 const prediction = p.results[0].probabilities[1];
                 console.log(label + ': ' + match + ' (' + prediction + ')\n');
-                return match != false && prediction >= 0.97;
+                return match != false && prediction >= 0.98;
             }).some(label => label);
 
             if(result)
