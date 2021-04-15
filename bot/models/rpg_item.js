@@ -9,6 +9,9 @@ let rpgItemSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    plural: {
+        type: String
+    },
     amount: {
         type: Number,
         default: 1

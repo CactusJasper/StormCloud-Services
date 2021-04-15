@@ -1,0 +1,21 @@
+[
+    {
+        "item_id": 17,
+        "name": "Log",
+        "plural": "Log's",
+        "max_random_amount": 4,
+        "max_amount": 64,
+        "stats": [],
+        "buy_price": 15,
+        "sell_price": 5,
+        "image": "resources/Log.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 150
+        },
+        "xp_reward": {
+            "min_reward": 25,
+            "max_reward": 36
+        }
+    }
+]

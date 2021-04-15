@@ -7,7 +7,7 @@
         "stat": [],
         "buy_price": 6.5,
         "sell_price": 5,
-        "image": "Stone001.png",
+        "image": "ores/Stone001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 0
@@ -25,7 +25,7 @@
         "stat": [],
         "buy_price": 6.5,
         "sell_price": 5,
-        "image": "CoalOre001.png",
+        "image": "ores/CoalOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 0
@@ -43,7 +43,7 @@
         "stat": [],
         "buy_price": 17,
         "sell_price": 11,
-        "image": "CopperOre001.png",
+        "image": "ores/CopperOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 5
@@ -61,7 +61,7 @@
         "stat": [],
         "buy_price": 19.25,
         "sell_price": 13.5,
-        "image": "IronOre001.png",
+        "image": "ores/IronOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 16
@@ -79,7 +79,7 @@
         "stat": [],
         "buy_price": 27.5,
         "sell_price": 25,
-        "image": "SilverOre001.png",
+        "image": "ores/SilverOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 27
@@ -97,7 +97,7 @@
         "stat": [],
         "buy_price": 55,
         "sell_price": 52,
-        "image": "GoldOre001.png",
+        "image": "ores/GoldOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 39
@@ -115,7 +115,7 @@
         "stat": [],
         "buy_price": 45,
         "sell_price": 42,
-        "image": "AluminiumOre001.png",
+        "image": "ores/AluminiumOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 43
@@ -133,7 +133,7 @@
         "stat": [],
         "buy_price": 55,
         "sell_price": 47,
-        "image": "CobaltOre001.png",
+        "image": "ores/CobaltOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 43
@@ -151,7 +151,7 @@
         "stat": [],
         "buy_price": 115,
         "sell_price": 98,
-        "image": "UrnaiumOre001.png",
+        "image": "ores/UrnaiumOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 64
@@ -169,7 +169,7 @@
         "stat": [],
         "buy_price": 165,
         "sell_price": 154,
-        "image": "DiamondOre001.png",
+        "image": "ores/DiamondOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 80
@@ -187,7 +187,7 @@
         "stat": [],
         "buy_price": 90,
         "sell_price": 82,
-        "image": "StrontiumOre001.png",
+        "image": "ores/StrontiumOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 80
@@ -205,7 +205,7 @@
         "stat": [],
         "buy_price": 120,
         "sell_price": 110,
-        "image": "RubyOre001.png",
+        "image": "ores/RubyOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 87
@@ -223,7 +223,7 @@
         "stat": [],
         "buy_price": 45,
         "sell_price": 42,
-        "image": "QuartzOre001.png",
+        "image": "ores/QuartzOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 98
@@ -241,7 +241,7 @@
         "stat": [],
         "buy_price": 66,
         "sell_price": 62,
-        "image": "SapphireOre001.png",
+        "image": "ores/SapphireOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 106
@@ -259,7 +259,7 @@
         "stat": [],
         "buy_price": 125,
         "sell_price": 120,
-        "image": "JasperJadeOre001.png",
+        "image": "ores/JasperJadeOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 130
@@ -277,7 +277,7 @@
         "stat": [],
         "buy_price": 69,
         "sell_price": 56,
-        "image": "AamberOre001.png",
+        "image": "ores/AmberOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 130
@@ -295,7 +295,7 @@
         "stat": [],
         "buy_price": 25,
         "sell_price": 21.5,
-        "image": "TopazOre001.png",
+        "image": "ores/TopazOre001.png",
         "min_skill": {
             "skill_id": 1,
             "min_level": 150

@@ -152,7 +152,7 @@ module.exports = {
                         {
                             if(hadSpace)
                             {
-                                let embed = new Discord.MessageEmbed().setTitle(`You Mined ${reward.name}`).attachFiles([`./images/ores/${reward.image}`]).setImage(`attachment://${reward.image}`).setFooter(`You gained ${rewardCount} x ${reward.name}`);
+                                let embed = new Discord.MessageEmbed().setTitle(`You Mined ${reward.name}`).attachFiles([`./images/${reward.image}`]).setImage(`attachment://${reward.image.split('/')[1]}`).setFooter(`You gained ${rewardCount} x ${reward.name}`);
                                 message.channel.send(embed).catch(err => console.error(err));
                             }
                             else
@@ -236,14 +236,12 @@ module.exports = {
                         }
                         else
                         {
-                            let embed = new Discord.MessageEmbed().setTitle(`You Mined ${reward.name}`).attachFiles([`./images/ores/${reward.image}`]).setImage(`attachment://${reward.image}`).setFooter(`You gained ${rewardCount} x ${reward.name}`);
+                            let embed = new Discord.MessageEmbed().setTitle(`You Mined ${reward.name}`).attachFiles([`./images/${reward.image}`]).setImage(`attachment://${reward.image.split('/')[1]}`).setFooter(`You gained ${rewardCount} x ${reward.name}`);
                             message.channel.send(embed).catch(err => console.error(err));
                         }
                     });
                 }
             }
         });
-        //let embed = new Discord.MessageEmbed().setTitle('You Mined Coal').attachFiles(['./images/ores/CoalOre001.png']).setImage('attachment://CoalOre001.png');
-        //message.channel.send(embed).catch(err => console.error(err));
 	},
 };
