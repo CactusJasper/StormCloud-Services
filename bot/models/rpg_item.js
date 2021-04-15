@@ -9,6 +9,17 @@ let rpgItemSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    amount: {
+        type: Number,
+        default: 1
+    },
+    max_random_amount: {
+        type: Number
+    },
+    max_amount: {
+        type: Number,
+        required: true
+    },
     stats: [{
         stat_id: {
             type: Number,

@@ -2,11 +2,15 @@
     {
         "skill_id": 1,
         "name": "Mining",
-        "max_level": 250
+        "max_level": 250,
+        "level": 0,
+        "xp": 0
     },
     {
         "skill_id": 2,
         "name": "Woodcutting",
-        "max_level": 100
+        "max_level": 100,
+        "level": 0,
+        "xp": 0
     }
 ]

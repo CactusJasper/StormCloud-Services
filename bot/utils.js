@@ -14,3 +14,8 @@ exports.codeBlock = (text) =>
 {
     return "```" + '\n' + text + "\n```";
 }
+
+exports.getRPGXpNeeded = (level) =>
+{
+    return (Math.round((100 + (level * 11.89) * 6) + (level * 6.76)) * 2) * level;
+}

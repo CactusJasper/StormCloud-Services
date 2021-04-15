@@ -2,6 +2,8 @@
     {
         "item_id": 0,
         "name": "Stone",
+        "max_random_amount": 1,
+        "max_amount": 64,
         "stat": [],
         "buy_price": 6.5,
         "sell_price": 5,
@@ -18,6 +20,8 @@
     {
         "item_id": 1,
         "name": "Coal Ore",
+        "max_random_amount": 4,
+        "max_amount": 64,
         "stat": [],
         "buy_price": 6.5,
         "sell_price": 5,
