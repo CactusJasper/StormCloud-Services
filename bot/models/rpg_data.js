@@ -6,7 +6,7 @@ let rpgDataSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    coins: {
+    money: {
         type: Number,
         default: 0
     },

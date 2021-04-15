@@ -1,5 +1,21 @@
 [
     {
+        "item_id": 0,
+        "name": "Stone",
+        "stat": [],
+        "buy_price": 6.5,
+        "sell_price": 5,
+        "image": "Stone001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 0
+        },
+        "xp_reward": {
+            "min_reward": 2,
+            "max_reward": 7
+        }
+    },
+    {
         "item_id": 1,
         "name": "Coal Ore",
         "stat": [],

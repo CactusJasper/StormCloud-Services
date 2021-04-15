@@ -60,6 +60,7 @@ module.exports = rpgItemSchema;
 
 /*
 ITEM ID'S:
+> Stone = 0
 > Coal Ore = 1
 > Copper Ore = 2
 > Iron Ore = 3
