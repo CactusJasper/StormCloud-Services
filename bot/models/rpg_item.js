@@ -28,3 +28,5 @@ let rpgItemSchema = mongoose.Schema({
         }
     }]
 });
+
+module.exports = rpgItemSchema;

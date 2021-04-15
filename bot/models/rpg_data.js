@@ -1,4 +1,5 @@
 let mongoose = require('mongoose');
+let RPGItem = require('./rpg_item');
 
 let rpgDataSchema = mongoose.Schema({
     user_id: {
@@ -30,7 +31,12 @@ let rpgDataSchema = mongoose.Schema({
             type: Number,
             default: 0
         }
-    }]
+    }],
+    inventory_size: {
+        type: Number,
+        default: 9
+    },
+    inventory: [RPGItem]
 });
 
 let RPGData = mongoose.model('RpgData', rpgDataSchema);
