@@ -21,6 +21,31 @@ module.exports = {
             {
                 if(data)
                 {
+                    // Check if any skills have been added via an update then add default values for new skills
+                    if(data.skills.length < skills.length)
+                    {
+                        let missingSkills = [];
+                        let currentSkills = data.skills;
+                        skills.forEach(skill => {
+                            let exists = false;
+                            currentSkills.forEach(curSkill => {
+                                if(skill.skill_id == curSkill.skill_id)
+                                {
+                                    exists = true;
+                                }
+                            });
+
+                            if(!exists)
+                            {
+                                missingSkills.push(skill);
+                            }
+                        });
+
+                        missingSkills.forEach(skill => {
+                            data.skills.push(skill);
+                        });
+                    }
+
                     let skillLevel = 0;
                     data.skills.forEach(skill => {
                         if(skill.skill_id == 1)
@@ -50,11 +75,12 @@ module.exports = {
                         return a.chance - b.chance;
                     });
 
-                    let rewardItemId = chances[utils.getRandomInt(0, chances.length)].item_id;
+                    let rewardItemId = chances[utils.getRandomInt(0, chances.length - 1)].item_id;
                     let reward = {};
                     let rewardCount = 1;
 
                     // Calculates Ore Reward
+                    // TODO: Add handeling of items already in the inventory
                     availableOres.forEach(availableOre => {
                         if(availableOre.item_id == rewardItemId)
                         {
@@ -130,7 +156,7 @@ module.exports = {
                         return a.chance - b.chance;
                     });
 
-                    let rewardItemId = chances[utils.getRandomInt(0, chances.length)].item_id;
+                    let rewardItemId = chances[utils.getRandomInt(0, chances.length - 1)].item_id;
                     let reward = {};
                     let rewardCount = 1;
 
