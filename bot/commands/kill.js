@@ -9,10 +9,10 @@ module.exports = {
         let responseNum = 0;
 
         if(messages.length > 1)
-            responseNum = utils.getRandomInt(0, messages.length);
+            responseNum = utils.getRandomInt(0, messages.length - 1);
         
         let response = messages[responseNum].reason.toString();
-        if(typeof message.member.nickname !== "undefined" || message.member.nickname !== null)
+        if(typeof message.member.nickname !== "undefined" && message.member.nickname !== null)
             response = response.replace(/%author%/gi, message.member.nickname);
         else
             response = response.replace(/%author%/gi, message.author.username);
