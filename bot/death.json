@@ -50,14 +50,64 @@
         },
         {
             "reason": " %author% put %target% in their Death Note, a minute later they died."
+        },
+        {
+            "reason": " %target% forgot to look both ways before crossing."
         }
     ],
     [
         {
-            "reason": "%author% lined everyone apart of %target% and forced them to walk of a cliff."
+            "reason": " %author% lined everyone apart of %target% and forced them to walk of a cliff."
         },
         {
-            "reason": "%author% has started the soviet purges on %target%."
+            "reason": " %author% has started the soviet purges on %target%."
+        }
+    ],
+    [
+        {
+            "reason": " You had fun in a rainbow land."
+        },
+        {
+            "reason": " 0021-3983-2000-58"
+        },
+        {
+            "reason": " 1800-008-255"
+        },
+        {
+            "reason": " 112"
+        },
+        {
+            "reason": " 1-877-330-6366"
+        },
+        {
+            "reason": " 762-1602"
+        },
+        {
+            "reason": " 0800-111-0-111"
+        },
+        {
+            "reason": " +91-44-24640050"
+        },
+        {
+            "reason": " (55) 5655-3080"
+        },
+        {
+            "reason": " 0800 567 567"
+        },
+        {
+            "reason": " 116 123"
+        },
+        {
+            "reason": " 1-877-565-8860"
+        },
+        {
+            "reason": " 211"
+        },
+        {
+            "reason": " 1-800-273-8255"
+        },
+        {
+            "reason": " 0800 0767"
         }
     ]
 ]

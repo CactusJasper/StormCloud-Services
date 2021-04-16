@@ -149,7 +149,8 @@ client.on('message', (message) => {
                     let target = message.mentions.members.first();
                     if(target.id == message.author.id)
                     {
-                        message.channel.send('You had fun in a rainbow land').catch(err => console.error(err));
+                        client.commands.get('kill').execute(message, args, target.name, false, true);
+                        //message.channel.send('You had fun in a rainbow land').catch(err => console.error(err));
                     }
                     else
                     {
@@ -168,7 +169,8 @@ client.on('message', (message) => {
                 }
                 else
                 {
-                    message.channel.send('You had fun in a rainbow land').catch(err => console.error(err));
+                    client.commands.get('kill').execute(message, args, message.author.username, false, true);
+                    //message.channel.send('You had fun in a rainbow land').catch(err => console.error(err));
                 }
             }
             else if(command == 'mine' && (message.author.id == '217387293571284992' || message.author.id == '228618507955208192'))
