@@ -32,3 +32,17 @@ exports.removeOre = (data, ores, i) =>
         }
     }
 }
+
+exports.logger = {
+    error(message, err) {
+        if(process.env.NODE_ENV !== 'production')
+        {
+            console.log(`================= ${message} =================`);
+            console.error(err);
+        }
+    },
+    log(message) {
+        if(process.env.NODE_ENV !== 'production')
+            console.log(message);
+    }
+};

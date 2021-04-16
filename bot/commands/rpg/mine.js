@@ -16,6 +16,7 @@ module.exports = {
             if(err)
             {
                 console.error(err);
+                message.channel.send('Mining is currently unavailable come back later.').catch((err) => console.error(err));
             }
             else
             {
