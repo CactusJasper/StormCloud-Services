@@ -1,53 +1,63 @@
 [
-    {
-        "reason": " %author% pulls a potato peeler from their pocket and forces %target% to walk off a plank... 2 minutes later %target% forgot to land on their ass."
-    },
-    {
-        "reason": " %target% forgot to breath."
-    },
-    {
-        "reason": " You know I don't feel like killing someone. Hey %target% have a free hug on the house.\nPositivity is key to life and success"
-    },
-    {
-        "reason": " %target% went to a bar and was killed by kindness by the bartender."
-    },
-    {
-        "reason": " %author% put their arm out to help %target% up * *lets go* * %target% splats to the ground."
-    },
-    {
-        "reason": " %target% was doomed to fall by %author%."
-    },
-    {
-        "reason": " %target% was struck by lighting."
-    },
-    {
-        "reason": " %target% went up in flames."
-    },
-    {
-        "reason": " %target% died."
-    },
-    {
-        "reason": " %target% withered away."
-    },
-    {
-        "reason": " %target% was poked to death by a bush."
-    },
-    {
-        "reason": " %target% slipped on a lego and banged their head on the pavment."
-    },
-    {
-        "reason": " %target% got lorenzo's narcolepsy, slept too long and got killed during sleep."
-    },
-    {
-        "reason": " %target% watched the mexican cartel beheading, and joined in."
-    },
-    {
-        "reason": " %target% missed the death, their parents died just like Justin's out of disappointment from their birth!"
-    },
-    {
-        "reason": " %target% got killed by Naty's cop car when %author% drove, * *bones crushed* * and flattened to the tarmac like a pancake."
-    },
-    {
-        "reason": " %author% put %target% in their Death Note, a minute later they died."
-    }
+    [
+        {
+            "reason": " %author% pulls a potato peeler from their pocket and forces %target% to walk off a plank... 2 minutes later %target% forgot to land on their ass."
+        },
+        {
+            "reason": " %target% forgot to breath."
+        },
+        {
+            "reason": " You know I don't feel like killing someone. Hey %target% have a free hug on the house.\nPositivity is key to life and success"
+        },
+        {
+            "reason": " %target% went to a bar and was killed by kindness by the bartender."
+        },
+        {
+            "reason": " %author% put their arm out to help %target% up * *lets go* * %target% splats to the ground."
+        },
+        {
+            "reason": " %target% was doomed to fall by %author%."
+        },
+        {
+            "reason": " %target% was struck by lighting."
+        },
+        {
+            "reason": " %target% went up in flames."
+        },
+        {
+            "reason": " %target% died."
+        },
+        {
+            "reason": " %target% withered away."
+        },
+        {
+            "reason": " %target% was poked to death by a bush."
+        },
+        {
+            "reason": " %target% slipped on a lego and banged their head on the pavment."
+        },
+        {
+            "reason": " %target% got lorenzo's narcolepsy, slept too long and got killed during sleep."
+        },
+        {
+            "reason": " %target% watched the mexican cartel beheading, and joined in."
+        },
+        {
+            "reason": " %target% missed the death, their parents died just like Justin's out of disappointment from their birth!"
+        },
+        {
+            "reason": " %target% got killed by Naty's cop car when %author% drove, * *bones crushed* * and flattened to the tarmac like a pancake."
+        },
+        {
+            "reason": " %author% put %target% in their Death Note, a minute later they died."
+        }
+    ],
+    [
+        {
+            "reason": "%author% lined everyone apart of %target% and forced them to walk of a cliff."
+        },
+        {
+            "reason": "%author% has started the soviet purges on %target%."
+        }
+    ]
 ]

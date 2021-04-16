@@ -156,10 +156,15 @@ client.on('message', (message) => {
                         if(target.id == '217387293571284992')
                             message.channel.send('I refuse to kill the overlord.').catch(err => console.error(err));
                         else if(typeof target.nickname !== "undefined" && target.nickname !== null)
-                            client.commands.get('kill').execute(message, args, target.nickname);
+                            client.commands.get('kill').execute(message, args, target.nickname, false);
                         else
-                            client.commands.get('kill').execute(message, args, target.user.username);
+                            client.commands.get('kill').execute(message, args, target.user.username, false);
                     }
+                }
+                else if(message.mentions.roles.size >= 1)
+                {
+                    let target = message.mentions.roles.first();
+                    client.commands.get('kill').execute(message, args, target.name, true);
                 }
                 else
                 {
