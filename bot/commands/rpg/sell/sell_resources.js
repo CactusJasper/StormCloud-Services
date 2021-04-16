@@ -25,7 +25,16 @@ module.exports = {
                 }
                 else
                 {
+                    let rpgData = new RPGData({
+                        user_id: message.author.id,
+                        skills: skills,
+                        inventory: []
+                    });
 
+                    rpgData.save((err) => {
+                        if(err) console.error(err);
+                        message.channel.send('You have no resources to sell come back after working.').catch(err => console.error(err));
+                    });
                 }
             }
         });

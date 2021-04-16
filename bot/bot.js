@@ -150,7 +150,6 @@ client.on('message', (message) => {
                     if(target.id == message.author.id)
                     {
                         client.commands.get('kill').execute(message, args, target.name, false, true);
-                        //message.channel.send('You had fun in a rainbow land').catch(err => console.error(err));
                     }
                     else
                     {
@@ -170,7 +169,6 @@ client.on('message', (message) => {
                 else
                 {
                     client.commands.get('kill').execute(message, args, message.author.username, false, true);
-                    //message.channel.send('You had fun in a rainbow land').catch(err => console.error(err));
                 }
             }
             else if(command == 'mine' && (message.author.id == '217387293571284992' || message.author.id == '228618507955208192'))
