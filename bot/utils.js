@@ -32,3 +32,16 @@ exports.removeOre = (data, ores, i) =>
         }
     }
 }
+
+exports.removeResource = (data, resources, i) =>
+{
+    let inventory = data.inventory;
+    for(const resource of resources)
+    {
+        if(data.inventory[i].item_id == resource.item_id)
+        {
+            inventory.splice(i);
+            return inventory;
+        }
+    }
+}

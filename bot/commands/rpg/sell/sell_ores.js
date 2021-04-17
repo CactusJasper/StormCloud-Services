@@ -21,6 +21,31 @@ module.exports = {
             {
                 if(data)
                 {
+                    // Check if any skills have been added via an update then add default values for new skills
+                    if(data.skills.length < skills.length)
+                    {
+                        let missingSkills = [];
+                        let currentSkills = data.skills;
+                        skills.forEach(skill => {
+                            let exists = false;
+                            currentSkills.forEach(curSkill => {
+                                if(skill.skill_id == curSkill.skill_id)
+                                {
+                                    exists = true;
+                                }
+                            });
+
+                            if(!exists)
+                            {
+                                missingSkills.push(skill);
+                            }
+                        });
+
+                        missingSkills.forEach(skill => {
+                            data.skills.push(skill);
+                        });
+                    }
+
                     let total = 0;
                     let totalItemsSold = 0;
                     let money = data.money;
@@ -61,7 +86,7 @@ module.exports = {
                             }
                             else
                             {
-                                message.channel.send(`You sold ${totalItemsSold} for $${total}. Your new balance is $${money}`).catch((err) => console.error(err));
+                                message.channel.send(`You sold ${totalItemsSold} items for $${total}. Your new balance is $${money}`).catch((err) => console.error(err));
                             }
                         });
                     }

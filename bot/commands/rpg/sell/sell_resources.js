@@ -21,7 +21,79 @@ module.exports = {
             {
                 if(data)
                 {
+                    // Check if any skills have been added via an update then add default values for new skills
+                    if(data.skills.length < skills.length)
+                    {
+                        let missingSkills = [];
+                        let currentSkills = data.skills;
+                        skills.forEach(skill => {
+                            let exists = false;
+                            currentSkills.forEach(curSkill => {
+                                if(skill.skill_id == curSkill.skill_id)
+                                {
+                                    exists = true;
+                                }
+                            });
 
+                            if(!exists)
+                            {
+                                missingSkills.push(skill);
+                            }
+                        });
+
+                        missingSkills.forEach(skill => {
+                            data.skills.push(skill);
+                        });
+                    }
+
+                    let total = 0;
+                    let totalItemsSold = 0;
+                    let money = data.money;
+
+                    // Calculate total Sell Price
+                    data.inventory.forEach(item => {
+                        for(let i = 0; i < resources.length; i++)
+                        {
+                            if(item.item_id == resources[i].item_id)
+                            {
+                                let totalForItem = item.sell_price * item.amount;
+                                total += totalForItem;
+                                totalItemsSold += item.amount;
+                            }
+                        }
+                    });
+
+                    if(total > 0)
+                    {
+                        money += total;
+                        data.money = money;
+                        let inventory = data.inventory;
+
+                        // Remove Sold Items
+                        for(let i = 0; i < data.inventory.length; i++)
+                        {
+                            inventory = utils.removeResource(data, resources, i);
+                        }
+
+                        data.inventory = inventory;
+                        data.markModified('inventory');
+
+                        data.save((err) => {
+                            if(err)
+                            {
+                                console.error(err);
+                                message.channel.send('Selling Resources is currently unavailable come back later.').catch((err) => console.error(err));
+                            }
+                            else
+                            {
+                                message.channel.send(`You sold ${totalItemsSold} items for $${total}. Your new balance is $${money}`).catch((err) => console.error(err));
+                            }
+                        });
+                    }
+                    else
+                    {
+                        message.channel.send('You have no Resources to sell come back after mining.').catch(err => console.error(err));
+                    }
                 }
                 else
                 {
