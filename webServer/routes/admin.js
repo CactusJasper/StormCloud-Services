@@ -548,4 +548,19 @@ router.get('/manage/role/rewards', utils.ensureAuthenticated, (req, res) => {
     }
 });
 
+router.get('/manage/users', csrfProtection, utils.ensureAuthenticated, (req, res) => {
+    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    {
+        res.render('admin/roles/manageUsers', {
+            admin: true,
+            superUser: true,
+            user: req.user,
+        });
+    }
+    else
+    {
+        res.redirect('back');
+    }
+});
+
 module.exports = router;
