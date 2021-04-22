@@ -175,6 +175,10 @@ client.on('message', (message) => {
             {
                 client.commands.get('mine').execute(message, args);
             }
+            else if(command == 'woodcut' && (message.author.id == '217387293571284992' || message.author.id == '228618507955208192'))
+            {
+                client.commands.get('woodcut').execute(message, args);
+            }
             else if(command == 'sell' && (message.author.id == '217387293571284992' || message.author.id == '228618507955208192'))
             {
                 client.commands.get('sell').execute(message, args);
