@@ -23,6 +23,12 @@ module.exports = {
 
             message.channel.send(response.toString()).catch(err => console.error(err));
         }
+        else if(message.author.id == '707375823484616795')
+        {
+            let msg = "You know I don't feel like killing someone. Hey %target% have a free hug on the house.\nPositivity is key to life and success";
+            msg = msg.replace(/%target%/gi, target);
+            message.channel.send(msg.toString()).catch(err => console.error(err));
+        }
         else if(self)
         {
             if(messages[2].length > 1)

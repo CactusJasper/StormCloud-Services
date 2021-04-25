@@ -53,6 +53,12 @@
         },
         {
             "reason": " %target% forgot to look both ways before crossing."
+        },
+        {
+            "reason": " %target% twerked to death."
+        },
+        {
+            "reason":" %target% forgot to wear a mask."
         }
     ],
     [
