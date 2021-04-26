@@ -36,7 +36,7 @@ exports.isSafeMessage = (message) => {
 
     content = SW.removeStopwords(tokenizedReview).toString();
 
-    if(content.includes('nigger') || content.includes('ngger'))
+    if(content.includes('nigger') || content.includes('ngger') || content.includes('nig'))
     {
         message.delete().catch(err => console.error(err));
         return false;
@@ -51,7 +51,7 @@ exports.isSafeMessage = (message) => {
                 const match = p.results[0].match;
                 const prediction = p.results[0].probabilities[1];
                 console.log(label + ': ' + match + ' (' + prediction + ')\n');
-                return match != false && prediction >= 0.98;
+                return match != false && prediction >= 0.98 && label == 'severe_toxicity';
             }).some(label => label);
 
             if(result)
