@@ -166,6 +166,10 @@ client.on('message', (message) => {
                     let target = message.mentions.roles.first();
                     client.commands.get('kill').execute(message, args, target.name, true);
                 }
+                else if(args[0] == 'onion')
+                {
+                    message.channel.send(`${message.author.username} washed an onion and then cooked it in the oven.`).catch(err => console.error(err));
+                }
                 else
                 {
                     client.commands.get('kill').execute(message, args, message.author.username, false, true);
