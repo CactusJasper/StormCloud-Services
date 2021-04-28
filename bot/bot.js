@@ -117,8 +117,8 @@ client.on('message', (message) => {
         if(message.content.startsWith('$')) command = true;
         if(!command)
         {
-            let output = moderation.isSafeMessage(message);
-            if(output == false) shouldLog = false;
+            //let output = moderation.isSafeMessage(message);
+            //if(output == false) shouldLog = false;
         }
         else
         {
@@ -155,6 +155,8 @@ client.on('message', (message) => {
                     {
                         if(target.id == '217387293571284992')
                             message.channel.send('I refuse to kill the overlord.').catch(err => console.error(err));
+                        else if(target.id == '783811510652239904')
+                            message.channel.send(`I don't feel like killing my self just yet maybe in a hour.`).catch(err => console.error(err));
                         else if(typeof target.nickname !== "undefined" && target.nickname !== null)
                             client.commands.get('kill').execute(message, args, target.nickname, false);
                         else
