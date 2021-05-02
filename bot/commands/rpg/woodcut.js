@@ -4,8 +4,8 @@ const Discord = require('discord.js');
 let fs = require('fs');
 
 module.exports = {
-	name: 'mine',
-	description: 'Makes you mine for ore.',
+	name: 'woodcut',
+	description: 'Makes you chop down trees for logs and loot.',
 	execute(message, args) {
         let userId = message.author.id;
         let skills = JSON.parse(fs.readFileSync('./rpg_data/skills.json'));
