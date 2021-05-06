@@ -58,8 +58,11 @@
             "reason": " %target% twerked to death."
         },
         {
-            "reason":" %target% forgot to wear a mask."
-        }
+            "reason": " %target% forgot to wear a mask."
+        },
+		{
+			"reason": " %target% died from Lorenzo’s plains flying into the 9/11 towers"
+		}
     ],
     [
         {
