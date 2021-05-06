@@ -68,7 +68,7 @@ module.exports = (socket, io) => {
                                         {
                                             for(let i = 0; i < config.default_super_users.length; i++)
                                             {
-                                                if(profile.id === config.default_super_users[i])
+                                                if(user.id === config.default_super_users[i])
                                                     user.superuser = true;
                                             }
                                         }
