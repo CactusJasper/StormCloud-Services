@@ -174,7 +174,7 @@ app.get('*', (req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-    if(req.user)
+    if(req.isAuthenticated())
     {
         utils.isAdmin(req.user).then((admin) => {
             if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))

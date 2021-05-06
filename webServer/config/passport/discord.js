@@ -1,5 +1,6 @@
 let DiscordStrategy = require('passport-discord').Strategy;
 const User = require('../../models/user');
+const ModRole = require('../../models/mod_role');
 const Server = require('../../models/server');
 const config = require('../config');
 const axios = require('axios');
@@ -22,14 +23,14 @@ module.exports = new DiscordStrategy({
     {
         if(isMember(profile))
         {
-            User.findOne(options, (err, user) => {
+            User.findOne(options, (err, usr) => {
                 if(err)
                 {
                     return done(err);
                 }
                 else
                 {
-                    if(!user)
+                    if(!usr)
                     {
                         Server.findOne({ server_name: "StormCloud Services" }, (err, server) => {
                             if(err)
@@ -49,23 +50,53 @@ module.exports = new DiscordStrategy({
                                     }).then(res => {
                                         if(res.data.status == 200)
                                         {
+                                            let highestRole = res.data.role;
                                             let modProfile = profile;
                                             modProfile.mfa_enabled = undefined;
                                             modProfile.accessToken = undefined;
                                             modProfile.fetchedAt = undefined;
+                                            modProfile.guilds = undefined;
 
                                             let user = new User();
                                             user.discordId = profile.id
                                             user.username = profile.username;
                                             user.provider = 'discord';
                                             user.discord = modProfile;
-                                            user.highest_role = res.data.role;
-
-                                            user.save((err) => {
-                                                if (err) console.log(err);
+                                            if(typeof config.default_super_users !== "undefined")
+                                            {
+                                                for(let i = 0; i < config.default_super_users.length; i++)
+                                                {
+                                                    if(profile.id === config.default_super_users[i])
+                                                        user.superuser = true;
+                                                }
+                                            }
+                                            user.highest_role = highestRole;
+                                            
+                                            ModRole.find({}, (err, roles) => {
+                                                if(err)
+                                                {
+                                                    return done('Internal Server Error', null);
+                                                }
+                                                else
+                                                {
+                                                    if(roles.length > 0)
+                                                    {
+                                                        for(let i = 0; i < roles.length; i++)
+                                                        {
+                                                            if(highestRole == roles[i])
+                                                            {
+                                                                user.admin = true;
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                    user.save((err) => {
+                                                        if (err) console.log(err);
+                                                    });
+        
+                                                    return done(null, user);
+                                                }
                                             });
-
-                                            return done(null, user);
                                         }
                                         else
                                         {
@@ -85,6 +116,7 @@ module.exports = new DiscordStrategy({
                     }
                     else
                     {
+                        let user = usr;
                         Server.findOne({ server_name: "StormCloud Services" }, (err, server) => {
                             if(err)
                             {
@@ -103,26 +135,54 @@ module.exports = new DiscordStrategy({
                                     }).then(res => {
                                         if(res.data.status == 200)
                                         {
-                                            user.highest_role = res.data.role;
+                                            let highestRole = res.data.role;
+                                            user.highest_role = highestRole;
                                             user.username = profile.username;
+                                            if(typeof config.default_super_users !== "undefined")
+                                            {
+                                                for(let i = 0; i < config.default_super_users.length; i++)
+                                                {
+                                                    if(profile.id === config.default_super_users[i])
+                                                        user.superuser = true;
+                                                }
+                                            }
 
                                             let modProfile = profile;
                                             modProfile.mfa_enabled = undefined;
                                             modProfile.accessToken = undefined;
                                             modProfile.fetchedAt = undefined;
+                                            modProfile.guilds = undefined;
                                             user.discord = modProfile;
                                             user.markModified('discord.mfa_enabled');
                                             user.markModified('discord.accessToken');
                                             user.markModified('discord.fetchedAt');
+                                            user.markModified('discord.guilds');
 
-                                            user.save((err) => {
+                                            ModRole.find({}, (err, roles) => {
                                                 if(err)
                                                 {
-                                                    console.error(err);
+                                                    return done('Internal Server Error', null);
+                                                }
+                                                else
+                                                {
+                                                    if(roles.length > 0)
+                                                    {
+                                                        for(let i = 0; i < roles.length; i++)
+                                                        {
+                                                            if(highestRole == roles[i])
+                                                            {
+                                                                user.admin = true;
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                    user.save((err) => {
+                                                        if(err) console.log(err);
+                                                    });
+        
+                                                    return done(null, user);
                                                 }
                                             });
-
-                                            return done(null, user);
                                         }
                                         else
                                         {

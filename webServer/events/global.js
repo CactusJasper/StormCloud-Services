@@ -1,6 +1,8 @@
 let User = require('../models/user');
 let Server = require('../models/server');
 const axios = require('axios');
+const config = require('../config/config');
+const ModRole = require('../models/mod_role');
 
 module.exports = (socket, io) => {
     // GET USER MOONGOSE DB ID
@@ -61,12 +63,42 @@ module.exports = (socket, io) => {
                                             user.username = username;
                                         if(highestRole !== undefined)
                                             user.highest_role = highestRole;
+                                        
+                                        if(typeof config.default_super_users !== "undefined")
+                                        {
+                                            for(let i = 0; i < config.default_super_users.length; i++)
+                                            {
+                                                if(profile.id === config.default_super_users[i])
+                                                    user.superuser = true;
+                                            }
+                                        }
 
-                                        user.save((err) => {
+                                        ModRole.find({}, (err, roles) => {
                                             if(err)
                                             {
                                                 console.log('=============== updateUserData DB ================');
                                                 console.error(err);
+                                            }
+                                            else
+                                            {
+                                                if(roles.length > 0)
+                                                {
+                                                    for(let i = 0; i < roles.length; i++)
+                                                    {
+                                                        if(highestRole == roles[i])
+                                                        {
+                                                            user.admin = true;
+                                                        }
+                                                    }
+                                                }
+
+                                                user.save((err) => {
+                                                    if(err)
+                                                    {
+                                                        console.log('=============== updateUserData DB ================');
+                                                        console.error(err);
+                                                    }
+                                                });
                                             }
                                         });
                                     });
