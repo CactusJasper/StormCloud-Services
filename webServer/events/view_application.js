@@ -37,78 +37,70 @@ module.exports = (socket, io) => {
                             {
                                 if(application)
                                 {
-                                    utils.isAdmin(user).then((admin) => {
-                                        if(utils.isWolfy(user) /*|| utils.isJasper(user)*/)
+                                    if(utils.isWolfy(user))
+                                    {
+                                        socket.emit(`applicationData`, {
+                                            status: 200,
+                                            creator: false,
+                                            admin: true,
+                                            wolfy: true,
+                                            application: application
+                                        });
+                                    }
+                                    else if(utils.isAdmin(user) || utils.isSuperuser(user))
+                                    {
+                                        socket.emit(`applicationData`, {
+                                            status: 200,
+                                            creator: false,
+                                            admin: true,
+                                            wolfy: false,
+                                            application: application
+                                        });
+                                    }
+                                    else if(application.user_id == user.discordId)
+                                    {
+                                        if(application.username !== user.username)
                                         {
-                                            socket.emit(`applicationData`, {
-                                                status: 200,
-                                                creator: false,
-                                                admin: true,
-                                                wolfy: true,
-                                                application: application
+                                            application.username = user.username;
+                                            application.save((err, application) => {
+                                                if(err)
+                                                {
+                                                    console.error(err);
+                                                    socket.emit(`applicationData`, {
+                                                        status: 500,
+                                                        message: 'Internal Server Error'
+                                                    });
+                                                }
+                                                else
+                                                {
+                                                    socket.emit(`applicationData`, {
+                                                        status: 200,
+                                                        creator: true,
+                                                        admin: false,
+                                                        wolfy: false,
+                                                        application: application
+                                                    });
+                                                }
                                             });
-                                        }
-                                        else if(admin || utils.isJasper(user))
-                                        {
-                                            socket.emit(`applicationData`, {
-                                                status: 200,
-                                                creator: false,
-                                                admin: true,
-                                                wolfy: false,
-                                                application: application
-                                            });
-                                        }
-                                        else if(application.user_id == user.discordId)
-                                        {
-                                            if(application.username !== user.username)
-                                            {
-                                                application.username = user.username;
-                                                application.save((err, application) => {
-                                                    if(err)
-                                                    {
-                                                        console.error(err);
-                                                        socket.emit(`applicationData`, {
-                                                            status: 500,
-                                                            message: 'Internal Server Error'
-                                                        });
-                                                    }
-                                                    else
-                                                    {
-                                                        socket.emit(`applicationData`, {
-                                                            status: 200,
-                                                            creator: true,
-                                                            admin: false,
-                                                            wolfy: false,
-                                                            application: application
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                            else
-                                            {
-                                                socket.emit(`applicationData`, {
-                                                    status: 200,
-                                                    creator: true,
-                                                    admin: false,
-                                                    wolfy: false,
-                                                    application: application
-                                                });
-                                            }
                                         }
                                         else
                                         {
                                             socket.emit(`applicationData`, {
-                                                status: 900,
-                                                message: 'Unauthorised'
+                                                status: 200,
+                                                creator: true,
+                                                admin: false,
+                                                wolfy: false,
+                                                application: application
                                             });
                                         }
-                                    }).catch((err) => {
-                                        console.error(err);
+                                    }
+                                    else
+                                    {
                                         socket.emit(`applicationData`, {
-                                            status: 500,
-                                            message: 'Internal Server Error'
+                                            status: 900,
+                                            message: 'Unauthorised'
                                         });
-                                    });
+                                    }
                                 }
                                 else
                                 {
@@ -172,79 +164,71 @@ module.exports = (socket, io) => {
                                 {
                                     if(application.status == 0)
                                     {
-                                        utils.isAdmin(user).then((admin) => {
-                                            if(admin || utils.isJasper(user))
+                                        if(utils.isAdmin(user))
+                                        {
+                                            let hasVoted = false;
+
+                                            for(let i = 0; i < application.votes.length; i++)
                                             {
-                                                let hasVoted = false;
-
-                                                for(let i = 0; i < application.votes.length; i++)
+                                                if(application.votes[i].user_id == user.discordId)
                                                 {
-                                                    if(application.votes[i].user_id == user.discordId)
-                                                    {
-                                                        hasVoted = true;
-                                                    }
+                                                    hasVoted = true;
                                                 }
+                                            }
 
-                                                if(hasVoted)
+                                            if(hasVoted)
+                                            {
+                                                socket.emit(`voteRes`, {
+                                                    status: 200,
+                                                    message: 'Already Voted',
+                                                    application: application
+                                                });
+                                            }
+                                            else
+                                            {
+                                                if(data.vote == true)
                                                 {
-                                                    socket.emit(`voteRes`, {
-                                                        status: 200,
-                                                        message: 'Already Voted',
-                                                        application: application
+                                                    application.votes.push({
+                                                        user_id: user.discordId,
+                                                        vote: true
                                                     });
                                                 }
                                                 else
                                                 {
-                                                    if(data.vote == true)
+                                                    application.votes.push({
+                                                        user_id: user.discordId,
+                                                        vote: false
+                                                    });
+                                                }
+
+                                                application.markModified('votes');
+                                                application.save((err, application) => {
+                                                    if(err)
                                                     {
-                                                        application.votes.push({
-                                                            user_id: user.discordId,
-                                                            vote: true
+                                                        console.error(err);
+                                                        socket.emit(`voteRes`, {
+                                                            status: 500,
+                                                            message: 'Internal Server Error'
                                                         });
                                                     }
                                                     else
                                                     {
-                                                        application.votes.push({
-                                                            user_id: user.discordId,
-                                                            vote: false
+                                                        socket.emit(`voteRes`, {
+                                                            status: 200,
+                                                            message: 'Voted Registered',
+                                                            application: application
                                                         });
                                                     }
-
-                                                    application.markModified('votes');
-                                                    application.save((err, application) => {
-                                                        if(err)
-                                                        {
-                                                            console.error(err);
-                                                            socket.emit(`voteRes`, {
-                                                                status: 500,
-                                                                message: 'Internal Server Error'
-                                                            });
-                                                        }
-                                                        else
-                                                        {
-                                                            socket.emit(`voteRes`, {
-                                                                status: 200,
-                                                                message: 'Voted Registered',
-                                                                application: application
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                            else
-                                            {
-                                                socket.emit(`voteRes`, {
-                                                    status: 900,
-                                                    message: 'Unauthorised'
                                                 });
                                             }
-                                        }).catch((err) => {
-                                            console.error(err);
+                                        }
+                                        else
+                                        {
                                             socket.emit(`voteRes`, {
-                                                status: 500,
-                                                message: 'Internal Server Error'
+                                                status: 900,
+                                                message: 'Unauthorised'
                                             });
-                                        });
+                                        }
                                     }
                                     else
                                     {
@@ -483,7 +467,7 @@ module.exports = (socket, io) => {
                             }
                             else
                             {
-                                if(application)
+                                if(application && (utils.isAdmin(user) || utils.isSuperuser(user) || user.discordId === appication.user_id))
                                 {
                                     if(data.commentContent.length > 0 && data.commentContent.length <= 250)
                                     {

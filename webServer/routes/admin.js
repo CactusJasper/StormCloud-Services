@@ -9,34 +9,33 @@ const { check, validationResult, expressValidator } = require('express-validator
 let csrf = require('csurf');
 let csrfProtection = csrf({ cookie: true });
 let axios = require('axios');
+const { Utils } = require('handlebars');
 
 router.get('/', utils.ensureAuthenticated, (req, res) => {
-    utils.isAdmin(req.user).then((admin) => {
-        if(utils.isWolfy(req.user) || utils.isJasper(req.user))
-        {
-            res.render('admin/dashboard', {
-                admin: true,
-                superUser: true,
-                user: req.user
-            });
-        }
-        else if(admin)
-        {
-            res.render('admin/dashboard', {
-                admin: true,
-                superUser: false,
-                user: req.user
-            });
-        }
-        else
-        {
-            res.redirect('back');
-        }
-    });
+    if(utils.isSuperuser(req.user))
+    {
+        res.render('admin/dashboard', {
+            admin: true,
+            superUser: true,
+            user: req.user
+        });
+    }
+    else if(utils.isAdmin(req.user))
+    {
+        res.render('admin/dashboard', {
+            admin: true,
+            superUser: false,
+            user: req.user
+        });
+    }
+    else
+    {
+        res.redirect('back');
+    }
 });
 
 router.get('/approve/polls', utils.ensureAuthenticated, (req, res) => {
-    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    if(utils.isSuperuser(req.user))
     {
         
         res.render('admin/polls/approve', {
@@ -52,7 +51,7 @@ router.get('/approve/polls', utils.ensureAuthenticated, (req, res) => {
 });
 
 router.get('/manage/polls', utils.ensureAuthenticated, (req, res) => {
-    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    if(utils.isSuperuser(req.user))
     {
         res.render('admin/polls/manage', {
             admin: true,
@@ -67,7 +66,7 @@ router.get('/manage/polls', utils.ensureAuthenticated, (req, res) => {
 });
 
 router.get('/approve/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
-    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    if(utils.isSuperuser(req.user))
     {
         if(req.params.pollId !== undefined)
         {
@@ -128,7 +127,7 @@ router.get('/approve/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (
 });
 
 router.get('/close/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
-    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    if(utils.isSuperuser(req.user))
     {
         if(req.params.pollId !== undefined)
         {
@@ -198,7 +197,7 @@ router.get('/close/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (re
 });
 
 router.get('/delete/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
-    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    if(utils.isSuperuser(req.user))
     {
         if(req.params.pollId !== undefined)
         {
@@ -223,30 +222,28 @@ router.get('/delete/poll/:pollId', csrfProtection, utils.ensureAuthenticated, (r
 });
 
 router.get('/create/poll', csrfProtection, utils.ensureAuthenticated, (req, res) => {
-    utils.isAdmin(req.user).then((admin) => {
-        if(utils.isWolfy(req.user) || utils.isJasper(req.user))
-        {
-            res.render('admin/polls/create', {
-                admin: true,
-                superUser: true,
-                user: req.user,
-                csrfToken: req.csrfToken()
-            });
-        }
-        else if(admin)
-        {
-            res.render('admin/polls/create', {
-                admin: true,
-                superUser: false,
-                user: req.user,
-                csrfToken: req.csrfToken()
-            });
-        }
-        else
-        {
-            res.redirect('back');
-        }
-    });
+    if(utils.isSuperuser(req.user))
+    {
+        res.render('admin/polls/create', {
+            admin: true,
+            superUser: true,
+            user: req.user,
+            csrfToken: req.csrfToken()
+        });
+    }
+    else if(utils.isAdmin(req.user))
+    {
+        res.render('admin/polls/create', {
+            admin: true,
+            superUser: false,
+            user: req.user,
+            csrfToken: req.csrfToken()
+        });
+    }
+    else
+    {
+        res.redirect('back');
+    }
 });
 
 router.post('/create/poll', csrfProtection, utils.ensureAuthenticated, [
@@ -276,86 +273,84 @@ router.post('/create/poll', csrfProtection, utils.ensureAuthenticated, [
     }
     else
     {
-        utils.isAdmin(req.user).then((admin) => {
-            if(utils.isWolfy(req.user) || utils.isJasper(req.user))
-            {
-                let newPoll = new Poll({
-                    creator_id: req.user.discordId,
-                    title: req.body.title,
-                    description: req.body.description,
-                    options: [],
-                    votes: [],
-                    state: 1,
-                    created_timestamp: Math.round(new Date().getTime() / 1000)
-                });
+        if(utils.isSuperuser(req.user))
+        {
+            let newPoll = new Poll({
+                creator_id: req.user.discordId,
+                title: req.body.title,
+                description: req.body.description,
+                options: [],
+                votes: [],
+                state: 1,
+                created_timestamp: Math.round(new Date().getTime() / 1000)
+            });
 
-                utils.getPollOptions(req.body).then((options) => {
-                    newPoll.options = options;
+            utils.getPollOptions(req.body).then((options) => {
+                newPoll.options = options;
 
-                    newPoll.save((err, poll) => {
-                        if(err)
-                        {
-                            req.session.sessionFlash = {
-                                type: 'error',
-                                message: 'Something went wrong try again later.'
-                            }
-                    
-                            res.redirect('back');
+                newPoll.save((err, poll) => {
+                    if(err)
+                    {
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: 'Something went wrong try again later.'
                         }
-                        else
-                        {
-                            res.redirect(`/poll/view/${poll.id}`);
-                        }
-                    });
+                
+                        res.redirect('back');
+                    }
+                    else
+                    {
+                        res.redirect(`/poll/view/${poll.id}`);
+                    }
                 });
-            }
-            else if(admin)
-            {
-                let newPoll = new Poll({
-                    creator_id: req.user.discordId,
-                    title: req.body.title,
-                    description: req.body.description,
-                    options: [],
-                    votes: [],
-                    state: 0,
-                    created_timestamp: Math.round(new Date().getTime() / 1000)
-                });
+            });
+        }
+        else if(utils.isAdmin(req.user))
+        {
+            let newPoll = new Poll({
+                creator_id: req.user.discordId,
+                title: req.body.title,
+                description: req.body.description,
+                options: [],
+                votes: [],
+                state: 0,
+                created_timestamp: Math.round(new Date().getTime() / 1000)
+            });
 
-                utils.getPollOptions(req.body).then((options) => {
-                    newPoll.options = options;
+            utils.getPollOptions(req.body).then((options) => {
+                newPoll.options = options;
 
-                    newPoll.save((err, poll) => {
-                        if(err)
-                        {
-                            req.session.sessionFlash = {
-                                type: 'error',
-                                message: 'Something went wrong try again later.'
-                            }
-                    
-                            res.redirect('back');
+                newPoll.save((err, poll) => {
+                    if(err)
+                    {
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: 'Something went wrong try again later.'
                         }
-                        else
-                        {
-                            req.session.sessionFlash = {
-                                type: 'success',
-                                message: 'Your poll have been made and is awaiting approval.'
-                            }
-                    
-                            res.redirect('back');
+                
+                        res.redirect('back');
+                    }
+                    else
+                    {
+                        req.session.sessionFlash = {
+                            type: 'success',
+                            message: 'Your poll have been made and is awaiting approval.'
                         }
-                    });
+                
+                        res.redirect('back');
+                    }
                 });
-            }
-            else
-            {
-                res.redirect('back');
-            }
-        });
+            });
+        }
+        else
+        {
+            res.redirect('back');
+        }
     }
 });
 
 router.get('/manage/role/mods', utils.ensureAuthenticated, (req, res) => {
-    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    if(utils.isSuperuser(req.user))
     {
         Server.findOne({ server_name: "StormCloud Services" }, (err, server) => {
             if(err)
@@ -453,7 +448,7 @@ router.get('/manage/role/mods', utils.ensureAuthenticated, (req, res) => {
 });
 
 router.get('/manage/role/rewards', utils.ensureAuthenticated, (req, res) => {
-    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    if(utils.isSuperuser(req.user))
     {
         Server.findOne({ server_name: "StormCloud Services" }, (err, server) => {
             if(err)
@@ -549,7 +544,7 @@ router.get('/manage/role/rewards', utils.ensureAuthenticated, (req, res) => {
 });
 
 router.get('/manage/users', csrfProtection, utils.ensureAuthenticated, (req, res) => {
-    if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+    if(utils.isSuperuser(req.user))
     {
         res.render('admin/roles/manageUsers', {
             admin: true,

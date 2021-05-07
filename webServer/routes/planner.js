@@ -7,53 +7,39 @@ let csrfProtection = csrf({ cookie: true });
 const { check, validationResult, expressValidator } = require('express-validator');
 
 router.get('/', csrfProtection, utils.ensureAuthenticated, (req, res) => {
-    utils.isAdmin(req.user).then((admin) => {
-        if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
-        {
-            res.render('events/planner', {
-                user: req.user,
-                admin: true,
-                csrfToken: req.csrfToken(),
-            });
-        }
-        else
-        {
-            res.render('events/planner', {
-                user: req.user,
-                csrfToken: req.csrfToken(),
-            });
-        }
-    }).catch((err) => {
+    if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
+    {
+        res.render('events/planner', {
+            user: req.user,
+            admin: true,
+            csrfToken: req.csrfToken(),
+        });
+    }
+    else
+    {
         res.render('events/planner', {
             user: req.user,
             csrfToken: req.csrfToken(),
         });
-    });
+    }
 });
 
 router.get('/create/event', csrfProtection, utils.ensureAuthenticated, (req, res) => {
-    utils.isAdmin(req.user).then((admin) => {
-        if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
-        {
-            res.render('events/create', {
-                user: req.user,
-                admin: true,
-                csrfToken: req.csrfToken(),
-            });
-        }
-        else
-        {
-            res.render('events/create', {
-                user: req.user,
-                csrfToken: req.csrfToken(),
-            });
-        }
-    }).catch((err) => {
+    if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
+    {
+        res.render('events/create', {
+            user: req.user,
+            admin: true,
+            csrfToken: req.csrfToken(),
+        });
+    }
+    else
+    {
         res.render('events/create', {
             user: req.user,
             csrfToken: req.csrfToken(),
         });
-    });
+    }
 });
 
 router.post('/create/event', csrfProtection, utils.ensureAuthenticated, [

@@ -2,28 +2,6 @@ const Application = require('./models/application');
 let ModRole = require('./models/mod_role');
 
 exports.isAdmin = (user) => {
-    /*let isAdmin = false;
-    await ModRole.find({}, (err, roles) => {
-        if(roles)
-        {
-            for(let i = 0; i < roles.length; i++)
-            {
-                if(user.highest_role == roles[i].role_id)
-                {
-                    isAdmin = true;
-                }
-            }
-        }
-    });
-
-    if(isAdmin)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }*/
     if(user.admin === true)
         return true;
     else
