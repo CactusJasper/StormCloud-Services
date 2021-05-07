@@ -55,7 +55,7 @@ module.exports = (socket, io) => {
     });
 
     // User Applications Socket Request Handle
-    socket.on('getApplications', (data) => {
+    socket.once('getApplications', (data) => {
         User.findOne({ _id: userId }, (err, user) => {
             if(err)
             {
@@ -68,84 +68,76 @@ module.exports = (socket, io) => {
             {
                 if(user)
                 {
-                    utils.isAdmin(user).then((admin) => {
-                        if(admin || utils.isWolfy(user)  || utils.isJasper(user))
-                        {
-                            Application.find({}, (err, docs) => {
-                                if(err)
+                    if(utils.isAdmin(user) || utils.isSuperuser(user))
+                    {
+                        Application.find({}, (err, docs) => {
+                            if(err)
+                            {
+                                socket.emit('updateApplications', {
+                                    status: 500,
+                                    message: 'Internal Server Error'
+                                });
+                            }
+                            else
+                            {
+                                if(docs.length > 0)
                                 {
+                                    docs.sort((a, b) => {
+                                        return b.timestamp - a.timestamp;
+                                    });
+
                                     socket.emit('updateApplications', {
-                                        status: 500,
-                                        message: 'Internal Server Error'
+                                        status: 200,
+                                        admin: true,
+                                        applications: docs
                                     });
                                 }
                                 else
                                 {
-                                    if(docs.length > 0)
-                                    {
-                                        docs.sort((a, b) => {
-                                            return b.timestamp - a.timestamp;
-                                        });
-
-                                        socket.emit('updateApplications', {
-                                            status: 200,
-                                            admin: true,
-                                            applications: docs
-                                        });
-                                    }
-                                    else
-                                    {
-                                        socket.emit('updateApplications', {
-                                            status: 900,
-                                            admin: true,
-                                            message: 'No Applications'
-                                        });
-                                    }
-                                }
-                            });
-                        }
-                        else
-                        {
-                            Application.find({ user_id: user.discordId }, (err, docs) => {
-                                if(err)
-                                {
                                     socket.emit('updateApplications', {
-                                        status: 500,
-                                        message: 'Internal Server Error'
+                                        status: 900,
+                                        admin: true,
+                                        message: 'No Applications'
                                     });
                                 }
-                                else
-                                {
-                                    if(docs.length > 0)
-                                    {
-                                        docs.sort((a, b) => {
-                                            return b.timestamp - a.timestamp;
-                                        });
-
-                                        socket.emit('updateApplications', {
-                                            status: 200,
-                                            admin: false,
-                                            applications: docs
-                                        });
-                                    }
-                                    else
-                                    {
-                                        socket.emit('updateApplications', {
-                                            status: 900,
-                                            admin: false,
-                                            message: 'No Applications'
-                                        });
-                                    }
-                                }
-                            });
-                        }
-                    }).catch((err) => {
-                        console.error(err);
-                        socket.emit('updateApplications', {
-                            status: 500,
-                            message: 'Internal Server Error'
+                            }
                         });
-                    });
+                    }
+                    else
+                    {
+                        Application.find({ user_id: user.discordId }, (err, docs) => {
+                            if(err)
+                            {
+                                socket.emit('updateApplications', {
+                                    status: 500,
+                                    message: 'Internal Server Error'
+                                });
+                            }
+                            else
+                            {
+                                if(docs.length > 0)
+                                {
+                                    docs.sort((a, b) => {
+                                        return b.timestamp - a.timestamp;
+                                    });
+
+                                    socket.emit('updateApplications', {
+                                        status: 200,
+                                        admin: false,
+                                        applications: docs
+                                    });
+                                }
+                                else
+                                {
+                                    socket.emit('updateApplications', {
+                                        status: 900,
+                                        admin: false,
+                                        message: 'No Applications'
+                                    });
+                                }
+                            }
+                        });
+                    }
                 }
                 else
                 {

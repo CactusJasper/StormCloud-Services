@@ -189,25 +189,6 @@ app.get('/', (req, res) => {
                 user: req.user
             });
         }
-        /*utils.isAdmin(req.user).then((admin) => {
-            if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
-            {
-                res.render('index', {
-                    user: req.user,
-                    admin: true
-                });
-            }
-            else
-            {
-                res.render('index', {
-                    user: req.user
-                });
-            }
-        }).catch((err) => {
-            res.render('index', {
-                user: req.user
-            });
-        });       */ 
     }
     else
     {
@@ -216,25 +197,19 @@ app.get('/', (req, res) => {
 });
 
 app.get('/leaderboard', utils.ensureAuthenticated, (req, res) => {
-    utils.isAdmin(req.user).then((admin) => {
-        if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
-        {
-            res.render('leaderboard', {
-                user: req.user,
-                admin: true
-            });
-        }
-        else
-        {
-            res.render('leaderboard', {
-                user: req.user
-            });
-        }
-    }).catch((err) => {
+    if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
+    {
+        res.render('leaderboard', {
+            user: req.user,
+            admin: true
+        });
+    }
+    else
+    {
         res.render('leaderboard', {
             user: req.user
         });
-    });  
+    }
 });
 
 app.use('/auth', require('./routes/auth'));
