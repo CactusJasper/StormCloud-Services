@@ -64,14 +64,19 @@ module.exports = (socket, io) => {
                                         if(highestRole !== undefined)
                                             user.highest_role = highestRole;
                                         
+                                        let isSuperuser = false;
                                         if(typeof config.default_super_users !== "undefined")
                                         {
                                             for(let i = 0; i < config.default_super_users.length; i++)
                                             {
                                                 if(user.id === config.default_super_users[i])
                                                     user.superuser = true;
+                                                    isSuperuser = true;
                                             }
                                         }
+
+                                        if(!isSuperuser)
+                                            user.superuser = false;
 
                                         ModRole.find({}, (err, roles) => {
                                             if(err)
@@ -81,6 +86,7 @@ module.exports = (socket, io) => {
                                             }
                                             else
                                             {
+                                                let isAdmin = false;
                                                 if(roles.length > 0)
                                                 {
                                                     for(let i = 0; i < roles.length; i++)
@@ -88,9 +94,13 @@ module.exports = (socket, io) => {
                                                         if(highestRole == roles[i])
                                                         {
                                                             user.admin = true;
+                                                            isAdmin = true;
                                                         }
                                                     }
                                                 }
+
+                                                if(!isAdmin)
+                                                    user.admin = false;
 
                                                 user.save((err) => {
                                                     if(err)

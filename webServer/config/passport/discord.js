@@ -138,14 +138,21 @@ module.exports = new DiscordStrategy({
                                             let highestRole = res.data.role;
                                             user.highest_role = highestRole;
                                             user.username = profile.username;
+                                            let isSuperuser = false;
                                             if(typeof config.default_super_users !== "undefined")
                                             {
                                                 for(let i = 0; i < config.default_super_users.length; i++)
                                                 {
                                                     if(profile.id === config.default_super_users[i])
+                                                    {
                                                         user.superuser = true;
+                                                        isSuperuser = true;
+                                                    }
                                                 }
                                             }
+
+                                            if(!isSuperuser)
+                                                user.superuser = false;
 
                                             let modProfile = profile;
                                             modProfile.mfa_enabled = undefined;
@@ -165,6 +172,7 @@ module.exports = new DiscordStrategy({
                                                 }
                                                 else
                                                 {
+                                                    let isAdmin = false;
                                                     if(roles.length > 0)
                                                     {
                                                         for(let i = 0; i < roles.length; i++)
@@ -172,9 +180,13 @@ module.exports = new DiscordStrategy({
                                                             if(highestRole == roles[i])
                                                             {
                                                                 user.admin = true;
+                                                                isAdmin = true;
                                                             }
                                                         }
                                                     }
+
+                                                    if(!isAdmin)
+                                                        user.admin = false;
                                                     
                                                     user.save((err) => {
                                                         if(err) console.log(err);

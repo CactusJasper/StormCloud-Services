@@ -176,7 +176,20 @@ app.get('*', (req, res, next) => {
 app.get('/', (req, res) => {
     if(req.isAuthenticated())
     {
-        utils.isAdmin(req.user).then((admin) => {
+        if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
+        {
+            res.render('index', {
+                user: req.user,
+                admin: true
+            });
+        }
+        else
+        {
+            res.render('index', {
+                user: req.user
+            });
+        }
+        /*utils.isAdmin(req.user).then((admin) => {
             if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
             {
                 res.render('index', {
@@ -194,7 +207,7 @@ app.get('/', (req, res) => {
             res.render('index', {
                 user: req.user
             });
-        });        
+        });       */ 
     }
     else
     {

@@ -1,8 +1,8 @@
 const Application = require('./models/application');
 let ModRole = require('./models/mod_role');
 
-exports.isAdmin = async (user) => {
-    let isAdmin = false;
+exports.isAdmin = (user) => {
+    /*let isAdmin = false;
     await ModRole.find({}, (err, roles) => {
         if(roles)
         {
@@ -23,7 +23,18 @@ exports.isAdmin = async (user) => {
     else
     {
         return false;
-    }
+    }*/
+    if(user.admin === true)
+        return true;
+    else
+        return false;
+}
+
+exports.isSuperuser = (user) => {
+    if(user.superuser === true)
+        return true;
+    else
+        return false;
 }
 
 exports.isWolfy = (user) => {
