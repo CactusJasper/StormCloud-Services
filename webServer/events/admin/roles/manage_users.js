@@ -7,9 +7,9 @@ module.exports = (socket, io) => {
     let perPage = 20;
 
     socket.on('getUsers', (data) => {
-        if(data.page > 0 && typeof data.page !== "undefined")
+        if(data.getMaxPages == true)
         {
-            User.find({}).skip((perPage * data.page) - perPage).limit(perPage).exec((err, users) => {
+            User.find({}, (err, users) => {
                 if(err)
                 {
                     console.error(err);
@@ -23,7 +23,49 @@ module.exports = (socket, io) => {
                     {
                         socket.emit('getUserCb', {
                             status: 200,
+                            message: 'MaxPages',
+                            maxPages: Math.ceil(users.length / perPage)
+                        });
+                    }
+                    else
+                    {
+                        socket.emit('getUserCb', {
+                            status: 900,
+                            message: 'No Users'
+                        });
+                    }
+                }
+            });
+        }
+        else if(data.page > 0 && typeof data.page !== "undefined")
+        {
+            User.find({}).skip((perPage * data.page) - perPage).limit(perPage).exec((err, users) => {
+                if(err)
+                {
+                    console.error(err);
+                    socket.emit('getUserCb', {
+                        status: 500
+                    });
+                }
+                else
+                {
+                    if(users.length > 0)
+                    {
+                        let userList = [];
+                        for(let user of users)
+                        {
+                            user.discord.mfa_enabled = undefined;
+                            user.discord.fetchedAt = undefined;
+                            user.discord.guilds = undefined;
+                            user.discord.accessToken = undefined;
+                            userList.push(user);
+                        }
+
+                        socket.emit('getUserCb', {
+                            status: 200,
                             message: 'Pagination',
+                            currentUser: userId,
+                            pageNum: data.page,
                             users: users
                         });
                     }
@@ -51,9 +93,19 @@ module.exports = (socket, io) => {
                 {
                     if(users.length > 0)
                     {
+                        let userList = [];
+                        for(let user of users)
+                        {
+                            user.discord.mfa_enabled = undefined;
+                            user.discord.fetchedAt = undefined;
+                            user.discord.guilds = undefined;
+                            userList.push(user);
+                        }
+
                         socket.emit('getUserCb', {
                             status: 200,
                             message: 'All Users',
+                            currentUser: userId,
                             users: users
                         });
                     }
