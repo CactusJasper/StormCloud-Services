@@ -5,6 +5,7 @@ let Server = require('../models/server');
 let LevelReward = require('../models/level_reward');
 let ModRole = require('../models/mod_role');
 let Poll = require('../models/poll');
+let User = require('../models/user');
 const { check, validationResult, expressValidator } = require('express-validator');
 let csrf = require('csurf');
 let csrfProtection = csrf({ cookie: true });
@@ -546,10 +547,43 @@ router.get('/manage/role/rewards', utils.ensureAuthenticated, (req, res) => {
 router.get('/manage/users', csrfProtection, utils.ensureAuthenticated, (req, res) => {
     if(utils.isSuperuser(req.user))
     {
-        res.render('admin/roles/manageUsers', {
+        res.render('admin/manage/manageUsers', {
             admin: true,
             superUser: true,
             user: req.user,
+        });
+    }
+    else
+    {
+        res.redirect('back');
+    }
+});
+
+router.get('/manage/user/:userId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
+    if(utils.isSuperuser(req.user))
+    {
+        let userId = req.params.userId;
+        User.findOne({ _id: userId }, (err, user) => {
+            if(err)
+            {
+                res.redirect('back');
+            }
+            else
+            {
+                if(user)
+                {
+                    res.render('admin/manage/manageUser', {
+                        admin: true,
+                        superUser: true,
+                        user: req.user,
+                        manageUser: user
+                    });
+                }
+                else
+                {
+                    res.redirect('back');
+                }
+            }
         });
     }
     else

@@ -36,4 +36,31 @@ module.exports = (socket, io) => {
             }
         });
     });
+
+    socket.on('getUserData', (data) => {
+        if(typeof data.discordId !== undefined)
+        {
+            UserData.findOne({ user_id: data.discordId }, (err, data) => {
+                if(err)
+                {
+
+                }
+                else
+                {
+                    if(data)
+                    {
+
+                    }
+                    else
+                    {
+                        
+                    }
+                }
+            });
+        }
+        else
+        {
+
+        }
+    });
 }
