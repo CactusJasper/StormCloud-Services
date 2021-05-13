@@ -43,24 +43,36 @@ module.exports = (socket, io) => {
             UserData.findOne({ user_id: data.discordId }, (err, data) => {
                 if(err)
                 {
-
+                    socket.emit('getUserDataCb', {
+                        status: 500,
+                        message: 'Internal Server Error'
+                    });
                 }
                 else
                 {
                     if(data)
                     {
-
+                        socket.emit('getUserDataCb', {
+                            status: 200,
+                            userData: data
+                        });
                     }
                     else
                     {
-                        
+                        socket.emit('getUserDataCb', {
+                            status: 900,
+                            message: 'No User'
+                        });
                     }
                 }
             });
         }
         else
         {
-
+            socket.emit('getUserDataCb', {
+                status: 500,
+                message: 'No User'
+            });
         }
     });
 }
