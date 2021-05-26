@@ -575,6 +575,7 @@ router.get('/manage/user/:userId', csrfProtection, utils.ensureAuthenticated, (r
                     res.render('admin/manage/manageUser', {
                         admin: true,
                         superUser: true,
+                        csrfToken: req.csrfToken(),
                         user: req.user,
                         manageUser: user
                     });
@@ -589,6 +590,70 @@ router.get('/manage/user/:userId', csrfProtection, utils.ensureAuthenticated, (r
     else
     {
         res.redirect('back');
+    }
+});
+
+router.post('/manage/user/update/:userId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
+    if(utils.isSuperuser(req.user) && typeof req.params.userId !== undefined)
+    {
+        User.findOne({ _id: req.params.userId }, (err, user) => {
+            if(err)
+            {
+                console.error(err);
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Something went wrong try again later.'
+                }
+
+                res.redirect('back');
+            }
+            else
+            {
+                if(user)
+                {
+                    if(req.body.event_manager == 'on')
+                        user.event_manager = true;
+                    else
+                        user.event_manager = false;
+                    
+                    user.save((err) => {
+                        if(err)
+                        {
+                            console.error(err);
+                            req.session.sessionFlash = {
+                                type: 'error',
+                                message: 'Something went wrong try again later.'
+                            }
+
+                            res.redirect('back');
+                        }
+                        else
+                        {
+                            req.session.sessionFlash = {
+                                type: 'success',
+                                message: 'Updated User Successfuly.'
+                            }
+
+                            res.redirect('back');
+                        }
+                    })
+                }
+                else
+                {
+                    console.error(err);
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Something went wrong try again later.'
+                    }
+
+                    res.redirect('back');
+                }
+            }
+        });
+    }
+    else
+    {
+        res.redirect('/admin');
     }
 });
 

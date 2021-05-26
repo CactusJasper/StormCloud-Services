@@ -467,7 +467,7 @@ module.exports = (socket, io) => {
                             }
                             else
                             {
-                                if(application && (utils.isAdmin(user) || utils.isSuperuser(user) || user.discordId === appication.user_id))
+                                if(application && (utils.isAdmin(user) || utils.isSuperuser(user) || user.discordId === application.user_id))
                                 {
                                     if(data.commentContent.length > 0 && data.commentContent.length <= 250)
                                     {
