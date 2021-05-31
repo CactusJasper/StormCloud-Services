@@ -11,6 +11,7 @@ let csrf = require('csurf');
 let csrfProtection = csrf({ cookie: true });
 let axios = require('axios');
 const { Utils } = require('handlebars');
+const ServerEvent = require('../models/server_event');
 
 router.get('/', utils.ensureAuthenticated, (req, res) => {
     if(utils.isSuperuser(req.user))
@@ -671,5 +672,32 @@ router.get('/manage/events', csrfProtection, utils.ensureAuthenticated, (req, re
         res.redirect('/planner');
     }
 });
+
+router.get('/manage/event/:eventId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
+    if(utils.isSuperuser(req.user) || utils.isEventManager(req.user))
+    {
+        ServerEvent.find({ _id: req.params.eventId }, (err, event) => {
+            if(err)
+            {
+                res.redirect('/admin/manage/events');
+            }
+            else
+            {
+                if(event)
+                {
+
+                }
+                else
+                {
+                    res.redirect('/admin/manage/events');
+                }
+            }
+        })
+    }
+    else
+    {
+        res.redirect('/planner');
+    }
+})
 
 module.exports = router;

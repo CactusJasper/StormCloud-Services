@@ -35,7 +35,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     socket.on('getEventsCb', (res) => {
         if(res.status == 500 || res.status == 900)
         {
-            document.getElementById('errors').innerHTML = `<p class="center error">Something went wrong try again later.</p>`;
+            if(res.message == 'Unauthorised')
+                window.history.back();
+            else if(res.message == 'No Events')
+                document.getElementById('errors').innerHTML = `<p class="center error">There are currently no planned events.</p>`;
+            else
+                document.getElementById('errors').innerHTML = `<p class="center error">Something went wrong try again later.</p>`;
         }
         else if(res.status == 200)
         {
@@ -95,15 +100,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             {
                                 html += `<td class="bg-secondary p-2">${events[i].eventTitle}</td>`;
                                 html += `<td class="bg-secondary p-2">${isApproved(events[i])}</td>`;
-                                html += `<td class="bg-secondary p-2">${new Date(events[i]).toLocaleString()}</td>`;
-                                html += `<td class="bg p-2"></td>`;
+                                html += `<td class="bg-secondary p-2">${new Date(events[i].eventTime * 1000).toLocaleString()}</td>`;
+                                html += `<td class="bg-secondary p-2"><a href="/admin/manage/event/${events[i]._id}" class="text-colour" style="text-decoration: none;">Event Details</a></td>`;
                             }
                             else
                             {
                                 html += `<td class="bg p-2">${events[i].eventTitle}</td>`;
                                 html += `<td class="bg p-2">${isApproved(events[i])}</td>`;
-                                html += `<td class="bg p-2">${new Date(events[i]).toLocaleString()}</td>`;
-                                html += `<td class="bg p-2"></td>`;
+                                html += `<td class="bg p-2">${new Date(events[i].eventTime * 1000).toLocaleString()}</td>`;
+                                html += `<td class="bg p-2"><a href="/admin/manage/event/${events[i]._id}" class="text-colour" style="text-decoration: none;">Event Details</a></td>`;
                             }
                             html += `</tr>`;
                         }
@@ -142,14 +147,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     {
                         html += `<td class="bg-secondary p-2">${events[i].eventTitle}</td>`;
                         html += `<td class="bg-secondary p-2">${isApproved(events[i])}</td>`;
-                        html += `<td class="bg-secondary p-2">${new Date(events[i]).toLocaleString()}</td>`;
+                        html += `<td class="bg-secondary p-2">${new Date(events[i].eventTime * 1000).toLocaleString()}</td>`;
                         html += `<td class="bg p-2"></td>`;
                     }
                     else
                     {
                         html += `<td class="bg p-2">${events[i].eventTitle}</td>`;
                         html += `<td class="bg p-2">${isApproved(events[i])}</td>`;
-                        html += `<td class="bg p-2">${new Date(events[i]).toLocaleString()}</td>`;
+                        html += `<td class="bg p-2">${new Date(events[i].eventTime * 1000).toLocaleString()}</td>`;
                         html += `<td class="bg p-2"></td>`;
                     }
                     html += `</tr>`;
