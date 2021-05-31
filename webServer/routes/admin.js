@@ -685,7 +685,12 @@ router.get('/manage/event/:eventId', csrfProtection, utils.ensureAuthenticated, 
             {
                 if(event)
                 {
-
+                    res.render('admin/manage/manageEvent', {
+                        eventManager: true,
+                        csrfToken: req.csrfToken(),
+                        user: req.user,
+                        manageEvent: event
+                    });
                 }
                 else
                 {

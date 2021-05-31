@@ -169,8 +169,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     function isApproved(event)
     {
         if(event.approved)
-            return true;
+            return 'Yes';
         else
-            return false;
+            return 'No';
     }
 });

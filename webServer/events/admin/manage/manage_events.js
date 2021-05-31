@@ -1,7 +1,6 @@
 let User = require('../../../models/user');
 let ServerEvent = require('../../../models/server_event');
 let utils = require('../../../utils');
-const { events } = require('../../../models/server_event');
 
 module.exports = (socket, io) => {
     // GET USER MOONGOSE DB ID
