@@ -19,7 +19,10 @@ let jsFiles = [
     'js/admin/polls/approve_polls.js',
     'js/admin/roles/manage_mod_roles.js',
     'js/admin/roles/manage_rewards.js',
-    'js/admin/roles/manage_users.js',
+    'js/admin/manage/manage_users.js',
+    'js/admin/manage/manage_user.js',
+    'js/admin/manage/manage_events.js',
+    'js/admin/manage/manage_event.js',
     'js/planner/create_event.js',
     'js/planner/planner.js'
 ];

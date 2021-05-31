@@ -13,7 +13,7 @@ module.exports = (socket, io) => {
                 if(err)
                 {
                     console.error(err);
-                    socket.emit('getUserCb', {
+                    socket.emit('getUsersCb', {
                         status: 500
                     });
                 }
@@ -21,7 +21,7 @@ module.exports = (socket, io) => {
                 {
                     if(users.length > 0)
                     {
-                        socket.emit('getUserCb', {
+                        socket.emit('getUsersCb', {
                             status: 200,
                             message: 'MaxPages',
                             maxPages: Math.ceil(users.length / perPage)
@@ -29,7 +29,7 @@ module.exports = (socket, io) => {
                     }
                     else
                     {
-                        socket.emit('getUserCb', {
+                        socket.emit('getUsersCb', {
                             status: 900,
                             message: 'No Users'
                         });
@@ -43,7 +43,7 @@ module.exports = (socket, io) => {
                 if(err)
                 {
                     console.error(err);
-                    socket.emit('getUserCb', {
+                    socket.emit('getUsersCb', {
                         status: 500
                     });
                 }
@@ -61,7 +61,7 @@ module.exports = (socket, io) => {
                             userList.push(user);
                         }
 
-                        socket.emit('getUserCb', {
+                        socket.emit('getUsersCb', {
                             status: 200,
                             message: 'Pagination',
                             currentUser: userId,
@@ -71,7 +71,7 @@ module.exports = (socket, io) => {
                     }
                     else
                     {
-                        socket.emit('getUserCb', {
+                        socket.emit('getUsersCb', {
                             status: 900,
                             message: 'No Users'
                         });
@@ -102,7 +102,7 @@ module.exports = (socket, io) => {
                             userList.push(user);
                         }
 
-                        socket.emit('getUserCb', {
+                        socket.emit('getUsersCb', {
                             status: 200,
                             message: 'All Users',
                             currentUser: userId,
@@ -111,7 +111,7 @@ module.exports = (socket, io) => {
                     }
                     else
                     {
-                        socket.emit('getUserCb', {
+                        socket.emit('getUsersCb', {
                             status: 900,
                             message: 'No Users'
                         });

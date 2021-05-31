@@ -24,10 +24,6 @@ let serverEventSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    createAt: {
-        type: Number,
-        default: Math.floor(new Date().getTime() / 1000.0)
-    },
     approved: {
         type: Boolean,
         default: false

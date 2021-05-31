@@ -32,7 +32,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }, (60 * 1000) * 5);
     });
 
-    socket.on('getUserCb', (res) => {
+    socket.on('getUsersCb', (res) => {
         if(res.status == 500 || res.status == 900)
         {
             document.getElementById('errors').innerHTML = `<p class="center error">Something went wrong try again later.</p>`;
@@ -84,8 +84,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         html += `<tr>`;
                         html += `<td class="bg p-2">Username</td>`;
                         html += `<td class="bg p-2">Highest Role</td>`;
-                        html += `<td class="bg p-2"></td>`
-                        html += `</tr>`
+                        html += `<td class="bg p-2"></td>`;
+                        html += `</tr>`;
                         for(let i = 0; i < users.length; i++)
                         {
                             if(users[i]._id == res.currentUser)

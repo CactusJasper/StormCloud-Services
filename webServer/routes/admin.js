@@ -657,4 +657,19 @@ router.post('/manage/user/update/:userId', csrfProtection, utils.ensureAuthentic
     }
 });
 
+router.get('/manage/events', csrfProtection, utils.ensureAuthenticated, (req, res) => {
+    if(utils.isSuperuser(req.user) || utils.isEventManager(req.user))
+    {
+        res.render('admin/manage/manageEvents', {
+            eventManager: true,
+            csrfToken: req.csrfToken(),
+            user: req.user
+        });
+    }
+    else
+    {
+        res.redirect('/planner');
+    }
+});
+
 module.exports = router;

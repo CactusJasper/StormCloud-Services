@@ -15,6 +15,13 @@ exports.isSuperuser = (user) => {
         return false;
 }
 
+exports.isEventManager = (user) => {
+    if(user.event_manager === true)
+        return true;
+    else
+        return false;
+}
+
 exports.isWolfy = (user) => {
     if(user.discordId == '228618507955208192')
     {
