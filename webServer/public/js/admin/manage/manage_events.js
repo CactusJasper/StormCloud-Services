@@ -7,10 +7,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
     socket.on('connect', () => {
         console.log('WS Opened');
         socket.emit('updateUserData', {});
+        socket.emit('getEvents', {
+            getMaxPages: true
+        });
+
+        setTimeout(() => {
+            socket.emit('getEvents', {
+                page: currentPage
+            });
+        }, 500);
 
         setInterval(() => {
             socket.volatile.emit('updateUserData', {});
         }, (60 * 1000) * 10);
+
+        setInterval(() => {
+            socket.emit('getEvents', {
+                getMaxPages: true
+            });
+
+            socket.emit('getEvents', {
+                page: currentPage
+            });
+        }, (60 * 1000) * 5);
     });
 
     socket.on('getEventsCb', (res) => {
@@ -65,12 +84,88 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         html += `<tr>`;
                         html += `<td class="bg p-2">Title</td>`;
                         html += `<td class="bg p-2">Approved</td>`;
-                        html += `<td class="bg p-2">Time</td>`;
+                        html += `<td class="bg p-2">Event Time/Date</td>`;
                         html += `<td class="bg p-2"></td>`;
                         html += `</tr>`;
+
+                        for(let i = 0; i < events.length; i++)
+                        {
+                            html += `<tr>`;
+                            if(i % 2 == 0)
+                            {
+                                html += `<td class="bg-secondary p-2">${events[i].eventTitle}</td>`;
+                                html += `<td class="bg-secondary p-2">${isApproved(events[i])}</td>`;
+                                html += `<td class="bg-secondary p-2">${new Date(events[i]).toLocaleString()}</td>`;
+                                html += `<td class="bg p-2"></td>`;
+                            }
+                            else
+                            {
+                                html += `<td class="bg p-2">${events[i].eventTitle}</td>`;
+                                html += `<td class="bg p-2">${isApproved(events[i])}</td>`;
+                                html += `<td class="bg p-2">${new Date(events[i]).toLocaleString()}</td>`;
+                                html += `<td class="bg p-2"></td>`;
+                            }
+                            html += `</tr>`;
+                        }
+
+                        html += `</table>`;
+                        eventPagesEl.innerHTML = html;
+
+                        for(let i = 1; i <= maxPages; i++)
+                        {
+                            if(document.getElementById(`page${i}`).classList.contains('page-btn-selected'))
+                            {
+                                document.getElementById(`page${i}`).classList.remove('page-btn-selected');
+                                document.getElementById(`page${i}`).classList.add('page-btn');
+                            }
+                        }
+
+                        document.getElementById(`page${currentPage}`).classList.add('page-btn-selected');
                     }
                 }
             }
+            else if(res.message == 'All Events')
+            {
+                let events = res.events;
+                let html = `<table id="eventsPage${res.pageNum}" class="table my-5" style="width: 90%; margin-left: 5%;">`;
+                html += `<tr>`;
+                html += `<td class="bg p-2">Title</td>`;
+                html += `<td class="bg p-2">Approved</td>`;
+                html += `<td class="bg p-2">Event Time/Date</td>`;
+                html += `<td class="bg p-2"></td>`;
+                html += `</tr>`;
+
+                for(let i = 0; i < events.length; i++)
+                {
+                    html += `<tr>`;
+                    if(i % 2 == 0)
+                    {
+                        html += `<td class="bg-secondary p-2">${events[i].eventTitle}</td>`;
+                        html += `<td class="bg-secondary p-2">${isApproved(events[i])}</td>`;
+                        html += `<td class="bg-secondary p-2">${new Date(events[i]).toLocaleString()}</td>`;
+                        html += `<td class="bg p-2"></td>`;
+                    }
+                    else
+                    {
+                        html += `<td class="bg p-2">${events[i].eventTitle}</td>`;
+                        html += `<td class="bg p-2">${isApproved(events[i])}</td>`;
+                        html += `<td class="bg p-2">${new Date(events[i]).toLocaleString()}</td>`;
+                        html += `<td class="bg p-2"></td>`;
+                    }
+                    html += `</tr>`;
+                }
+
+                html += `</table>`;
+                eventPagesEl.innerHTML = html;
+            }
         }
     });
+
+    function isApproved(event)
+    {
+        if(event.approved)
+            return true;
+        else
+            return false;
+    }
 });
