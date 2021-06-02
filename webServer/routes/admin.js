@@ -676,7 +676,7 @@ router.get('/manage/events', csrfProtection, utils.ensureAuthenticated, (req, re
 router.get('/manage/event/:eventId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
     if(utils.isSuperuser(req.user) || utils.isEventManager(req.user))
     {
-        ServerEvent.find({ _id: req.params.eventId }, (err, event) => {
+        ServerEvent.findOne({ _id: req.params.eventId }, (err, event) => {
             if(err)
             {
                 res.redirect('/admin/manage/events');
@@ -685,11 +685,28 @@ router.get('/manage/event/:eventId', csrfProtection, utils.ensureAuthenticated, 
             {
                 if(event)
                 {
-                    res.render('admin/manage/manageEvent', {
-                        eventManager: true,
-                        csrfToken: req.csrfToken(),
-                        user: req.user,
-                        manageEvent: event
+                    User.findOne({ _id: event.hostId }, (err, user) => {
+                        if(err)
+                        {
+                            res.redirect('/admin/manage/events');
+                        }
+                        else
+                        {
+                            if(user)
+                            {
+                                res.render('admin/manage/manageEvent', {
+                                    eventManager: true,
+                                    csrfToken: req.csrfToken(),
+                                    user: req.user,
+                                    event: event,
+                                    creator: user
+                                });
+                            }
+                            else
+                            {
+                                res.redirect('/admin/manage/events');
+                            }
+                        }
                     });
                 }
                 else
