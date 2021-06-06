@@ -43,7 +43,6 @@ module.exports = ServerEvent;
     voiceCall: 'General 1',
     game: 'Minecraft',
     eventTime: 1616049999,
-    createdAt: 1616040591,
     approved: false
 }
 

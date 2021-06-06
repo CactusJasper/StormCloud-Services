@@ -10,8 +10,8 @@ const { check, validationResult, expressValidator } = require('express-validator
 let csrf = require('csurf');
 let csrfProtection = csrf({ cookie: true });
 let axios = require('axios');
-const { Utils } = require('handlebars');
 const ServerEvent = require('../models/server_event');
+let moment = require('moment');
 
 router.get('/', utils.ensureAuthenticated, (req, res) => {
     if(utils.isSuperuser(req.user))
@@ -699,7 +699,8 @@ router.get('/manage/event/:eventId', csrfProtection, utils.ensureAuthenticated, 
                                     csrfToken: req.csrfToken(),
                                     user: req.user,
                                     event: event,
-                                    creator: user
+                                    creator: user,
+                                    eventTimeString: moment(event.eventTime * 1000).format('DD/MM/YYYY') + ' at ' + moment(event.eventTime * 1000).format('HH:mm')
                                 });
                             }
                             else

@@ -260,5 +260,6 @@ io.on('connection', (socket) => {
         require('./events/admin/polls/manage_polls')(socket, io); // Admin Manage Polls Socket Event Handler
         require('./events/admin/polls/approve_polls')(socket, io); // Admin Approve Polls Socket Event Handler
         require('./events/global')(socket, io); // Global Socket Event Handler
+        require('./events/planner/main')(socket, io); // Event Planner Socket Event Handler
     }
 });

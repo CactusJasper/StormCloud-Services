@@ -92,7 +92,7 @@ router.post('/create/event', csrfProtection, utils.ensureAuthenticated, [
         let game = req.body.eventGame;
         let date = req.body.eventDate.split('-');
         date = new Date(`${date[0]}-${date[1]}-${date[2]}T${req.body.eventTime}:00`);
-        let createdAt = Math.floor(new Date().getTime() / 1000.0)
+        let createdAt = Math.floor(new Date().getTime() / 1000.0);
 
         if(validDate(date, createdAt))
         {
@@ -177,6 +177,48 @@ router.post('/create/event', csrfProtection, utils.ensureAuthenticated, [
     }
 });
 
+router.get('/event/view/:eventId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
+    if(typeof req.params.eventId !== "undefined")
+    {
+        ServerEvent.findOne({ _id: req.params.eventId }, (err, event) => {
+            if(err)
+            {
+                res.render('errors/500', { layout: false });
+            }
+            else
+            {
+                if(event)
+                {
+                    if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
+                    {
+                        res.render('events/view', {
+                            user: req.user,
+                            admin: true,
+                            csrfToken: req.csrfToken(),
+                            event: event
+                        });
+                    }
+                    else
+                    {
+                        res.render('events/view', {
+                            user: req.user,
+                            csrfToken: req.csrfToken(),
+                            event: event
+                        });
+                    }
+                }
+                else
+                {
+                    res.redirect('/planner');
+                }
+            }
+        });
+    }
+    else
+    {
+        res.redirect('/planner');
+    }
+});
 
 function validDate(date, currentDate)
 {

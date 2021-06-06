@@ -13,7 +13,7 @@
         {{#if event.game}}
             <p class="center mt-3">Event Game: {{event.game}}</p>
         {{/if}}
-        <p class="center mt-3">Event Time: {{event.eventTime}}</p>
+        <p class="center mt-3">Event Time: {{eventTimeString}}</p>
         {{#ifCond event.approved '==' true}}
             <p class="center mt-3">Aproval Status: Approved</p>
             <div class="seperator mt-4"></div>
