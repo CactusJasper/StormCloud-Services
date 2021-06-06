@@ -220,6 +220,24 @@ router.get('/event/view/:eventId', csrfProtection, utils.ensureAuthenticated, (r
     }
 });
 
+router.get('/past/events', csrfProtection, utils.ensureAuthenticated, (req, res) => {
+    if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
+    {
+        res.render('events/pastEvents', {
+            user: req.user,
+            admin: true,
+            csrfToken: req.csrfToken()
+        });
+    }
+    else
+    {
+        res.render('events/pastEvents', {
+            user: req.user,
+            csrfToken: req.csrfToken()
+        });
+    }
+});
+
 function validDate(date, currentDate)
 {
     if(date.getDate() === date.getDate() && currentDate + (3600 * 2) <= Math.floor(date.getTime() / 1000.0))

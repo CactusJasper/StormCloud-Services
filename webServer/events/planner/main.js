@@ -6,11 +6,11 @@ module.exports = (socket, io) => {
     // GET USER MOONGOSE DB ID
     let userId = socket.request.session.passport.user;
 
-    socket.on('getUpcomingEvents', (data) => {
+    socket.on('getPlannerEvents', (data) => {
         ServerEvent.find({ approved: true}, (err, events) => {
             if(err)
             {
-                socket.emit('getUpcomingEventsCb', {
+                socket.emit('getPlannerEventsCb', {
                     status: 500,
                     message: 'Internal Server Error'
                 });
@@ -19,14 +19,14 @@ module.exports = (socket, io) => {
             {
                 if(events.length > 0)
                 {
-                    socket.emit('getUpcomingEventsCb', {
+                    socket.emit('getPlannerEventsCb', {
                         status: 200,
                         events: events
                     });
                 }
                 else
                 {
-                    socket.emit('getUpcomingEventsCb', {
+                    socket.emit('getPlannerEventsCb', {
                         status: 900,
                         message: 'No Events'
                     });

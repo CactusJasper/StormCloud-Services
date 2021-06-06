@@ -4,18 +4,18 @@ $(() => {
     socket.on('connect', () => {
         console.log('WS Opened');
         socket.emit('updateUserData', {});
-        socket.emit('getUpcomingEvents', {});
+        socket.emit('getPlannerEvents', {});
 
         setInterval(() => {
             socket.volatile.emit('updateUserData', {});
         }, (60 * 1000) * 10);
 
         setInterval(() => {
-            socket.volitile.emit('getUpcomingEvents', {});
+            socket.volatile.emit('getUpcomingEvents', {});
         }, 5000);
     });
 
-    socket.on('getUpcomingEventsCb', (res) => {
+    socket.on('getPlannerEventsCb', (res) => {
         if(res.status == 500 || res.status == 900)
         {
             if(res.message == 'No Events')
