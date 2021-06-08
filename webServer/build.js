@@ -47,6 +47,7 @@ let toCopy = [
 let distDirs = [
     'js/admin/polls',
     'js/admin/roles',
+    'js/admin/manage',
     'js/application',
     'js/polls',
     'js/libs',
