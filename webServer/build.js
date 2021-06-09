@@ -24,7 +24,9 @@ let jsFiles = [
     'js/admin/manage/manage_events.js',
     'js/admin/manage/manage_event.js',
     'js/planner/create_event.js',
-    'js/planner/planner.js'
+    'js/planner/planner.js',
+    'js/planner/past_events.js',
+    'js/planner/view_event.js'
 ];
 
 let cssFiles = [
