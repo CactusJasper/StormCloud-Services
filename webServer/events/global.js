@@ -94,7 +94,6 @@ module.exports = (socket, io) => {
                                                         if(highestRole == roles[i].role_id)
                                                         {
                                                             user.admin = true;
-                                                            console.log('ran');
                                                             isAdmin = true;
                                                         }
                                                     }
@@ -103,6 +102,7 @@ module.exports = (socket, io) => {
                                                 if(!isAdmin)
                                                     user.admin = false;
 
+                                                user.markModified('admin');
                                                 user.save((err) => {
                                                     if(err)
                                                     {

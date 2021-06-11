@@ -15,4 +15,5 @@ let serverSchema = mongoose.Schema({
     },
 });
 
-let Server = module.exports = mongoose.model('Server', serverSchema);
+let Server =  mongoose.model('Server', serverSchema);
+module.exports = Server;

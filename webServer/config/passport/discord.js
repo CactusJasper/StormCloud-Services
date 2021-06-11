@@ -169,6 +169,7 @@ module.exports = new DiscordStrategy({
                                             ModRole.find({}, (err, roles) => {
                                                 if(err)
                                                 {
+                                                    console.error(err);
                                                     return done('Internal Server Error', null);
                                                 }
                                                 else
@@ -181,6 +182,7 @@ module.exports = new DiscordStrategy({
                                                             if(highestRole == roles[i].role_id)
                                                             {
                                                                 user.admin = true;
+                                                                
                                                                 isAdmin = true;
                                                             }
                                                         }
@@ -189,6 +191,7 @@ module.exports = new DiscordStrategy({
                                                     if(!isAdmin)
                                                         user.admin = false;
                                                     
+                                                    user.markModified('admin');
                                                     user.save((err) => {
                                                         if(err)
                                                             console.log(err);
@@ -200,6 +203,7 @@ module.exports = new DiscordStrategy({
                                         }
                                         else
                                         {
+                                            console.error(res.data);
                                             return done('Internal Server Error', null);
                                         }
                                     }).catch(err => {
