@@ -94,6 +94,7 @@ module.exports = (socket, io) => {
                                                         if(highestRole == roles[i].role_id)
                                                         {
                                                             user.admin = true;
+                                                            console.log('ran');
                                                             isAdmin = true;
                                                         }
                                                     }

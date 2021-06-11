@@ -91,10 +91,11 @@ module.exports = new DiscordStrategy({
                                                     }
                                                     
                                                     user.save((err) => {
-                                                        if (err) console.log(err);
+                                                        if(err)
+                                                            console.log(err);
+                                                        else
+                                                            return done(null, user);
                                                     });
-        
-                                                    return done(null, user);
                                                 }
                                             });
                                         }
