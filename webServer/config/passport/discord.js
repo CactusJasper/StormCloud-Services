@@ -189,10 +189,11 @@ module.exports = new DiscordStrategy({
                                                         user.admin = false;
                                                     
                                                     user.save((err) => {
-                                                        if(err) console.log(err);
+                                                        if(err)
+                                                            console.log(err);
+                                                        else
+                                                            return done(null, user);
                                                     });
-        
-                                                    return done(null, user);
                                                 }
                                             });
                                         }
