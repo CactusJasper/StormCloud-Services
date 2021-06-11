@@ -177,7 +177,7 @@ module.exports = new DiscordStrategy({
                                                     {
                                                         for(let i = 0; i < roles.length; i++)
                                                         {
-                                                            if(highestRole == roles[i])
+                                                            if(highestRole == roles[i].role_id)
                                                             {
                                                                 user.admin = true;
                                                                 isAdmin = true;
