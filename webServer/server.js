@@ -174,27 +174,21 @@ app.get('*', (req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-    if(req.user)
+    if(req.isAuthenticated())
     {
-        utils.isAdmin(req.user).then((admin) => {
-            if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
-            {
-                res.render('index', {
-                    user: req.user,
-                    admin: true
-                });
-            }
-            else
-            {
-                res.render('index', {
-                    user: req.user
-                });
-            }
-        }).catch((err) => {
+        if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
+        {
+            res.render('index', {
+                user: req.user,
+                admin: true
+            });
+        }
+        else
+        {
             res.render('index', {
                 user: req.user
             });
-        });        
+        }
     }
     else
     {
@@ -203,25 +197,19 @@ app.get('/', (req, res) => {
 });
 
 app.get('/leaderboard', utils.ensureAuthenticated, (req, res) => {
-    utils.isAdmin(req.user).then((admin) => {
-        if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
-        {
-            res.render('leaderboard', {
-                user: req.user,
-                admin: true
-            });
-        }
-        else
-        {
-            res.render('leaderboard', {
-                user: req.user
-            });
-        }
-    }).catch((err) => {
+    if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
+    {
+        res.render('leaderboard', {
+            user: req.user,
+            admin: true
+        });
+    }
+    else
+    {
         res.render('leaderboard', {
             user: req.user
         });
-    });  
+    }
 });
 
 app.use('/auth', require('./routes/auth'));
@@ -229,6 +217,7 @@ app.use('/applications', require('./routes/applications'));
 app.use('/admin', require('./routes/admin'));
 app.use('/poll', require('./routes/poll'));
 app.use('/settings', require('./routes/settings'));
+app.use('/planner', require('./routes/planner'));
 
 /* MUST BE LAST ROUTE FOR 404 NOT FOUND ERROR */
 app.all('*', (req, res) => {
@@ -256,17 +245,21 @@ io.use((socket, next) => {
 
 io.on('connection', (socket) => {
     let userId = socket.request.session.passport;
-    if(userId !== undefined || userId != {})
+    if(userId !== undefined && userId !== {} && typeof userId !== "undefined")
     {
         require('./events/home')(socket, io); // Home Page Socket Event Handler
         require('./events/view_application')(socket, io); // Application View Socket Event Handler
         require('./events/user_data')(socket, io); // User Data Socket Event Handler
         require('./events/admin/roles/manage_rewards')(socket, io); // Manage Role Rewards Socket Event Handler
         require('./events/admin/roles/manage_mod_roles')(socket, io); // Manage Moderation Roles Socket Event Handler
+        require('./events/admin/manage/manage_users')(socket, io); // Manage Users Socket Event Handler
+        require('./events/admin/manage/manage_events')(socket, io); // Manage Events Socket Event Handler
+        require('./events/admin/manage/manage_event')(socket, io); // Manage Event Socket Event Handler
         require('./events/view_poll')(socket, io); // View Poll Socket Event Handler
         require('./events/polls_list')(socket, io); // Poll List Socket Event Handler
         require('./events/admin/polls/manage_polls')(socket, io); // Admin Manage Polls Socket Event Handler
         require('./events/admin/polls/approve_polls')(socket, io); // Admin Approve Polls Socket Event Handler
         require('./events/global')(socket, io); // Global Socket Event Handler
+        require('./events/planner/main')(socket, io); // Event Planner Socket Event Handler
     }
 });

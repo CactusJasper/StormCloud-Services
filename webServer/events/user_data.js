@@ -36,4 +36,43 @@ module.exports = (socket, io) => {
             }
         });
     });
+
+    socket.on('getUserData', (data) => {
+        if(typeof data.discordId !== undefined)
+        {
+            UserData.findOne({ user_id: data.discordId }, (err, data) => {
+                if(err)
+                {
+                    socket.emit('getUserDataCb', {
+                        status: 500,
+                        message: 'Internal Server Error'
+                    });
+                }
+                else
+                {
+                    if(data)
+                    {
+                        socket.emit('getUserDataCb', {
+                            status: 200,
+                            userData: data
+                        });
+                    }
+                    else
+                    {
+                        socket.emit('getUserDataCb', {
+                            status: 900,
+                            message: 'No User'
+                        });
+                    }
+                }
+            });
+        }
+        else
+        {
+            socket.emit('getUserDataCb', {
+                status: 500,
+                message: 'No User'
+            });
+        }
+    });
 }

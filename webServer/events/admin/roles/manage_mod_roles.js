@@ -19,7 +19,7 @@ module.exports = (socket, io) => {
             {
                 if(user)
                 {
-                    if(utils.isWolfy(user) || utils.isJasper(user))
+                    if(utils.isSuperuser(user))
                     {
                         if(data.roleId != null || data.roleId != undefined)
                         {
@@ -76,7 +76,7 @@ module.exports = (socket, io) => {
             {
                 if(user)
                 {
-                    if(utils.isWolfy(user) || utils.isJasper(user))
+                    if(utils.isSuperuser(user))
                     {
                         ModRole.deleteOne({ _id: data.roleId }, (err) => {
                             if(err)

@@ -1,0 +1,37 @@
+<div class="row justify-content-center">
+    <div class="col-6 mr-2 my-5 bg-core">
+        <div class="seperator mb-4"></div>
+        <h3 class="center header mt-4">Manage Event</h3>
+        <p class="center">Managing ({{event.eventTitle}})</p>
+        <div id="error"></div>
+        <div class="seperator my-4"></div>
+        <h5 class="center header mt-4">Event Information</h5>
+        <p class="center mt-3">Event Host: {{creator.username}}</p>
+        <p class="center mt-3">Event Description: </p>
+        <p class="center mt-2">{{event.eventDesc}}</p>
+        <p class="center mt-3">Voice Call: {{event.voiceCall}}</p>
+        {{#if event.game}}
+            <p class="center mt-3">Event Game: {{event.game}}</p>
+        {{/if}}
+        <p class="center mt-3">Event Time: {{eventTimeString}}</p>
+        {{#ifCond event.approved '==' true}}
+            <p class="center mt-3">Aproval Status: Approved</p>
+            <div class="seperator mt-4"></div>
+        {{/ifCond}}
+        {{#ifCond event.approved '==' false}}
+            <p class="center mt-3" id="status">Aproval Status: Awaiting Aproval</p>
+            <div class="seperator my-4" class="dummy-seperator"></div>
+            <div class="row justify-content-center" id="actions">
+                <div class="col-6">
+                    <button class="green-btn text-colour" style="float:left;" id="approve-btn">Approve</button>
+                    <button class="green-btn text-colour ml-4" style="float:left;" id="disapprove-btn">Disapprove</button>
+                </div>
+            </div>
+            <div class="seperator mt-4"></div>
+        {{/ifCond}}
+    </div>
+</div>
+<script id="toRemove">
+    let eid = '{{event._id}}';
+</script>
+<script src="/js/admin/manage/manage_event.js"></script>

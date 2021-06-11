@@ -18,7 +18,7 @@ module.exports = (socket, io) => {
             {
                 if(user)
                 {
-                    if(utils.isWolfy(user) || utils.isJasper(user))
+                    if(utils.isSuperuser(user))
                     {
                         Poll.schema.statics.findByState(0, (err, polls) => {
                             if(err)

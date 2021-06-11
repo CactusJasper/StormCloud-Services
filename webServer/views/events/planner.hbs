@@ -1,0 +1,21 @@
+<div class="row justify-content-center">
+    <div class="col-1-5 mr-5 p-4 my-5 bg-core">
+        <h3 class="header center">Tools</h3>
+        <ul style="list-style: none;" class="mt-3">
+            <li><a href="/planner/create/event" class="text-colour" style="text-decoration: none;">Create Event</a></li>
+            <li class="mt-2"><a href="/planner/past/events" class="text-colour" style="text-decoration: none;">Past Events</a></li>
+            {{#if user.superuser}}
+                <li class="mt-2"><a href="/admin/manage/events" class="text-colour" style="text-decoration: none;">Manage Events</a></li>
+            {{else}}
+                {{#if user.event_manager}}
+                    <li class="mt-2"><a href="/admin/manage/events" class="text-colour" style="text-decoration: none;">Manage Events</a></li>
+                {{/if}}
+            {{/if}}
+        </ul>
+    </div>
+    <div class="col-8 p-4 my-5 bg-core">
+        <h3 class="center header">Upcoming Events</h3>
+        <div id="upcoming-events"></div>
+    </div>
+</div>
+<script src="/js/planner/planner.js"></script>
