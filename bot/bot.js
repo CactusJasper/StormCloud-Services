@@ -7,20 +7,22 @@ const bodyParser = require('body-parser');
 const randomstring = require('randomstring');
 const UserData = require('./models/user_data');
 const LevelReward = require('./models/level_reward');
-const ModRole = require('./models/mod_role');
-const Stat = require('./models/stat');
 const config = require('./config');
 let app = express();
 let fs = require('fs');
 let utils = require('./utils.js');
+let moderation = require('./modules/moderation');
+let logging = require('./modules/logging');
+const MutedUser = require('./models/muted_user');
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-// Connect to DB / Start Web Server / Start Discord Bot Client
+// Connect to DB / Load Toxicity modules model / Start Web Server / Start Discord Bot Client
 mongoose.connect(config.db_url, { useNewUrlParser: true, useUnifiedTopology: true }).then((res) => {
     console.log(`Connected to Database Server`);
+    moderation.loadModel();
     app.listen(config.web_port, () => {
         console.log(`Web Server started on port ${config.web_port}`);
         client.login(config.discord_token);
@@ -29,7 +31,7 @@ mongoose.connect(config.db_url, { useNewUrlParser: true, useUnifiedTopology: tru
 let db = mongoose.connection;
 
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+let commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for(const file of commandFiles)
 {
     const command = require(`./commands/${file}`);
@@ -37,38 +39,96 @@ for(const file of commandFiles)
 	client.commands.set(command.name, command);
 }
 
+commandFiles = fs.readdirSync('./commands/rpg').filter(file => file.endsWith('.js'));
+for(const file of commandFiles)
+{
+    const command = require(`./commands/rpg/${file}`);
+    console.log(`Registered ${command.name} Command`);
+	client.commands.set(command.name, command);
+}
+
 client.on('guildMemberAdd', (event) => {
 	if(event.guild.id == config.server_id)
     {
-        updateUserRoles(event.user)
+        updateUserRoles(event.user);
+
+        MutedUser.findOne({ user_id: event.user.id }, (err, doc) => {
+            if(err)
+            {
+                console.error(err);
+            }
+            else
+            {
+                if(doc)
+                {
+                    event.roles.add(config.muted_role).catch((err) => console.error(err));
+                }
+            }
+        });
+    }
+});
+
+client.on('guildMemberUpdate', (oldMember, newMember) => {
+    if(oldMember.roles.cache.get(config.muted_role) == undefined)
+    {
+        if(newMember.roles.cache.get(config.muted_role) !== undefined)
+        {
+            MutedUser.findOne({ user_id: newMember.id }, (err, doc) => {
+                if(err)
+                {
+                    console.error(err);
+                }
+                else
+                {
+                    if(!doc)
+                    {
+                        let muted = new MutedUser({
+                            user_id: newMember.id
+                        });
+            
+                        muted.save((err) => {
+                            if(err) console.error(err);
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    if(oldMember.roles.cache.get(config.muted_role) !== undefined)
+    {
+        if(newMember.roles.cache.get(config.muted_role) == undefined)
+        {
+            MutedUser.deleteOne({ user_id: newMember.id }, (err) => {
+                if(err) console.error(err);
+            });
+        }
     }
 });
 
 client.on('message', (message) => {
     if(message.author.bot) return;
+    if(message.channel.type == 'dm') return;
     if(message.guild.id === config.server_id)
     {
-        if(message.channel.id == '803358616470945884' /*|| message.channel.id == '803459664347004968'*/)
+        // Message Moderation Module
+        let command = false;
+        let shouldLog = true;
+        if(message.content.startsWith('$')) command = true;
+        if(!command)
         {
-            const log = client.channels.cache.find(channel => channel.id === '818916933641699358');
-            if(message.attachments.array().length > 0)
-            {
-                let attachments = message.attachments;
-                if(message.content == '' || message.content == undefined)
-                {
-                    log.send(utils.codeBlock(`Attachment sent by  ${message.author.username}: ${message.content}`), attachments.first());
-                }
-                else
-                {
-                    log.send(utils.codeBlock(`Message by ${message.author.username}: ${message.content}`), attachments.first());
-                }
-            }
-            else
-            {
-                log.send(utils.codeBlock(`Message by ${message.author.username}: ${message.content}`));
-            }
+            //let output = moderation.isSafeMessage(message);
+            //if(output == false) shouldLog = false;
         }
-		
+        else
+        {
+            shouldLog = false;
+        }
+
+        // Message Logging Module
+        const log = client.channels.cache.find(channel => channel.id === config.logging_channel);
+        if(log !== undefined && shouldLog == true) logging.logMessage(message, log);
+        
         if(message.content.startsWith('$'))
         {
             const args = message.content.slice(1).trim().split(/ +/);
@@ -78,14 +138,62 @@ client.on('message', (message) => {
             {
                 client.commands.get('profile').execute(message, args);
             }
-            else if(command == 'test')
+            else if(command == 'leaderboard')
             {
-                console.log(message.member.roles.highest.id);
+                client.commands.get('leaderboard').execute(message, args)
+            }
+            else if(command == 'kill')
+            {
+                if(message.mentions.members.size >= 1)
+                {
+                    let target = message.mentions.members.first();
+                    if(target.id == message.author.id)
+                    {
+                        client.commands.get('kill').execute(message, args, target.name, false, true);
+                    }
+                    else
+                    {
+                        if(target.id == '217387293571284992')
+                            message.channel.send('I refuse to kill the overlord.').catch(err => console.error(err));
+                        else if(target.id == '783811510652239904')
+                            message.channel.send(`I don't feel like killing my self just yet maybe in a hour.`).catch(err => console.error(err));
+                        else if(typeof target.nickname !== "undefined" && target.nickname !== null)
+                            client.commands.get('kill').execute(message, args, target.nickname, false);
+                        else
+                            client.commands.get('kill').execute(message, args, target.user.username, false);
+                    }
+                }
+                else if(message.mentions.roles.size >= 1)
+                {
+                    let target = message.mentions.roles.first();
+                    client.commands.get('kill').execute(message, args, target.name, true);
+                }
+                else if(args[0] == 'onion')
+                {
+                    message.channel.send(`${message.author.username} washed an onion and then cooked it in the oven.`).catch(err => console.error(err));
+                }
+                else
+                {
+                    client.commands.get('kill').execute(message, args, message.author.username, false, true);
+                }
+            }
+            else if(command == 'mine' && (message.author.id == '217387293571284992' || message.author.id == '228618507955208192'))
+            {
+                client.commands.get('mine').execute(message, args);
+            }
+            else if(command == 'woodcut' && (message.author.id == '217387293571284992' || message.author.id == '228618507955208192'))
+            {
+                client.commands.get('woodcut').execute(message, args);
+            }
+            else if(command == 'sell' && (message.author.id == '217387293571284992' || message.author.id == '228618507955208192'))
+            {
+                client.commands.get('sell').execute(message, args);
             }
         }
         else
         {
-			if(message.content.length == 1) return;
+            if(message.content.length == 1) return;
+
             UserData.findOne({ user_id: message.member.id }, (err, data) => {
                 if(err)
                 {
@@ -101,28 +209,28 @@ client.on('message', (message) => {
                         if(Math.floor(currentTime) >= userData.last_rewarded + 120)
                         {
                             let xpReward;
-							if(message.content.length < 5)
-							{
-								if(utils.getRandomInt(0, 100) > 98)
-								{
-									xpReward = utils.getRandomInt(10, 15);
-								}
-								else
-								{
-									xpReward = utils.getRandomInt(2, 5);
-								}
-							}
-							else
-							{
-								if(utils.getRandomInt(0, 100) > 98)
-								{
-									xpReward = utils.getRandomInt(100, 150);
-								}
-								else
-								{
-									xpReward = utils.getRandomInt(5, 20);
-								}
-							}
+                            if(message.content.length < 5)
+                            {
+                                if(utils.getRandomInt(0, 100) > 98)
+                                {
+                                    xpReward = utils.getRandomInt(10, 15);
+                                }
+                                else
+                                {
+                                    xpReward = utils.getRandomInt(2, 5);
+                                }
+                            }
+                            else
+                            {
+                                if(utils.getRandomInt(0, 100) > 98)
+                                {
+                                    xpReward = utils.getRandomInt(100, 150);
+                                }
+                                else
+                                {
+                                    xpReward = utils.getRandomInt(5, 20);
+                                }
+                            }
 
                             let newXpTotal = userData.xp + xpReward;
                             let nextLevelXpNeeded = utils.getLevel(userData.level + 1);

@@ -1,0 +1,308 @@
+[
+    {
+        "item_id": 0,
+        "name": "Stone",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 6.5,
+        "sell_price": 5,
+        "image": "ores/Stone001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 0
+        },
+        "xp_reward": {
+            "min_reward": 12,
+            "max_reward": 16
+        }
+    },
+    {
+        "item_id": 1,
+        "name": "Coal Ore",
+        "max_random_amount": 4,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 6.5,
+        "sell_price": 5,
+        "image": "ores/CoalOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 0
+        },
+        "xp_reward": {
+            "min_reward": 16,
+            "max_reward": 32
+        }
+    },
+    {
+        "item_id": 2,
+        "name": "Copper Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 17,
+        "sell_price": 11,
+        "image": "ores/CopperOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 5
+        },
+        "xp_reward": {
+            "min_reward": 12,
+            "max_reward": 24
+        }
+    },
+    {
+        "item_id": 3,
+        "name": "Iron Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 19.25,
+        "sell_price": 13.5,
+        "image": "ores/IronOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 16
+        },
+        "xp_reward": {
+            "min_reward": 20,
+            "max_reward": 27
+        }
+    },
+    {
+        "item_id": 4,
+        "name": "Silver Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 27.5,
+        "sell_price": 25,
+        "image": "ores/SilverOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 27
+        },
+        "xp_reward": {
+            "min_reward": 25,
+            "max_reward": 38
+        }
+    },
+    {
+        "item_id": 5,
+        "name": "Gold Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 55,
+        "sell_price": 52,
+        "image": "ores/GoldOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 39
+        },
+        "xp_reward": {
+            "min_reward": 45,
+            "max_reward": 55
+        }
+    },
+    {
+        "item_id": 6,
+        "name": "Aluminium Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 45,
+        "sell_price": 42,
+        "image": "ores/AluminiumOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 43
+        },
+        "xp_reward": {
+            "min_reward": 25,
+            "max_reward": 36
+        }
+    },
+    {
+        "item_id": 7,
+        "name": "Cobalt Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 55,
+        "sell_price": 47,
+        "image": "ores/CobaltOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 43
+        },
+        "xp_reward": {
+            "min_reward": 25,
+            "max_reward": 36
+        }
+    },
+    {
+        "item_id": 8,
+        "name": "Uranium Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 115,
+        "sell_price": 98,
+        "image": "ores/UrnaiumOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 64
+        },
+        "xp_reward": {
+            "min_reward": 50,
+            "max_reward": 98
+        }
+    },
+    {
+        "item_id": 9,
+        "name": "Diamond Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 165,
+        "sell_price": 154,
+        "image": "ores/DiamondOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 80
+        },
+        "xp_reward": {
+            "min_reward": 130,
+            "max_reward": 160
+        }
+    },
+    {
+        "item_id": 10,
+        "name": "Strontium Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 90,
+        "sell_price": 82,
+        "image": "ores/StrontiumOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 80
+        },
+        "xp_reward": {
+            "min_reward": 65,
+            "max_reward": 96
+        }
+    },
+    {
+        "item_id": 11,
+        "name": "Ruby Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 120,
+        "sell_price": 110,
+        "image": "ores/RubyOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 87
+        },
+        "xp_reward": {
+            "min_reward": 45,
+            "max_reward": 96
+        }
+    },
+    {
+        "item_id": 12,
+        "name": "Quartz Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 45,
+        "sell_price": 42,
+        "image": "ores/QuartzOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 98
+        },
+        "xp_reward": {
+            "min_reward": 130,
+            "max_reward": 220
+        }
+    },
+    {
+        "item_id": 13,
+        "name": "Sapphire Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 66,
+        "sell_price": 62,
+        "image": "ores/SapphireOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 106
+        },
+        "xp_reward": {
+            "min_reward": 240,
+            "max_reward": 320
+        }
+    },
+    {
+        "item_id": 14,
+        "name": "Jasper Jade Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 125,
+        "sell_price": 120,
+        "image": "ores/JasperJadeOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 130
+        },
+        "xp_reward": {
+            "min_reward": 250,
+            "max_reward": 360
+        }
+    },
+    {
+        "item_id": 15,
+        "name": "Amber Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 69,
+        "sell_price": 56,
+        "image": "ores/AmberOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 130
+        },
+        "xp_reward": {
+            "min_reward": 205,
+            "max_reward": 306
+        }
+    },
+    {
+        "item_id": 16,
+        "name": "Topaz Ore",
+        "max_random_amount": 1,
+        "max_amount": 64,
+        "stat": [],
+        "buy_price": 25,
+        "sell_price": 21.5,
+        "image": "ores/TopazOre001.png",
+        "min_skill": {
+            "skill_id": 1,
+            "min_level": 150
+        },
+        "xp_reward": {
+            "min_reward": 25,
+            "max_reward": 36
+        }
+    }
+]
