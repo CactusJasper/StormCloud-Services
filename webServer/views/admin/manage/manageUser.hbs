@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+    <div class="col-6 mr-2 my-5 bg-core">
+        <div class="seperator mb-4"></div>
+        <h3 class="center header mt-4">Manage User</h3>
+        <p class="center">Managing ({{manageUser.username}})</p>
+        {{#if sessionFlash.message}}
+            {{#contains sessionFlash.type 'error'}}
+                <div class="row justify-content-center">
+                    <div id="errors" class="alert alert-danger p-2 col-6">
+                        {{{sessionFlash.message}}}
+                    </div>
+                </div>
+            {{/contains}}
+            {{#contains sessionFlash.type 'success'}}
+                <div class="seperator my-4"></div>
+                <div class="row justify-content-center">
+                    <div id="success" class="alert alert-success p-2 col-6">
+                        {{{sessionFlash.message}}}
+                    </div>
+                </div>
+            {{/contains}}
+        {{/if}}
+        <div class="seperator my-4"></div>
+        <h5 class="center header mt-4">User Information</h5>
+        <form class="form-style" action="/admin/manage/user/update/{{manageUser._id}}" method="POST">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
+            <div class="row justify-content-center mt-3">
+                <div class="col-3 mr-2 rounded">
+                    <div id="role-data">
+                        <p class="mb-2 center">Roles:</p>
+                        {{#ifCond manageUser.superuser '==' true}}
+                            <p class="mb-2">Superuser: Yes</p>
+                        {{else}}
+                            <p class="mb-2">Superuser: No</p>
+                        {{/ifCond}}
+
+                        {{#ifCond manageUser.admin '==' true}}
+                            <p class="mb-2">Admin: Yes</p>
+                        {{else}}
+                            <p class="mb-2">Admin: No</p>
+                        {{/ifCond}}
+
+                        {{#ifCond manageUser.event_manager '==' true}}
+                            <input type="checkbox" id="event_manager" name="event_manager" class="va-m f-left" checked/>
+                            <label for="event_manager" class="fs-14 f-left ml-2">Event Manager</label>
+                        {{else}}
+                            <input type="checkbox" id="event_manager" name="event_manager" class="va-m f-left"/>
+                            <label for="event_manager" class="fs-14 f-left ml-2">Event Manager</label>
+                        {{/ifCond}}
+
+                        <input type="submit" id="save_user" name="save_user" class="text-colour mt-5" value="Save User">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="seperator mb-4"></div>
+        <h5 class="center header mb-3">Level Data</h5>
+        <div id="level-data"></div>
+        <div class="seperator"></div>
+    </div>
+</div>
+<script id="toRemove">
+    let uid = '{{manageUser.discordId}}';
+</script>
+<script src="/js/admin/manage/manage_user.js"></script>

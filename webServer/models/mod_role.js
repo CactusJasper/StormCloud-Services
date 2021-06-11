@@ -11,7 +11,8 @@ let modRoleSchema = mongoose.Schema({
     }
 });
 
-let ModRole = module.exports = mongoose.model('ModRole', modRoleSchema);
+let ModRole = mongoose.model('ModRole', modRoleSchema);
+module.exports = ModRole;
 
 /* Instance method Function use is mrole.test(params, cb)
 modRoleSchema.methods.testFunc = function testFunc(params, callback) {

@@ -10,6 +10,18 @@ let userSchema = mongoose.Schema({
         default: 'discord'
     },
     highest_role: {},
+    event_manager: {
+        type: Boolean,
+        default: false
+    },
+    admin: {
+        type: Boolean,
+        default: false
+    },
+    superuser: {
+        type: Boolean,
+        default: false
+    },
     discordId: {
         type: String
     },
@@ -20,4 +32,5 @@ let userSchema = mongoose.Schema({
     discord: {}
 });
 
-let User = module.exports = mongoose.model('User', userSchema);
+let User = mongoose.model('User', userSchema);
+module.exports = User;

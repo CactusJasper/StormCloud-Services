@@ -6,29 +6,19 @@ let csrf = require('csurf');
 let csrfProtection = csrf({ cookie: true });
 
 router.get('/', csrfProtection, utils.ensureAuthenticated, (req, res) => {
-    utils.isAdmin(req.user).then((admin) => {
-        if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
-        {
-            res.render('settings', {
-                user: req.user,
-                admin: true,
-                csrfToken: req.csrfToken(),
-                helpers: {
-                    setChecked: (value, currentValue) => { return utils.setChecked(value, currentValue) }
-                }
-            });
-        }
-        else
-        {
-            res.render('settings', {
-                user: req.user,
-                csrfToken: req.csrfToken(),
-                helpers: {
-                    setChecked: (value, currentValue) => { return utils.setChecked(value, currentValue) }
-                }
-            });
-        }
-    }).catch((err) => {
+    if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
+    {
+        res.render('settings', {
+            user: req.user,
+            admin: true,
+            csrfToken: req.csrfToken(),
+            helpers: {
+                setChecked: (value, currentValue) => { return utils.setChecked(value, currentValue) }
+            }
+        });
+    }
+    else
+    {
         res.render('settings', {
             user: req.user,
             csrfToken: req.csrfToken(),
@@ -36,7 +26,7 @@ router.get('/', csrfProtection, utils.ensureAuthenticated, (req, res) => {
                 setChecked: (value, currentValue) => { return utils.setChecked(value, currentValue) }
             }
         });
-    });
+    }
 });
 
 router.post('/change', csrfProtection, utils.ensureAuthenticated, (req, res) => {

@@ -1,29 +1,25 @@
 const Application = require('./models/application');
 let ModRole = require('./models/mod_role');
 
-exports.isAdmin = async (user) => {
-    let isAdmin = false;
-    await ModRole.find({}, (err, roles) => {
-        if(roles)
-        {
-            for(let i = 0; i < roles.length; i++)
-            {
-                if(user.highest_role == roles[i].role_id)
-                {
-                    isAdmin = true;
-                }
-            }
-        }
-    });
-
-    if(isAdmin)
-    {
+exports.isAdmin = (user) => {
+    if(user.admin === true)
         return true;
-    }
     else
-    {
         return false;
-    }
+}
+
+exports.isSuperuser = (user) => {
+    if(user.superuser === true)
+        return true;
+    else
+        return false;
+}
+
+exports.isEventManager = (user) => {
+    if(user.event_manager === true)
+        return true;
+    else
+        return false;
 }
 
 exports.isWolfy = (user) => {

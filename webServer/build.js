@@ -18,7 +18,15 @@ let jsFiles = [
     'js/admin/polls/manage_polls.js',
     'js/admin/polls/approve_polls.js',
     'js/admin/roles/manage_mod_roles.js',
-    'js/admin/roles/manage_rewards.js'
+    'js/admin/roles/manage_rewards.js',
+    'js/admin/manage/manage_users.js',
+    'js/admin/manage/manage_user.js',
+    'js/admin/manage/manage_events.js',
+    'js/admin/manage/manage_event.js',
+    'js/planner/create_event.js',
+    'js/planner/planner.js',
+    'js/planner/past_events.js',
+    'js/planner/view_event.js'
 ];
 
 let cssFiles = [
@@ -41,9 +49,11 @@ let toCopy = [
 let distDirs = [
     'js/admin/polls',
     'js/admin/roles',
+    'js/admin/manage',
     'js/application',
     'js/polls',
     'js/libs',
+    'js/planner',
     'css/themes',
 ];
 

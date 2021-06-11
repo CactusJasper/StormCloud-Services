@@ -449,3 +449,11 @@ p {
   padding-bottom: 12px;
   text-align: left;
 }
+
+.va-m {
+    vertical-align: middle;
+}
+
+.f-left {
+    float: left;
+}

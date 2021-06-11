@@ -19,7 +19,7 @@ module.exports = (socket, io) => {
             {
                 if(user)
                 {
-                    if(utils.isWolfy(user) || utils.isJasper(user))
+                    if(utils.isSuperuser(user))
                     {
                         if(data.level > 0)
                         {
@@ -92,21 +92,31 @@ module.exports = (socket, io) => {
             {
                 if(user)
                 {
-                    LevelReward.deleteOne({ _id: data.roleId}, (err) => {
-                        if(err)
-                        {
-                            socket.emit('deleteRewardCb', {
-                                status: 500
-                            });
-                        }
-                        else
-                        {
-                            socket.emit('deleteRewardCb', {
-                                status: 200,
-                                roleId: data.roleId
-                            });
-                        }
-                    });
+                    if(utils.isSuperuser(user))
+                    {
+                        LevelReward.deleteOne({ _id: data.roleId}, (err) => {
+                            if(err)
+                            {
+                                socket.emit('deleteRewardCb', {
+                                    status: 500
+                                });
+                            }
+                            else
+                            {
+                                socket.emit('deleteRewardCb', {
+                                    status: 200,
+                                    roleId: data.roleId
+                                });
+                            }
+                        });
+                    }
+                    else
+                    {
+                        socket.emit('deleteRewardCb', {
+                            status: 900,
+                            message: 'Unauthorised'
+                        });
+                    }
                 }
                 else
                 {

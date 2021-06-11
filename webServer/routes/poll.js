@@ -6,25 +6,19 @@ let csrfProtection = csrf({ cookie: true });
 let utils = require('../utils');
 
 router.get('/list', (req, res) => {
-    utils.isAdmin(req.user).then((admin) => {
-        if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
-        {
-            res.render('polls/list', {
-                user: req.user,
-                admin: true
-            });
-        }
-        else
-        {
-            res.render('polls/list', {
-                user: req.user
-            });
-        }
-    }).catch((err) => {
+    if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
+    {
+        res.render('polls/list', {
+            user: req.user,
+            admin: true
+        });
+    }
+    else
+    {
         res.render('polls/list', {
             user: req.user
         });
-    });
+    }
 });
 
 router.get('/view/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res) => {
@@ -41,7 +35,7 @@ router.get('/view/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res
                 {
                     if(poll.state == 0)
                     {
-                        if(utils.isWolfy(req.user) || utils.isJasper(req.user))
+                        if(utils.isSuperuser(req.user))
                         {
                             res.render('admin/polls/review', {
                                 user: req.user,
@@ -57,31 +51,23 @@ router.get('/view/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res
                     }
                     else
                     {
-                        utils.isAdmin(req.user).then((admin) => {
-                            if(admin || utils.isWolfy(req.user) || utils.isJasper(req.user))
-                            {
-                                res.render('polls/view', {
-                                    user: req.user,
-                                    admin: true,
-                                    pollId: poll._id,
-                                    csrfToken: req.csrfToken()
-                                });
-                            }
-                            else
-                            {
-                                res.render('polls/view', {
-                                    user: req.user,
-                                    pollId: poll._id,
-                                    csrfToken: req.csrfToken()
-                                });
-                            }
-                        }).catch((err) => {
+                        if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
+                        {
+                            res.render('polls/view', {
+                                user: req.user,
+                                admin: true,
+                                pollId: poll._id,
+                                csrfToken: req.csrfToken()
+                            });
+                        }
+                        else
+                        {
                             res.render('polls/view', {
                                 user: req.user,
                                 pollId: poll._id,
                                 csrfToken: req.csrfToken()
                             });
-                        });
+                        }
                     }
                 }
                 else
