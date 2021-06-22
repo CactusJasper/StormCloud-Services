@@ -111,10 +111,6 @@ module.exports = (socket, io) => {
                                                         console.log('=============== updateUserData DB ================');
                                                         console.error(err);
                                                     }
-                                                    else
-                                                    {
-                                                        console.log(user)
-                                                    }
                                                 });
                                             }
                                         });
