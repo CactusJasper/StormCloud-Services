@@ -65,13 +65,15 @@ module.exports = (socket, io) => {
                                             user.highest_role = highestRole;
                                         
                                         let isSuperuser = false;
-                                        if(typeof config.default_super_users !== "undefined")
+                                        if(config.default_super_users.length > 0)
                                         {
                                             for(let i = 0; i < config.default_super_users.length; i++)
                                             {
-                                                if(user.id === config.default_super_users[i])
+                                                if(user.discordId === config.default_super_users[i])
+                                                {
                                                     user.superuser = true;
                                                     isSuperuser = true;
+                                                }
                                             }
                                         }
 
@@ -103,11 +105,15 @@ module.exports = (socket, io) => {
                                                     user.admin = false;
 
                                                 user.markModified('admin');
-                                                user.save((err) => {
+                                                user.save((err, user) => {
                                                     if(err)
                                                     {
                                                         console.log('=============== updateUserData DB ================');
                                                         console.error(err);
+                                                    }
+                                                    else
+                                                    {
+                                                        console.log(user)
                                                     }
                                                 });
                                             }

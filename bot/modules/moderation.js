@@ -30,11 +30,11 @@ exports.isSafeMessage = (message) => {
     let tokenizer = new WordTokenizer();
     let tokenizedReview = tokenizer.tokenize(alphaOnlyReview);
 
+    content = '';
     tokenizedReview.forEach((word, index) => {
         tokenizedReview[index] = spellCorrector.correct(word);
+        content += `${tokenizedReview[index]} `;
     });
-
-    content = SW.removeStopwords(tokenizedReview).toString();
 
     if(content.includes('nigger') || content.includes('ngger') || content.includes('nig'))
     {
@@ -50,17 +50,19 @@ exports.isSafeMessage = (message) => {
                 const label = p.label;
                 const match = p.results[0].match;
                 const prediction = p.results[0].probabilities[1];
-                console.log(label + ': ' + match + ' (' + prediction + ')\n');
+                //console.log(label + ': ' + match + ' (' + prediction + ')\n');
                 return match != false && prediction >= 0.98 && label == 'severe_toxicity';
             }).some(label => label);
 
             if(result)
             {
-                message.delete().catch(err => console.error(err));
+                //message.delete().catch(err => console.error(err));
+                console.log(`The message: ${content} triggered a positive confidence`);
                 return false;
             }
             else
             {
+                console.log(`The message: ${content} triggered a negative confidence`);
                 return true;
             }
         }).catch(err => {
