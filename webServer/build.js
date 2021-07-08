@@ -6,7 +6,6 @@ const csso = require('@node-minify/csso');
 let jsFiles = [
     'js/navbar.js',
     'js/utils.js',
-    'js/leaderboard.js',
     'js/home.js',
     'js/default.js',
     'js/polls/poll_list.js',
@@ -18,7 +17,6 @@ let jsFiles = [
     'js/admin/polls/manage_polls.js',
     'js/admin/polls/approve_polls.js',
     'js/admin/roles/manage_mod_roles.js',
-    'js/admin/roles/manage_rewards.js',
     'js/admin/manage/manage_users.js',
     'js/admin/manage/manage_user.js',
     'js/admin/manage/manage_events.js',
