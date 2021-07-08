@@ -1,5 +1,4 @@
 let utils = require('../utils');
-let UserData = require('../models/user_data');
 
 module.exports = {
 	name: 'profile',
@@ -15,9 +14,7 @@ module.exports = {
                 if(data)
                 {
                     let msg = `======= ${message.author.username} =======\n`;
-                    msg += `Your Level: ${data.level}\n`;
-                    msg += `Current XP: ${data.xp}\n`;
-                    msg += `XP to Level Up: ${utils.getLevel(data.level + 1)}`;
+                    msg += `New System Not Implmented Yet\n`;
 
                     message.channel.send(utils.codeBlock(msg)).then(() => { }).catch((err) => console.error(err));
                 }
