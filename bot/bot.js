@@ -142,41 +142,6 @@ client.on('message', (message) => {
             {
                 client.commands.get('leaderboard').execute(message, args)
             }
-            else if(command == 'kill')
-            {
-                if(message.mentions.members.size >= 1)
-                {
-                    let target = message.mentions.members.first();
-                    if(target.id == message.author.id)
-                    {
-                        client.commands.get('kill').execute(message, args, target.name, false, true);
-                    }
-                    else
-                    {
-                        if(target.id == '217387293571284992')
-                            message.channel.send('I refuse to kill the overlord.').catch(err => console.error(err));
-                        else if(target.id == '783811510652239904')
-                            message.channel.send(`I don't feel like killing my self just yet maybe in a hour.`).catch(err => console.error(err));
-                        else if(typeof target.nickname !== "undefined" && target.nickname !== null)
-                            client.commands.get('kill').execute(message, args, target.nickname, false);
-                        else
-                            client.commands.get('kill').execute(message, args, target.user.username, false);
-                    }
-                }
-                else if(message.mentions.roles.size >= 1)
-                {
-                    let target = message.mentions.roles.first();
-                    client.commands.get('kill').execute(message, args, target.name, true);
-                }
-                else if(args[0] == 'onion')
-                {
-                    message.channel.send(`${message.author.username} washed an onion and then cooked it in the oven.`).catch(err => console.error(err));
-                }
-                else
-                {
-                    client.commands.get('kill').execute(message, args, message.author.username, false, true);
-                }
-            }
             else if(command == 'mine' && (message.author.id == '217387293571284992' || message.author.id == '228618507955208192'))
             {
                 client.commands.get('mine').execute(message, args);
