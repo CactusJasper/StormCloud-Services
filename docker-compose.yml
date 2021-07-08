@@ -25,7 +25,6 @@ services:
         network_mode: "host"
         depends_on: 
             - webserver
-            - game_server
             - bot
         build:
             context: ./nginx
