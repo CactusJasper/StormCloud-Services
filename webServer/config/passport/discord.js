@@ -83,7 +83,7 @@ module.exports = new DiscordStrategy({
                                                     {
                                                         for(let i = 0; i < roles.length; i++)
                                                         {
-                                                            if(highestRole == roles[i])
+                                                            if(highestRole == roles[i].role_id)
                                                             {
                                                                 user.admin = true;
                                                             }
@@ -91,10 +91,11 @@ module.exports = new DiscordStrategy({
                                                     }
                                                     
                                                     user.save((err) => {
-                                                        if (err) console.log(err);
+                                                        if(err)
+                                                            console.log(err);
+                                                        else
+                                                            return done(null, user);
                                                     });
-        
-                                                    return done(null, user);
                                                 }
                                             });
                                         }
@@ -168,6 +169,7 @@ module.exports = new DiscordStrategy({
                                             ModRole.find({}, (err, roles) => {
                                                 if(err)
                                                 {
+                                                    console.error(err);
                                                     return done('Internal Server Error', null);
                                                 }
                                                 else
@@ -177,9 +179,10 @@ module.exports = new DiscordStrategy({
                                                     {
                                                         for(let i = 0; i < roles.length; i++)
                                                         {
-                                                            if(highestRole == roles[i])
+                                                            if(highestRole == roles[i].role_id)
                                                             {
                                                                 user.admin = true;
+                                                                
                                                                 isAdmin = true;
                                                             }
                                                         }
@@ -188,16 +191,19 @@ module.exports = new DiscordStrategy({
                                                     if(!isAdmin)
                                                         user.admin = false;
                                                     
+                                                    user.markModified('admin');
                                                     user.save((err) => {
-                                                        if(err) console.log(err);
+                                                        if(err)
+                                                            console.log(err);
+                                                        else
+                                                            return done(null, user);
                                                     });
-        
-                                                    return done(null, user);
                                                 }
                                             });
                                         }
                                         else
                                         {
+                                            console.error(res.data);
                                             return done('Internal Server Error', null);
                                         }
                                     }).catch(err => {

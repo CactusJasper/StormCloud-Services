@@ -9,16 +9,6 @@ services:
             context: ./webServer
         environment:
             - NODE_ENV=production
-    game_server:
-        restart: always
-        network_mode: "host"
-        depends_on:
-            - bot
-            - webserver
-        build:
-            context: ./gameServer
-        environment:
-            - NODE_ENV=production
     bot:
         restart: always
         network_mode: "host"

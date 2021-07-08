@@ -225,14 +225,14 @@ app.all('*', (req, res) => {
 });
 
 /* HANDLE 500 ERRORS */
-app.use((err, req, res, next) => {
+/*app.use((err, req, res, next) => {
     if(process.env.NODE_ENV != 'production')
     {
         console.error(err.stack);
     }
     
     res.render('errors/500', { layout: false });
-});
+});*/
 
 /*
  * ========================================

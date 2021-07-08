@@ -65,13 +65,15 @@ module.exports = (socket, io) => {
                                             user.highest_role = highestRole;
                                         
                                         let isSuperuser = false;
-                                        if(typeof config.default_super_users !== "undefined")
+                                        if(config.default_super_users.length > 0)
                                         {
                                             for(let i = 0; i < config.default_super_users.length; i++)
                                             {
-                                                if(user.id === config.default_super_users[i])
+                                                if(user.discordId === config.default_super_users[i])
+                                                {
                                                     user.superuser = true;
                                                     isSuperuser = true;
+                                                }
                                             }
                                         }
 
@@ -91,7 +93,7 @@ module.exports = (socket, io) => {
                                                 {
                                                     for(let i = 0; i < roles.length; i++)
                                                     {
-                                                        if(highestRole == roles[i])
+                                                        if(highestRole == roles[i].role_id)
                                                         {
                                                             user.admin = true;
                                                             isAdmin = true;
@@ -102,7 +104,8 @@ module.exports = (socket, io) => {
                                                 if(!isAdmin)
                                                     user.admin = false;
 
-                                                user.save((err) => {
+                                                user.markModified('admin');
+                                                user.save((err, user) => {
                                                     if(err)
                                                     {
                                                         console.log('=============== updateUserData DB ================');
