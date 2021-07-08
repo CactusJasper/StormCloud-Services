@@ -3,49 +3,17 @@ $(() => {
 
     socket.on('connect', () => {
         console.log('WS Opened');
-        socket.emit('t10', {});
         socket.emit('updateUserData', {});
 
         socket.emit('getApplications', {});
 
         setInterval(() => {
             socket.volatile.emit('updateUserData', {});
-
-            socket.volatile.emit('t10', {});
         }, (60 * 1000) * 10);
 
         setInterval(() => {
             socket.volatile.emit('getApplications', {});
         }, (30 * 1000));
-    });
-
-    socket.on('t10', (res) => {
-        let top10 = res.data;
-        $('#t-10').html('');
-
-        if(res.status == 500)
-        {
-            $('#t-10').append('<p>Unnable to get top 10 at this time.</p>');
-        }
-        else if(res.status == 900)
-        {
-            if(res.message == 'No User Data')
-            {
-                $('#t-10').append('<p>No data currently available.</p>');
-            }
-        }
-        else if(res.status == 200)
-        {
-            for(let i = 0; i  < top10.length; i++)
-            {
-                $('#t-10').append(`<li>${top10[i].username}: Level ${top10[i].level}</li>`);
-            }
-
-            if(top10.length == 10)
-            {
-                $('#t-10').append(`<a href="/leaderboard" class="text-colour">See Full Leaderboard</a>`);
-            }
-        }
     });
 
     socket.on('updateApplications', (res) => {
