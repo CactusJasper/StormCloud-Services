@@ -1,7 +1,7 @@
 # Base Nginx HTTP/3 Image
 FROM ranadeeppolavarapu/nginx-http3:latest
 
-RUN apk add openssl ca-certificates python3 python3-dev py3-pip build-base libressl-dev musl-dev libffi-dev rust cargo
+RUN apk add --no-cache openssl ca-certificates build-base libressl-dev musl-dev libffi-dev
 
 # Copy your certs.
 COPY stormcloud-world.key /etc/ssl/private/
