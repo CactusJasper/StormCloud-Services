@@ -1,7 +1,7 @@
 # Base Nginx HTTP/3 Image
 FROM ranadeeppolavarapu/nginx-http3:latest
 
-RUN apk add openssl
+RUN apk add openssl ca-certificates
 
 # Copy your certs.
 COPY stormcloud-world.key /etc/ssl/private/
