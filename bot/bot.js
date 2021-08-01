@@ -339,6 +339,15 @@ app.get('/user/username/:userId', checkAuth, (req, res) => {
     }
 });
 
+app.get('/server/@channels', checkAuth, (req, res) => {
+    textChannels = client.guilds.cache.get(config.server_id).channels.cache.filter(ch => ch.type === 'text' && ch.deleted == false);
+    
+    res.send({
+        status: 200,
+        channels: textChannels
+    });
+});
+
 // API Creds Check
 function checkAuth(req, res, next)
 {
