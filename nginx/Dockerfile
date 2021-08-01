@@ -6,4 +6,4 @@ COPY stormcloud-world.key /etc/ssl/private/
 COPY stormcloud-world.pem /etc/ssl/
 
 COPY nginx.conf /etc/nginx/
-COPY h3.nginx.conf /etc/nginx/conf.d/
+COPY h2.nginx.conf /etc/nginx/conf.d/
