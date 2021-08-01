@@ -5,5 +5,6 @@ FROM nginx:1.20.1-alpine
 COPY stormcloud-world.key /etc/ssl/private/
 COPY stormcloud-world.pem /etc/ssl/
 
-COPY nginx.conf /etc/nginx/
-COPY h2.nginx.conf /etc/nginx/conf.d/
+#COPY nginx.conf /etc/nginx/
+RUN rm /etc/nginx/conf.d/default.conf
+COPY default.conf /etc/nginx/conf.d/
