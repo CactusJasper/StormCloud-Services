@@ -4,7 +4,6 @@ let toxicity = require('@tensorflow-models/toxicity');
 const aposToLexForm = require('apos-to-lex-form');
 const natural = require('natural');
 const SW = require('stopword');
-spellCorrector.loadDictionary();
 
 const threshold = 1.0;
 let model;

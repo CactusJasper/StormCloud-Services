@@ -196,22 +196,6 @@ app.get('/', (req, res) => {
     }
 });
 
-app.get('/leaderboard', utils.ensureAuthenticated, (req, res) => {
-    if(utils.isAdmin(req.user) || utils.isSuperuser(req.user))
-    {
-        res.render('leaderboard', {
-            user: req.user,
-            admin: true
-        });
-    }
-    else
-    {
-        res.render('leaderboard', {
-            user: req.user
-        });
-    }
-});
-
 app.use('/auth', require('./routes/auth'));
 app.use('/applications', require('./routes/applications'));
 app.use('/admin', require('./routes/admin'));
@@ -225,14 +209,14 @@ app.all('*', (req, res) => {
 });
 
 /* HANDLE 500 ERRORS */
-/*app.use((err, req, res, next) => {
+app.use((err, req, res, next) => {
     if(process.env.NODE_ENV != 'production')
     {
         console.error(err.stack);
     }
     
     res.render('errors/500', { layout: false });
-});*/
+});
 
 /*
  * ========================================
@@ -249,8 +233,6 @@ io.on('connection', (socket) => {
     {
         require('./events/home')(socket, io); // Home Page Socket Event Handler
         require('./events/view_application')(socket, io); // Application View Socket Event Handler
-        require('./events/user_data')(socket, io); // User Data Socket Event Handler
-        require('./events/admin/roles/manage_rewards')(socket, io); // Manage Role Rewards Socket Event Handler
         require('./events/admin/roles/manage_mod_roles')(socket, io); // Manage Moderation Roles Socket Event Handler
         require('./events/admin/manage/manage_users')(socket, io); // Manage Users Socket Event Handler
         require('./events/admin/manage/manage_events')(socket, io); // Manage Events Socket Event Handler

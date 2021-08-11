@@ -1,11 +1,10 @@
 # Base Nginx HTTP/3 Image
-FROM ranadeeppolavarapu/nginx-http3:latest
+FROM nginx:1.20.1-alpine
 
 # Copy your certs.
 COPY stormcloud-world.key /etc/ssl/private/
 COPY stormcloud-world.pem /etc/ssl/
-COPY games-stormcloud-world.key /etc/ssl/private/
-COPY games-stormcloud-world.pem /etc/ssl/
 
-COPY nginx.conf /etc/nginx/
-COPY h3.nginx.conf /etc/nginx/conf.d/
+#COPY nginx.conf /etc/nginx/
+RUN rm /etc/nginx/conf.d/default.conf
+COPY default.conf /etc/nginx/conf.d/
