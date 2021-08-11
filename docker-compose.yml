@@ -3,7 +3,7 @@ services:
     threadbot:
         restart: always
         build:
-            context: ./threadbot
+            context: ./threadBot
         environment:
             - NODE_ENV=production
     webserver:
