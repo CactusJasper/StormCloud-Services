@@ -1,5 +1,11 @@
 version: "3.3"
 services:
+    threadbot:
+        restart: always
+        build:
+            context: ./threadbot
+        environment:
+            - NODE_ENV=production
     webserver:
         restart: always
         network_mode: "host"

@@ -1,0 +1,20 @@
+{
+  "name": "threadbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "dependencies": {
+    "@discordjs/rest": "0.1.0-canary.0",
+    "bufferutil": "^4.0.3",
+    "discord.js": "^13.0.1",
+    "erlpack": "github:discord/erlpack",
+    "utf-8-validate": "^5.0.5",
+    "zlib-sync": "^0.1.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node bot.js"
+  },
+  "author": "Jasper",
+  "license": "ISC"
+}
