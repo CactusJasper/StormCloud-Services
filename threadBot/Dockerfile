@@ -7,7 +7,7 @@ RUN apt-get update
 RUN apt-get install -y git python make gcc g++ build-essential wget python3 libc6-dev
 
 # create the directory inside the container
-WORKDIR /usr/src/bot
+WORKDIR /usr/src/threadBot
 
 # copy the package.json files from local machine to the workdir in container
 COPY package*.json ./
