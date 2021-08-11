@@ -8,10 +8,8 @@
     "bufferutil": "^4.0.3",
     "discord.js": "^13.0.1",
     "erlpack": "github:discord/erlpack",
-    "utf-8-validate": "^5.0.5",
-    "zlib-sync": "^0.1.7"
+    "utf-8-validate": "^5.0.5"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "node bot.js"
   },
