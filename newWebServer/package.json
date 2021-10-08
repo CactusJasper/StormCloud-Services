@@ -18,7 +18,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "scss": "sass --watch ./scss/main.scss ./public/css/main.css",
+    "build:scss": "sass ./scss/main.scss ./public/css/main.css"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -27,7 +29,8 @@
     "hbs": "^4.1.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "sass": "^1.42.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
