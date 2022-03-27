@@ -21,7 +21,7 @@ module.exports = (socket, io) => {
                 {
                     if(utils.isSuperuser(user))
                     {
-                        if(data.roleId != null || data.roleId != undefined)
+                        if(data.roleId != null || data.roleId !== undefined)
                         {
                             let modRole = new ModRole({
                                 level: data.modLevel,

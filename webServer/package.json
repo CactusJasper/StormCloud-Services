@@ -29,7 +29,7 @@
     "express-session": "^1.17.2",
     "express-validator": "^6.11.1",
     "handlebars": "^4.7.7",
-    "handlebars-helpers": "^0.10.0",
+    "handlebars-helpers": "^0.9.8",
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.13",

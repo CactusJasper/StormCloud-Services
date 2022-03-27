@@ -48,7 +48,7 @@ module.exports = new DiscordStrategy({
                                             api_token: server.api_token
                                         }
                                     }).then(res => {
-                                        if(res.data.status == 200)
+                                        if(res.data.status === 200)
                                         {
                                             let highestRole = res.data.role;
                                             let modProfile = profile;
@@ -83,7 +83,7 @@ module.exports = new DiscordStrategy({
                                                     {
                                                         for(let i = 0; i < roles.length; i++)
                                                         {
-                                                            if(highestRole == roles[i].role_id)
+                                                            if(highestRole === roles[i].role_id)
                                                             {
                                                                 user.admin = true;
                                                             }
@@ -134,7 +134,7 @@ module.exports = new DiscordStrategy({
                                             api_token: server.api_token
                                         }
                                     }).then(res => {
-                                        if(res.data.status == 200)
+                                        if(res.data.status === 200)
                                         {
                                             let highestRole = res.data.role;
                                             user.highest_role = highestRole;
@@ -179,7 +179,7 @@ module.exports = new DiscordStrategy({
                                                     {
                                                         for(let i = 0; i < roles.length; i++)
                                                         {
-                                                            if(highestRole == roles[i].role_id)
+                                                            if(highestRole === roles[i].role_id)
                                                             {
                                                                 user.admin = true;
                                                                 
@@ -236,7 +236,7 @@ function isMember(profile)
 {
     for(let i = 0; i < profile.guilds.length; i++)
     {
-        if(profile.guilds[i].id == config.server_id)
+        if(profile.guilds[i].id === config.server_id)
         {
             return true;
         }

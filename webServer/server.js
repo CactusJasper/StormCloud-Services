@@ -29,11 +29,9 @@ mongoose.connect(dbConf.db_url, {
     useCreateIndex: true
 }).then((res) => {
     console.log('Connected to DB Server');
-    /*app.listen(8080, () => {
-        console.log("Server Started on port 8080");
-    });*/
+
     http.listen(8080, () => {
-    console.log(`listening on *:${8080}`);
+    	console.log(`listening on *:${8080}`);
     });
 }).catch((err) => {
     console.error(err);
@@ -63,14 +61,10 @@ app.use(compression({
 }));
 
 Handlebars.registerHelper('getPfpIco', (userId, avatarId) => {
-    if(avatarId == undefined)
-    {
+    if(avatarId === undefined)
         return 'https://cdn.discordapp.com/avatars/783811510652239904/08db214786c860678804c24f77834927.png';
-    }
-    else
-    {
-        return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.png`;
-    }
+
+	return `https://cdn.discordapp.com/avatars/${userId}/${avatarId}.png`;
 });
 
 Handlebars.registerHelper('ifCond', (v1, operator, v2, options) => {
@@ -112,7 +106,7 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs');
 
 // Set the Static folder
-if(process.env.NODE_ENV == 'production')
+if(process.env.NODE_ENV === 'production')
 {
     app.use(express.static(path.join(__dirname, 'public/dist')));
 }
@@ -210,7 +204,7 @@ app.all('*', (req, res) => {
 
 /* HANDLE 500 ERRORS */
 app.use((err, req, res, next) => {
-    if(process.env.NODE_ENV != 'production')
+    if(process.env.NODE_ENV !== 'production')
     {
         console.error(err.stack);
     }
