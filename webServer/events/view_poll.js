@@ -21,7 +21,7 @@ module.exports = (socket, io) => {
                 {
                     if(poll)
                     {
-                        if(poll.state != 0)
+                        if(poll.state !== 0)
                         {
                             socket.emit('getPollCb', {
                                 status: 200,
@@ -85,7 +85,7 @@ module.exports = (socket, io) => {
                                 {
                                     for(let i = 0; i < poll.votes.length; i++)
                                     {
-                                        if(poll.votes[i].user_id == userId)
+                                        if(poll.votes[i].user_id === userId)
                                         {
                                             hasVoted = true;
                                             return;
@@ -93,7 +93,7 @@ module.exports = (socket, io) => {
                                     }
                                 }
 
-                                if(hasVoted == false)
+                                if(hasVoted === false)
                                 {
                                     poll.votes.push(vote);
                                     poll.markModified('votes');

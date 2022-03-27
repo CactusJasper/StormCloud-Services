@@ -7,7 +7,7 @@ module.exports = (socket, io) => {
     let perPage = 20;
 
     socket.on('getUsers', (data) => {
-        if(data.getMaxPages == true)
+        if(data.getMaxPages === true)
         {
             User.find({}, (err, users) => {
                 if(err)

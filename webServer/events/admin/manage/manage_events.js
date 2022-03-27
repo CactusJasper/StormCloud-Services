@@ -20,7 +20,7 @@ module.exports = (socket, io) => {
             {
                 if(user)
                 {
-                    if(data.getMaxPages == true)
+                    if(data.getMaxPages === true)
                     {
                         ServerEvent.find({}, (err, events) => {
                             if(err)

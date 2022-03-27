@@ -3,7 +3,7 @@ const minify = require('@node-minify/core');
 const uglifyES = require('@node-minify/uglify-es');
 const csso = require('@node-minify/csso');
 
-let jsFiles = [
+const jsFiles = [
     'js/navbar.js',
     'js/utils.js',
     'js/home.js',
@@ -27,7 +27,7 @@ let jsFiles = [
     'js/planner/view_event.js'
 ];
 
-let cssFiles = [
+const cssFiles = [
     'css/grid.css',
     'css/main.css',
     'css/modal.css',
@@ -38,13 +38,13 @@ let cssFiles = [
     'css/themes/light.css',
 ];
 
-let toCopy = [
+const toCopy = [
     'js/libs/jquery-3.5.1.min.js',
     'js/libs/socket.io.min.js',
     'js/libs/socket.io.min.js.map'
 ];
 
-let distDirs = [
+const distDirs = [
     'js/admin/polls',
     'js/admin/roles',
     'js/admin/manage',
@@ -63,7 +63,7 @@ for(let i = 0; i < distDirs.length; i++)
             recursive: true
         });
 
-        if(i == 0) console.log('\n=============== Creating Dist Dirs ===============\n');
+        if(i === 0) console.log('\n=============== Creating Dist Dirs ===============\n');
         console.log(`Successfully created /public/dist/${distDirs[i]}`);
     }
 }
@@ -81,7 +81,7 @@ for(let i = 0; i < jsFiles.length; i++)
           compress: true // pass false to skip compressing entirely. Pass an object to specify custom compressor options.
         },
         callback: (err, min) => {
-            if(i == 0) console.log('\n=============== JS Minifying ===============\n');
+            if(i === 0) console.log('\n=============== JS Minifying ===============\n');
             console.log(`Successfully minified /public/${jsFiles[i]} and outputted to /public/dist/${jsFiles[i]}`);
         }
     }).catch(err => console.error(err));
@@ -94,7 +94,7 @@ for(let i = 0; i < cssFiles.length; i++)
         input: `./public/${cssFiles[i]}`,
         output: `./public/dist/${cssFiles[i]}`,
         callback: (err, min) => {
-            if(i == 0) console.log('\n=============== CSS Minifying ===============\n');
+            if(i === 0) console.log('\n=============== CSS Minifying ===============\n');
             console.log(`Successfully minified /public/${cssFiles[i]} and outputted to /public/dist/${cssFiles[i]}`);
         }
     }).catch(err => console.error(err));
@@ -103,7 +103,7 @@ for(let i = 0; i < cssFiles.length; i++)
 for(let i = 0; i < toCopy.length; i++)
 {
     fs.copyFile(`./public/${toCopy[i]}`, `./public/dist/${toCopy[i]}`, () => {
-        if(i == 0) console.log('\n=============== File Copying ===============\n');
+        if(i === 0) console.log('\n=============== File Copying ===============\n');
         console.log(`Successfully coppyed /public/${toCopy[i]} and outputted to /public/dist/${toCopy[i]}`);
     });
 }

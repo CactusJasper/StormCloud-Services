@@ -2,118 +2,54 @@ const Application = require('./models/application');
 let ModRole = require('./models/mod_role');
 
 exports.isAdmin = (user) => {
-    if(user.admin === true)
-        return true;
-    else
-        return false;
+    return user.admin === true;
 }
 
 exports.isSuperuser = (user) => {
-    if(user.superuser === true)
-        return true;
-    else
-        return false;
+    return user.superuser === true;
 }
 
 exports.isEventManager = (user) => {
-    if(user.event_manager === true)
-        return true;
-    else
-        return false;
+    return user.event_manager === true;
 }
 
 exports.isWolfy = (user) => {
-    if(user.discordId == '228618507955208192')
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return user.discordId === '228618507955208192';
 }
 
 exports.isJasper = (user) => {
-    if(user.discordId == '217387293571284992')
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return user.discordId === '217387293571284992';
 }
 
 exports.ensureAuthenticated = (req, res, next) => {
-    if(req.isAuthenticated())
-    {
-        return next();
-    }
-    else
-    {
-        res.redirect('/');
-    }
+    if(req.isAuthenticated()) return next();
+	res.redirect('/');
 }
 
 exports.ensureNotAuthenticated = (req, res, next) => {
-    if(!req.isAuthenticated())
-    {
-        return next();
-    }
-    else
-    {
-        res.redirect('/');
-    }
+    if(!req.isAuthenticated()) return next();
+	res.redirect('/');
 }
 
 exports.convertToTextApplications = (q) => {
-    if(q == 0)
-    {
-        return "Barely";
-    }
-    else if(q == 1)
-    {
-        return "Once every 2 or more weeks";
-    }
-    else if(q == 2)
-    {
-        return "Once a week, or a few times";
-    }
-    else if(q == 3)
-    {
-        return "Everyday";
-    }
-    else if(q == 4)
-    {
-        return "A lot, every hour or two";
-    }
-    else if(q == 5)
-    {
-        return "Every minute except when I need to use my essentials";
-    }
-    else
-    {
-        return q;
-    }
+	switch(q) {
+		case 0: return "Barely";
+		case 1: return "Once every 2 or more weeks";
+		case 2: return "Once a week, or a few times";
+		case 3: return "Everyday";
+		case 4: return "A lot, every hour or two";
+		case 5: return "Every minute except when I need to use my essentials";
+		default: return q;
+	}
 }
 
 exports.levelToText = (level) => {
-    if(level == 'mod')
-    {
-        return "Moderator";
-    }
-    else if(level == 'admin')
-    {
-        return "Administrator";
-    }
-    else if(level == 'co-o')
-    {
-        return "Co-Owner";
-    }
-    else
-    {
-        return "User";
-    }
+	switch(level) {
+		case 'mod': return "Moderator";
+		case 'admin': return "Administrator";
+		case 'co-o': return "Co-Owner";
+		default: return "User";
+	}
 }
 
 exports.canCreateApplication = async (discordId) => {
@@ -169,93 +105,58 @@ exports.getPollOptions = async (body) => {
 
     for(let i = 1;  i <= count; i++)
     {
-        if(i == 1)
-            toReturn.push({
-                vote_string: body.o1,
-                value: 1
-            });
-        else if(i == 2)
-            toReturn.push({
-                vote_string: body.o2,
-                value: 2
-            });
-        else if(i == 3)
-            toReturn.push({
-                vote_string: body.o3,
-                value: 3
-            });
-        else if(i == 4)
-            toReturn.push({
-                vote_string: body.o4,
-                value: 4
-            });
-        else if(i == 5)
-            toReturn.push({
-                vote_string: body.o5,
-                value: 5
-            });
-        else if(i == 6)
-            toReturn.push({
-                vote_string: body.o6,
-                value: 6
-            });
-        else if(i == 7)
-            toReturn.push({
-                vote_string: body.o7,
-                value: 7
-            });
-        else if(i == 8)
-            toReturn.push({
-                vote_string: body.o8,
-                value: 8
-            });
-        else if(i == 9)
-            toReturn.push({
-                vote_string: body.o9,
-                value: 9
-            });
-        else if(i == 10)
-            toReturn.push({
-                vote_string: body.o10,
-                value: 10
-            });
-        else if(i == 11)
-            toReturn.push({
-                vote_string: body.o11,
-                value: 11
-            });
-        else if(i == 12)
-            toReturn.push({
-                vote_string: body.o12,
-                value: 12
-            });
-        else if(i == 13)
-            toReturn.push({
-                vote_string: body.o13,
-                value: 13
-            });
-        else if(i == 14)
-            toReturn.push({
-                vote_string: body.o14,
-                value: 14
-            });
-        else if(i == 15)
-            toReturn.push({
-                vote_string: body.o15,
-                value: 15
-            });
+		switch(i) {
+			case 1:
+				toReturn.push({ vote_string: body.o1, value: 1 });
+				break;
+			case 2:
+				toReturn.push({ vote_string: body.o2, value: 2 });
+				break;
+			case 3:
+				toReturn.push({ vote_string: body.o3, value: 3 });
+				break;
+			case 4:
+				toReturn.push({ vote_string: body.o4, value: 4 });
+				break;
+			case 5:
+				toReturn.push({ vote_string: body.o5, value: 5 });
+				break;
+			case 6:
+				toReturn.push({ vote_string: body.o6, value: 6 });
+				break;
+			case 7:
+				toReturn.push({ vote_string: body.o7, value: 7 });
+				break;
+			case 8:
+				toReturn.push({ vote_string: body.o8, value: 8 });
+				break;
+			case 9:
+				toReturn.push({ vote_string: body.o9, value: 9 });
+				break;
+			case 10:
+				toReturn.push({ vote_string: body.o10, value: 10 });
+				break;
+			case 11:
+				toReturn.push({ vote_string: body.o11, value: 11 });
+				break;
+			case 12:
+				toReturn.push({ vote_string: body.o12, value: 12 });
+				break;
+			case 13:
+				toReturn.push({ vote_string: body.o13, value: 13 });
+				break;
+			case 14:
+				toReturn.push({ vote_string: body.o14, value: 14 });
+				break;
+			case 15:
+				toReturn.push({ vote_string: body.o15, value: 15 });
+				break;
+		}
     }
 
     return toReturn;
 }
 
 exports.setChecked = (value, currentValue) => {
-    if(value == currentValue)
-    {
-        return "checked";
-    }
-    else
-    {
-        return "";
-    }
+	return value === currentValue ? "checked" : "";
 }
