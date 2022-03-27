@@ -1,0 +1,103 @@
+/* Define Colors intentions */
+$danger: $red;
+$background: $lightGrey;
+$textColour: $darkColor;
+$lightTextColour: $light;
+$lineColour: $grey;
+$cardBg: $primary;
+$headerBackground: $backgroundCore;
+$buttonTextColour: $textColour;
+
+$footerTextColour: $lightGrey;
+$footerBackground: $backgroundCore;
+
+$line: solid 1px $lineColour;
+
+// type
+$hFontFamily: 'Antonio', sans-serif;
+$fontFamily: soleil, sans-serif;
+$h1Size: 3.375rem;
+$h2Size: 2.075rem;
+$h3Size: 1.875rem;
+$h4Size: 1.777rem;
+$h5Size: 1.333rem;
+$baseText: 1.563rem;
+$baseFontSize: 1rem;
+$smallText: 0.938rem;
+
+$radius: 20px;
+
+// elevation
+$level-1: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+$level-2: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$level-3: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$level-4: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+// display
+$displayFlex: flex;
+$displayGrid: grid;
+
+// positioning
+$containerPadding: 5%;
+$headerHeight: 100px;
+$footerHeight: 60px;
+
+:root {
+    /* Define Colors intentions */
+    --danger: #{$danger};
+    --background: #{$background};
+    --textColour: #{$textColour};
+    --lightTextColour: #{$lightTextColour};
+    --lineColour: #{$lineColour};
+    --cardBg: #{$cardBg};
+    --headerBackground: #{$headerBackground};
+    --buttonTextColour: #{$buttonTextColour};
+
+    --footerTextColour: #{$footerTextColour};
+    --footerBackground: #{$footerBackground};
+
+    --line: #{$line};
+    // type
+    --hFontFamily: #{$hFontFamily};
+    --fontFamily: #{$fontFamily};
+    --h1Size: #{$h1Size};
+    --h2Size: #{$h2Size};
+    --h3Size: #{$h3Size};
+    --h4Size: #{$h4Size};
+    --h5Size: #{$h5Size};
+    --baseText: #{$baseText};
+    --baseFontSize: #{$baseFontSize};
+    --smallText: #{$smallText};
+
+    --radius: #{$radius};
+
+    // elevation
+    --level-1: #{$level-1};
+    --level-2: #{$level-2};
+    --level-3: #{$level-3};
+    --level-4: #{$level-4};
+
+    // display
+    --displayFlex: #{$displayFlex};
+    --displayGrid: #{$displayGrid};
+
+    // positioning
+    --containerPadding: #{$containerPadding};
+    --headerHeight: #{$headerHeight};
+    --footerHeight: #{$footerHeight};
+}
+
+@include breakpoint-down('sm') {
+    $baseFontSize: 85%;
+    $displayFlex: block;
+    $displayGrid: block;
+
+    :root {
+        --baseFontSize: #{$baseFontSize};
+        --displayFlex: #{$displayFlex};
+        --displayGrid: #{$displayGrid};
+    }
+}

@@ -1,0 +1,60 @@
+.auth {
+	padding-top: 2rem;
+
+    .card {
+        transform: translateY(15vh);
+
+        @include breakpoint-down('md') {
+            transform: translateY(25vh);
+        }
+
+        @include breakpoint-down('sm') {
+            transform: translateY(15vh);
+        }
+
+        @include breakpoint-down('xs') {
+            transform: translateY(6vh);
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        h2 {
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+        }
+
+        .flex {
+            display: flex !important;
+        }
+
+        .button {
+            background: none;
+            border: 2px solid var(--discordColour);
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1rem;
+            text-align: center;
+
+            &:hover {
+                background: var(--discordColour);
+            }
+        }
+
+        a {
+            text-transform: uppercase;
+        }
+
+        .fs-18 {
+            font-size: 18px;
+        }
+
+        .va-m {
+            vertical-align: middle;
+            padding-bottom: 2px;
+        }
+    }
+}

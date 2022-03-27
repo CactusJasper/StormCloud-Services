@@ -1,0 +1,19 @@
+.dark {
+    $background: #313131;
+    $backgroundMain: #212121;
+    $backgroundSecondary: #414141;
+    $backgroundCore: #222222;
+    $buttonTextColour: $lightTextColour;
+    $textColour: $lightTextColour;
+    $lightTextColour: $textColour;
+
+    --background: #{$background};
+    --backgroundMain: #{$backgroundMain};
+    --backgroundSecondary: #{$backgroundSecondary};
+    --backgroundCore: #{$backgroundCore};
+    --headerBackground: #{$backgroundCore};
+    --footerBackground: #{$backgroundCore};
+    --textColour: #{$lightTextColour};
+    --lightTextColour: #{$textColour};
+    --buttonTextColour: #{$lightTextColour};
+}

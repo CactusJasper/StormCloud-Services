@@ -1,0 +1,28 @@
+label {
+  display: block;
+  font-size: var(--smallText);
+}
+
+input, textarea {
+  border: var(--line);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+}
+
+select {
+  border: var(--line);
+  border-radius: var(--radius);
+  padding: 2px 5px;
+}
+
+textarea {
+  width: 99%;
+}
+
+::placeholder {
+  color: var(--grey);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+}

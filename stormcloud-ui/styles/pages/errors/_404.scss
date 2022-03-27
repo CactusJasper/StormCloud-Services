@@ -1,0 +1,28 @@
+.error-404 {
+    .card {
+        max-width: 800px;
+        width: 100%;
+        background: none;
+        border: none;
+        box-shadow: none;
+
+        h1 {
+            margin: 1rem 0 0;
+        }
+
+        .flex {
+            margin-top: 3rem;
+            display: flex !important;
+        }
+
+        a {
+            color: var(--textColour);
+            text-decoration: none;
+            font-size: 24px;
+
+            @include breakpoint-down('xs') {
+                font-size: 18px;
+            }
+        }
+    }
+}

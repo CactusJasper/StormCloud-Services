@@ -1,0 +1,28 @@
+.card {
+    box-shadow: var(--level-1);
+    padding: 2rem;
+	width: 100%;
+	max-width: 800px;
+
+    > *:first-child {
+        margin-top: 0;
+    }
+
+    > *:last-child {
+        margin-bottom: 0;
+    }
+
+    &.primary {
+        background-color: var(--backgroundSecondary);
+        border: 1px solid var(--primary);
+    }
+
+    &.secondary {
+        background-color: transparentize($secondaryLight, 0.29);
+    }
+
+    &.dark {
+        color: #FFFCE0;
+        background-color: transparentize($darkColor, 0.29);
+    }
+}
