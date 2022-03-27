@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Card } from '../components';
 
-const CookiePolicy = () => {
+const Cookiepolicy = () => {
     return (
         <div className="layout cookie-policy">
             <div className="flex flex-center">
@@ -79,4 +79,4 @@ const CookiePolicy = () => {
     );
 }
 
-export default CookiePolicy;
+export default Cookiepolicy;

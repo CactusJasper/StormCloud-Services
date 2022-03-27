@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Card } from '../components';
 
-const ContentPolicy = () => {
+const Contentpolicy = () => {
     return (
         <div className="layout">
             <div className="flex flex-center">
@@ -20,4 +20,4 @@ const ContentPolicy = () => {
     );
 }
 
-export default ContentPolicy;
+export default Contentpolicy;

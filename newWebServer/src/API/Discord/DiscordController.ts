@@ -3,8 +3,7 @@ import { DiscordClientService } from '@discord-nestjs/core/dist/services/discord
 
 @Controller('discord')
 export class DiscordController {
-	constructor(@Inject('CustomDiscordService') public readonly discordService: DiscordClientService) {
-	}
+	constructor(@Inject('CustomDiscordService') public readonly discordService: DiscordClientService) {}
 
 	@Get()
 	public async getGuildChannels() {

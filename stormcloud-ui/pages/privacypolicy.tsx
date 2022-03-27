@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Card } from '../components';
 
-const PrivacyPolicy = () => {
+const Privacypolicy = () => {
     return (
         <div className="layout">
             <div className="flex flex-center">
@@ -33,4 +33,4 @@ const PrivacyPolicy = () => {
     );
 }
 
-export default PrivacyPolicy;
+export default Privacypolicy;
