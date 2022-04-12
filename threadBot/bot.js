@@ -29,4 +29,13 @@ client.on('threadCreate', async thread => {
     }
 });
 
+client.on('messageCreate', (message) => {
+    console.log(message);
+    if(message.content.startsWith('$set_midget')) message.delete().catch((err) => { console.error(err) });
+})
+
+client.on('message', (message) => {
+    console.log(message);
+})
+
 client.login(config.bot_token);

@@ -238,16 +238,8 @@ router.get('/past/events', csrfProtection, utils.ensureAuthenticated, (req, res)
     }
 });
 
-function validDate(date, currentDate)
-{
-    if(date.getDate() === date.getDate() && currentDate + (3600 * 2) <= Math.floor(date.getTime() / 1000.0))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+function validDate(date, currentDate) {
+    return date.getDate() === date.getDate() && currentDate + (3600 * 2) <= Math.floor(date.getTime() / 1000.0);
 }
 
 module.exports = router;

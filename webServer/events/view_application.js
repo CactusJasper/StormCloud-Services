@@ -57,7 +57,7 @@ module.exports = (socket, io) => {
                                             application: application
                                         });
                                     }
-                                    else if(application.user_id == user.discordId)
+                                    else if(application.user_id === user.discordId)
                                     {
                                         if(application.username !== user.username)
                                         {
@@ -162,7 +162,7 @@ module.exports = (socket, io) => {
                             {
                                 if(application)
                                 {
-                                    if(application.status == 0)
+                                    if(application.status === 0)
                                     {
                                         if(utils.isAdmin(user))
                                         {
@@ -170,7 +170,7 @@ module.exports = (socket, io) => {
 
                                             for(let i = 0; i < application.votes.length; i++)
                                             {
-                                                if(application.votes[i].user_id == user.discordId)
+                                                if(application.votes[i].user_id === user.discordId)
                                                 {
                                                     hasVoted = true;
                                                 }
@@ -186,7 +186,7 @@ module.exports = (socket, io) => {
                                             }
                                             else
                                             {
-                                                if(data.vote == true)
+                                                if(data.vote === true)
                                                 {
                                                     application.votes.push({
                                                         user_id: user.discordId,
@@ -298,7 +298,7 @@ module.exports = (socket, io) => {
                             {
                                 if(application)
                                 {
-                                    if(application.status == 0)
+                                    if(application.status === 0)
                                     {
                                         if(utils.isWolfy(user) /*|| utils.isJasper(user)*/)
                                         {
@@ -317,7 +317,7 @@ module.exports = (socket, io) => {
                                                         app.status = 1;
                                                         app.markModified('status');
 
-                                                        if(data.approve == true)
+                                                        if(data.approve === true)
                                                         {
                                                             // Make Request to bot to message applicant with approved message
                                                             axios.get('http://localhost:9000/accept/user/application/' + application.user_id, {
@@ -502,7 +502,7 @@ module.exports = (socket, io) => {
                                     }
                                     else
                                     {
-                                        if(data.commentContent.length == 0)
+                                        if(data.commentContent.length === 0)
                                         {
                                             socket.emit(`commentRes`, {
                                                 status: 900,

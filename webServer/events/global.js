@@ -43,7 +43,7 @@ module.exports = (socket, io) => {
                                         api_token: server.api_token
                                     }
                                 }).then((res) => {
-                                    if(res.data.status == 200)
+                                    if(res.data.status === 200)
                                     {
                                         highestRole = res.data.role;
                                     }
@@ -54,7 +54,7 @@ module.exports = (socket, io) => {
                                             api_token: server.api_token
                                         }
                                     }).then((res) => { 
-                                        if(res.data.status == 200)
+                                        if(res.data.status === 200)
                                         {
                                             username = res.data.username;
                                         }
@@ -93,7 +93,7 @@ module.exports = (socket, io) => {
                                                 {
                                                     for(let i = 0; i < roles.length; i++)
                                                     {
-                                                        if(highestRole == roles[i].role_id)
+                                                        if(highestRole === roles[i].role_id)
                                                         {
                                                             user.admin = true;
                                                             isAdmin = true;

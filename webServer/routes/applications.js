@@ -41,7 +41,7 @@ router.get('/create', csrfProtection, utils.ensureAuthenticated, (req, res) => {
     else
     {
         utils.canCreateApplication(req.user.discordId).then((response) => {
-            if(response.status == 500)
+            if(response.status === 500)
             {
                 // Adds a Flash Message
                 req.session.sessionFlash = {
@@ -53,7 +53,7 @@ router.get('/create', csrfProtection, utils.ensureAuthenticated, (req, res) => {
             }
             else
             {
-                if(response.canCreate == true)
+                if(response.canCreate === true)
                 {
                     res.render('applications/create', {
                         user: req.user,

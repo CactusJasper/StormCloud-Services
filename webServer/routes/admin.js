@@ -369,7 +369,7 @@ router.get('/manage/role/mods', utils.ensureAuthenticated, (req, res) => {
                         }
                     }).then(dat => {
                         let data = dat.data;
-                        if(data.status == 200)
+                        if(data.status === 200)
                         {
                             ModRole.find({}, (err, docs) => {
                                 if(err)
@@ -385,8 +385,8 @@ router.get('/manage/role/mods', utils.ensureAuthenticated, (req, res) => {
 
                                         for(let i = 0; i < data.roles.cache.length; i++)
                                         {
-                                            let result = docs.find(({ role_id }) => role_id == data.roles.cache[i].id);
-                                            if(result == undefined)
+                                            let result = docs.find(({ role_id }) => role_id === data.roles.cache[i].id);
+                                            if(result === undefined)
                                             {
                                                 roles.push(data.roles.cache[i]);
                                             }
@@ -515,10 +515,7 @@ router.post('/manage/user/update/:userId', csrfProtection, utils.ensureAuthentic
             {
                 if(user)
                 {
-                    if(req.body.event_manager == 'on')
-                        user.event_manager = true;
-                    else
-                        user.event_manager = false;
+                    user.event_manager = req.body.event_manager === 'on';
                     
                     user.save((err) => {
                         if(err)

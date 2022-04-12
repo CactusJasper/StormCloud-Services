@@ -33,7 +33,7 @@ router.get('/view/:pollId', csrfProtection, utils.ensureAuthenticated, (req, res
             {
                 if(poll)
                 {
-                    if(poll.state == 0)
+                    if(poll.state === 0)
                     {
                         if(utils.isSuperuser(req.user))
                         {
