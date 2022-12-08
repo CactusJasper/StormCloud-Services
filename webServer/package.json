@@ -35,7 +35,7 @@
     "mongoose": "^5.12.13",
     "mongoose-seed": "^0.6.0",
     "node-uuid": "^1.4.8",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "passport-discord": "^0.1.4",
     "passport-local": "^1.0.0",
     "passport-oauth2-refresh": "^2.0.2",
